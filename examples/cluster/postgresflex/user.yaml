@@ -1,0 +1,19 @@
+apiVersion: postgresflex.stackit.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: postgresflex/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: hello-crossplane
+  name: hello-crossplane
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: hello-crossplane
+    projectId: 12345678-abcd-1234-abcd-123456789abc
+    roles:
+    - createdb
+    username: dbAdmin
+  providerConfigRef:
+    name: provider-stackit-config

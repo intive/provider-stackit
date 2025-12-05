@@ -1,0 +1,11 @@
+apiVersion: stackit.m.crossplane.io/v1beta1
+kind: ClusterProviderConfig
+metadata:
+  name: provider-stackit-config
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: stackit-credentials
+      namespace: crossplane-system
+      key: credentials

@@ -1,0 +1,2920 @@
+name: stackitcloud/stackit
+resources:
+    stackit_affinity_group:
+        subCategory: ""
+        description: Affinity Group schema. Must have a region specified in the provider configuration. Usage with server
+        name: stackit_affinity_group
+        title: stackit_affinity_group Resource - stackit
+        examples:
+            - name: affinity-group
+              manifest: |-
+                {
+                  "name": "example-key-pair",
+                  "policy": "soft-affinity",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              dependencies:
+                stackit_server.example-server: |-
+                    {
+                      "affinity_group": "${stackit_affinity_group.affinity-group.affinity_group_id}",
+                      "availability_zone": "eu01-1",
+                      "boot_volume": {
+                        "size": 64,
+                        "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "source_type": "image"
+                      },
+                      "machine_type": "g2i.1",
+                      "name": "example-server",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-affinity-group-name",
+                  "policy": "hard-anti-affinity",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            affinity_group_id: (String) The affinity group ID.
+            hard-affinity: '- All servers launched in this group will be hosted on the same compute node.'
+            hard-anti-affinity: |-
+                - All servers launched in this group will be
+                hosted on different compute nodes.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,affinity_group_id".
+            members: (List of String) The servers that are part of the affinity group.
+            name: (String) The name of the affinity group.
+            policy: (String) The policy of the affinity group.
+            project_id: (String) STACKIT Project ID to which the affinity group is associated.
+            soft-affinity: |-
+                - All servers launched in this group will be hosted
+                on the same compute node if possible, but if not possible they still will be scheduled instead of failure.
+            soft-anti-affinity: |-
+                - All servers launched in this group will be hosted on different compute nodes if possible,
+                but if not possible they still will be scheduled instead of failure.
+        importStatements: []
+    stackit_authorization_organization_role_assignment:
+        subCategory: ""
+        description: organization Role Assignment resource schema. ~> This resource is part of the iam experiment and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        name: stackit_authorization_organization_role_assignment
+        title: stackit_authorization_organization_role_assignment Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "resource_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "role": "owner",
+                  "subject": "john.doe@stackit.cloud"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource identifier. It is structured as "[resource_id],[role],[subject]".
+            resource_id: (String) organization Resource to assign the role to.
+            role: (String) Role to be assigned
+            subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients
+        importStatements: []
+    stackit_authorization_project_role_assignment:
+        subCategory: ""
+        description: project Role Assignment resource schema. ~> This resource is part of the iam experiment and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        name: stackit_authorization_project_role_assignment
+        title: stackit_authorization_project_role_assignment Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "resource_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "role": "owner",
+                  "subject": "john.doe@stackit.cloud"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource identifier. It is structured as "[resource_id],[role],[subject]".
+            resource_id: (String) project Resource to assign the role to.
+            role: (String) Role to be assigned
+            subject: (String) Identifier of user, service account or client. Usually email address or name in case of clients
+        importStatements: []
+    stackit_cdn_custom_domain:
+        subCategory: ""
+        description: CDN distribution data source schema. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        name: stackit_cdn_custom_domain
+        title: stackit_cdn_custom_domain Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "certificate": {
+                    "certificate": "-----BEGIN CERTIFICATE-----\nY2VydGlmaWNhdGVfZGF0YQ==\n-----END CERTIFICATE---",
+                    "private_key": "-----BEGIN RSA PRIVATE KEY-----\nY2VydGlmaWNhdGVfZGF0YQ==\n-----END RSA PRIVATE KEY---"
+                  },
+                  "distribution_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "name": "https://xxx.xxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            certificate: (Attributes) The TLS certificate for the custom domain. If omitted, a managed certificate will be used. If the block is specified, a custom certificate is used. (see below for nested schema)
+            distribution_id: (String) CDN distribution ID
+            errors: (List of String) List of distribution errors
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,distribution_id".
+            name: (String)
+            private_key: (String, Sensitive) The PEM-encoded private key for the certificate. Required for custom certificates. The certificate will be updated if this field is changed.
+            project_id: (String) STACKIT project ID associated with the distribution
+            status: (String) Status of the distribution
+            version: (Number) A version identifier for the certificate. Required for custom certificates. The certificate will be updated if this field is changed.
+        importStatements: []
+    stackit_cdn_distribution:
+        subCategory: ""
+        description: CDN distribution data source schema. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        name: stackit_cdn_distribution
+        title: stackit_cdn_distribution Resource - stackit
+        examples:
+            - name: example_distribution
+              manifest: |-
+                {
+                  "config": {
+                    "backend": {
+                      "geofencing": {
+                        "https://mybackend.onstackit.cloud": [
+                          "DE"
+                        ]
+                      },
+                      "origin_url": "https://mybackend.onstackit.cloud",
+                      "type": "http"
+                    },
+                    "blocked_countries": [
+                      "DE",
+                      "AT",
+                      "CH"
+                    ],
+                    "optimizer": {
+                      "enabled": true
+                    },
+                    "regions": [
+                      "EU",
+                      "US",
+                      "ASIA",
+                      "AF",
+                      "SA"
+                    ]
+                  },
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            backend: (Attributes) The configured backend for the distribution (see below for nested schema)
+            blocked_countries: (List of String) The configured countries where distribution of content is blocked
+            config: (Attributes) The distribution configuration (see below for nested schema)
+            created_at: (String) Time when the distribution was created
+            distribution_id: (String) CDN distribution ID
+            domains: (Attributes List) List of configured domains for the distribution (see below for nested schema)
+            enabled: (Boolean)
+            errors: (List of String) List of distribution errors
+            geofencing: (Map of List of String) A map of URLs to a list of countries where content is allowed.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,distribution_id".
+            name: (String) The name of the domain
+            optimizer: (Attributes) Configuration for the Image Optimizer. This is a paid feature that automatically optimizes images to reduce their file size for faster delivery, leading to improved website performance and a better user experience. (see below for nested schema)
+            origin_request_headers: (Map of String) The configured origin request headers for the backend
+            origin_url: (String) The configured backend type for the distribution
+            project_id: (String) STACKIT project ID associated with the distribution
+            regions: (List of String) The configured regions where content will be hosted
+            status: (String) Status of the distribution
+            type: '(String) The configured backend type. Possible values are: http.'
+            updated_at: (String) Time when the distribution was last updated
+        importStatements: []
+    stackit_dns_record_set:
+        subCategory: ""
+        description: DNS Record Set Resource schema.
+        name: stackit_dns_record_set
+        title: stackit_dns_record_set Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "comment": "Example comment",
+                  "name": "example-record-set",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "records": [
+                    "1.2.3.4"
+                  ],
+                  "type": "A",
+                  "zone_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            active: (Boolean) Specifies if the record set is active or not. Defaults to true
+            comment: (String) Comment.
+            error: (String) Error shows error in case create/update/delete failed.
+            fqdn: (String) Fully qualified domain name (FQDN) of the record set.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,zone_id,record_set_id".
+            name: (String) Name of the record which should be a valid domain according to rfc1035 Section 2.3.4. E.g. example.com
+            project_id: (String) STACKIT project ID to which the dns record set is associated.
+            record_set_id: (String) The rr set id.
+            records: (List of String) Records.
+            state: (String) Record set state.
+            ttl: (Number) Time to live. E.g. 3600
+            type: (String) The record set type. E.g. A or CNAME
+            zone_id: (String) The zone ID to which is dns record set is associated.
+        importStatements: []
+    stackit_dns_zone:
+        subCategory: ""
+        description: DNS Zone resource schema.
+        name: stackit_dns_zone
+        title: stackit_dns_zone Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acl": "192.168.0.0/24",
+                  "contact_email": "aa@bb.ccc",
+                  "default_ttl": 1230,
+                  "description": "Example description",
+                  "dns_name": "example-zone.com",
+                  "name": "Example zone",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "type": "primary"
+                }
+        argumentDocs:
+            acl: (String) The access control list. E.g. 0.0.0.0/0,::/0
+            active: (Boolean)
+            contact_email: (String) A contact e-mail for the zone.
+            default_ttl: (Number) Default time to live. E.g. 3600.
+            description: (String) Description of the zone.
+            dns_name: (String) The zone name. E.g. example.com
+            expire_time: (Number) Expire time. E.g. 1209600.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,zone_id".
+            is_reverse_zone: (Boolean) Specifies, if the zone is a reverse zone or not. Defaults to false
+            name: (String) The user given name of the zone.
+            negative_cache: (Number) Negative caching. E.g. 60
+            primaries: (List of String) Primary name server for secondary zone. E.g. ["1.2.3.4"]
+            primary_name_server: (String) Primary name server. FQDN.
+            project_id: (String) STACKIT project ID to which the dns zone is associated.
+            record_count: (Number) Record count how many records are in the zone.
+            refresh_time: (Number) Refresh time. E.g. 3600
+            retry_time: (Number) Retry time. E.g. 600
+            serial_number: (Number) Serial number. E.g. 2022111400.
+            state: (String) Zone state. E.g. CREATE_SUCCEEDED.
+            type: '(String) Zone type. Defaults to primary. Possible values are: primary, secondary.'
+            visibility: (String) Visibility of the zone. E.g. public.
+            zone_id: (String) The zone ID.
+        importStatements: []
+    stackit_git:
+        subCategory: ""
+        description: Git Instance resource schema. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources. This resource currently does not support updates. Changing the ACLs, flavor, or name will trigger resource recreation. Update functionality will be added soon. In the meantime, please proceed with caution. To update these attributes, please open a support ticket.
+        name: stackit_git
+        title: stackit_git Resource - stackit
+        examples:
+            - name: git
+              manifest: |-
+                {
+                  "name": "git-example-instance",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+            - name: git
+              manifest: |-
+                {
+                  "acl": [
+                    "0.0.0.0/0"
+                  ],
+                  "flavor": "git-100",
+                  "name": "git-example-instance",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            acl: (List of String) Restricted ACL for instance access.
+            consumed_disk: (String) How many bytes of disk space is consumed.
+            consumed_object_storage: (String) How many bytes of Object Storage is consumed.
+            created: (String) Instance creation timestamp in RFC3339 format.
+            flavor: '(String) Instance flavor. If not provided, defaults to git-100. For a list of available flavors, refer to our API documentation: https://docs.api.stackit.cloud/documentation/git/version/v1beta'
+            id: (String) Terraform's internal resource ID, structured as "project_id,instance_id".
+            instance_id: (String) ID linked to the git instance.
+            name: (String) Unique name linked to the git instance.
+            project_id: (String) STACKIT project ID to which the git instance is associated.
+            url: (String) Url linked to the git instance.
+            version: (String) Version linked to the git instance.
+        importStatements: []
+    stackit_image:
+        subCategory: ""
+        description: Image resource schema. Must have a region specified in the provider configuration.
+        name: stackit_image
+        title: stackit_image Resource - stackit
+        examples:
+            - name: example_image
+              manifest: |-
+                {
+                  "disk_format": "qcow2",
+                  "local_file_path": "./path/to/image.qcow2",
+                  "min_disk_size": 10,
+                  "min_ram": 5,
+                  "name": "example-image",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            algorithm: (String) Algorithm for the checksum of the image data.
+            boot_menu: (Boolean) Enables the BIOS bootmenu.
+            cdrom_bus: (String) Sets CDROM bus controller type.
+            checksum: (Attributes) Representation of an image checksum. (see below for nested schema)
+            config: (Attributes) Properties to set hardware and scheduling settings for an image. (see below for nested schema)
+            digest: (String) Hexdigest of the checksum of the image data.
+            disk_bus: (String) Sets Disk bus controller type.
+            disk_format: (String) The disk format of the image.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,image_id".
+            image_id: (String) The image ID.
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            local_file_path: (String) The filepath of the raw image file to be uploaded.
+            min_disk_size: (Number) The minimum disk size of the image in GB.
+            min_ram: (Number) The minimum RAM of the image in MB.
+            name: (String) The name of the image.
+            nic_model: (String) Sets virtual network interface model.
+            operating_system: (String) Enables operating system specific optimizations.
+            operating_system_distro: (String) Operating system distribution.
+            operating_system_version: (String) Version of the operating system.
+            project_id: (String) STACKIT project ID to which the image is associated.
+            protected: (Boolean) Whether the image is protected.
+            rescue_bus: (String) Sets the device bus when the image is used as a rescue image.
+            rescue_device: (String) Sets the device when the image is used as a rescue image.
+            scope: (String) The scope of the image.
+            secure_boot: (Boolean) Enables Secure Boot.
+            uefi: (Boolean) Enables UEFI boot.
+            video_model: (String) Sets Graphic device model.
+            virtio_scsi: (Boolean) Enables the use of VirtIO SCSI to provide block device access. By default instances use VirtIO Block.
+        importStatements: []
+    stackit_key_pair:
+        subCategory: ""
+        description: Key pair resource schema. Must have a region specified in the provider configuration. Allows uploading an SSH public key to be used for server authentication. Usage with server
+        name: stackit_key_pair
+        title: stackit_key_pair Resource - stackit
+        examples:
+            - name: keypair
+              manifest: |-
+                {
+                  "name": "example-key-pair",
+                  "public_key": "${chomp(file(\"path/to/id_rsa.pub\"))}"
+                }
+              dependencies:
+                stackit_server.example-server: |-
+                    {
+                      "availability_zone": "eu01-1",
+                      "boot_volume": {
+                        "size": 64,
+                        "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "source_type": "image"
+                      },
+                      "keypair_name": "example-key-pair",
+                      "machine_type": "g2i.1",
+                      "name": "example-server",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+            - name: keypair
+              manifest: |-
+                {
+                  "name": "example-key-pair",
+                  "public_key": "${chomp(file(\"path/to/id_rsa.pub\"))}"
+                }
+        argumentDocs:
+            fingerprint: (String) The fingerprint of the public SSH key.
+            id: (String) Terraform's internal resource ID. It takes the value of the key pair "name".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container.
+            name: (String) The name of the SSH key pair.
+            public_key: (String) A string representation of the public SSH key. E.g., ssh-rsa <key_data> or ssh-ed25519 <key-data>.
+        importStatements: []
+    stackit_kms_key:
+        subCategory: ""
+        description: KMS Key resource schema. Uses the default_region specified in the provider configuration as a fallback in case no region is defined on resource level. ~> Keys will not be instantly destroyed by terraform during a terraform destroy. They will just be scheduled for deletion via the API and thrown out of the Terraform state afterwards. This way we can ensure no key setups are deleted by accident and it gives you the option to recover your keys within the grace period.
+        name: stackit_kms_key
+        title: stackit_kms_key Resource - stackit
+        examples:
+            - name: key
+              manifest: |-
+                {
+                  "algorithm": "aes_256_gcm",
+                  "display_name": "key-01",
+                  "keyring_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "protection": "software",
+                  "purpose": "symmetric_encrypt_decrypt"
+                }
+        argumentDocs:
+            access_scope: '(String) The access scope of the key. Default is PUBLIC. Possible values are: PUBLIC, SNA.'
+            algorithm: '(String) The encryption algorithm that the key will use to encrypt data. Possible values are: aes_256_gcm, rsa_2048_oaep_sha256, rsa_3072_oaep_sha256, rsa_4096_oaep_sha256, rsa_4096_oaep_sha512, hmac_sha256, hmac_sha384, hmac_sha512, ecdsa_p256_sha256, ecdsa_p384_sha384, ecdsa_p521_sha512.'
+            description: (String) A user chosen description to distinguish multiple keys
+            display_name: (String) The display name to distinguish multiple keys
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,keyring_id,key_id".
+            import_only: (Boolean) States whether versions can be created or only imported.
+            key_id: (String) The ID of the key
+            keyring_id: (String) The ID of the associated keyring
+            project_id: (String) STACKIT project ID to which the key is associated.
+            protection: '(String) The underlying system that is responsible for protecting the key material. Possible values are: software.'
+            purpose: '(String) The purpose for which the key will be used. Possible values are: symmetric_encrypt_decrypt, asymmetric_encrypt_decrypt, message_authentication_code, asymmetric_sign_verify.'
+            region: (String) The resource region. If not defined, the provider region is used.
+        importStatements: []
+    stackit_kms_keyring:
+        subCategory: ""
+        description: KMS Keyring resource schema. Uses the default_region specified in the provider configuration as a fallback in case no region is defined on resource level. ~> Keyrings will not be destroyed by terraform during a terraform destroy. They will just be thrown out of the Terraform state and not deleted on API side. This way we can ensure no keyring setups are deleted by accident and it gives you the option to recover your keys within the grace period.
+        name: stackit_kms_keyring
+        title: stackit_kms_keyring Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "example description",
+                  "display_name": "example-name",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            description: (String) A user chosen description to distinguish multiple keyrings.
+            display_name: (String) The display name to distinguish multiple keyrings.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,keyring_id".
+            keyring_id: (String) An auto generated unique id which identifies the keyring.
+            project_id: (String) STACKIT project ID to which the keyring is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+        importStatements: []
+    stackit_kms_wrapping_key:
+        subCategory: ""
+        description: KMS wrapping key resource schema.
+        name: stackit_kms_wrapping_key
+        title: stackit_kms_wrapping_key Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "algorithm": "rsa_2048_oaep_sha256",
+                  "display_name": "example-name",
+                  "keyring_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "protection": "software",
+                  "purpose": "wrap_symmetric_key"
+                }
+        argumentDocs:
+            access_scope: '(String) The access scope of the key. Default is PUBLIC. Possible values are: PUBLIC, SNA.'
+            algorithm: '(String) The wrapping algorithm used to wrap the key to import. Possible values are: rsa_2048_oaep_sha256, rsa_3072_oaep_sha256, rsa_4096_oaep_sha256, rsa_4096_oaep_sha512, rsa_2048_oaep_sha256_aes_256_key_wrap, rsa_3072_oaep_sha256_aes_256_key_wrap, rsa_4096_oaep_sha256_aes_256_key_wrap, rsa_4096_oaep_sha512_aes_256_key_wrap.'
+            created_at: (String) The date and time the creation of the wrapping key was triggered.
+            description: (String) A user chosen description to distinguish multiple wrapping keys.
+            display_name: (String) The display name to distinguish multiple wrapping keys.
+            expires_at: (String) The date and time the wrapping key will expire.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,keyring_id,wrapping_key_id".
+            keyring_id: (String) The ID of the associated keyring
+            project_id: (String) STACKIT project ID to which the keyring is associated.
+            protection: '(String) The underlying system that is responsible for protecting the key material. Possible values are: software.'
+            public_key: (String) The public key of the wrapping key.
+            purpose: '(String) The purpose for which the key will be used. Possible values are: wrap_symmetric_key, wrap_asymmetric_key.'
+            region: (String) The resource region. If not defined, the provider region is used.
+            wrapping_key_id: (String) The ID of the wrapping key
+        importStatements: []
+    stackit_loadbalancer:
+        subCategory: ""
+        description: Setting up supporting infrastructure The example below creates the supporting infrastructure using the STACKIT Terraform provider, including the network, network interface, a public IP address and server resources.
+        name: stackit_loadbalancer
+        title: stackit_loadbalancer Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "external_address": "${stackit_public_ip.public-ip.ip}",
+                  "listeners": [
+                    {
+                      "display_name": "example-listener",
+                      "port": 80,
+                      "protocol": "PROTOCOL_TCP",
+                      "target_pool": "example-target-pool",
+                      "tcp": {
+                        "idle_timeout": "90s"
+                      }
+                    }
+                  ],
+                  "name": "example-load-balancer",
+                  "networks": [
+                    {
+                      "network_id": "${stackit_network.example_network.network_id}",
+                      "role": "ROLE_LISTENERS_AND_TARGETS"
+                    }
+                  ],
+                  "options": {
+                    "private_network_only": false
+                  },
+                  "plan_id": "p10",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "target_pools": [
+                    {
+                      "active_health_check": {
+                        "healthy_threshold": 10,
+                        "interval": "3s",
+                        "interval_jitter": "3s",
+                        "timeout": "3s",
+                        "unhealthy_threshold": 10
+                      },
+                      "name": "example-target-pool",
+                      "target_port": 80,
+                      "targets": [
+                        {
+                          "display_name": "${stackit_server.boot-from-image.name}",
+                          "ip": "${stackit_network_interface.nic.ipv4}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              references:
+                external_address: stackit_public_ip.public-ip.ip
+              dependencies:
+                stackit_key_pair.keypair: |-
+                    {
+                      "name": "example-key-pair",
+                      "public_key": "${chomp(file(\"path/to/id_rsa.pub\"))}"
+                    }
+                stackit_network.example_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.0.0/25",
+                      "labels": {
+                        "key": "value"
+                      },
+                      "name": "example-network",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "routed": true
+                    }
+                stackit_network.lb_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.10.0/25",
+                      "name": "lb-network-example",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_network.target_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.10.0/25",
+                      "name": "target-network-example",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_network_interface.nic: |-
+                    {
+                      "network_id": "${stackit_network.target_network.network_id}",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "security_group_ids": [
+                        "${stackit_security_group.target_sg.security_group_id}"
+                      ]
+                    }
+                stackit_public_ip.example: |-
+                    {
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_public_ip.public-ip: |-
+                    {
+                      "lifecycle": [
+                        {
+                          "ignore_changes": [
+                            "${network_interface_id}"
+                          ]
+                        }
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_security_group.target_sg: |-
+                    {
+                      "description": "Allows ingress traffic from the example load balancer.",
+                      "name": "target-sg-for-lb-access",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_security_group_rule.allow_lb_ingress: |-
+                    {
+                      "direction": "ingress",
+                      "port_range": {
+                        "max": 80,
+                        "min": 80
+                      },
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "protocol": {
+                        "name": "tcp"
+                      },
+                      "remote_security_group_id": "${stackit_loadbalancer.example.security_group_id}",
+                      "security_group_id": "${stackit_security_group.target_sg.security_group_id}"
+                    }
+                stackit_server.boot-from-image: |-
+                    {
+                      "availability_zone": "xxxx-x",
+                      "boot_volume": {
+                        "size": 64,
+                        "source_id": "59838a89-51b1-4892-b57f-b3caf598ee2f",
+                        "source_type": "image"
+                      },
+                      "keypair_name": "${stackit_key_pair.keypair.name}",
+                      "machine_type": "g2i.1",
+                      "name": "example-server",
+                      "network_interfaces": [
+                        "${stackit_network_interface.nic.network_interface_id}"
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_server.example: |-
+                    {
+                      "availability_zone": "eu01-1",
+                      "boot_volume": {
+                        "size": 10,
+                        "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "source_type": "image"
+                      },
+                      "machine_type": "g2i.2",
+                      "name": "example-remote-target",
+                      "network_interfaces": [
+                        "${stackit_network_interface.nic.network_interface_id}"
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+            - name: example
+              manifest: |-
+                {
+                  "disable_security_group_assignment": true,
+                  "external_address": "${stackit_public_ip.example.ip}",
+                  "listeners": [
+                    {
+                      "port": 80,
+                      "protocol": "PROTOCOL_TCP",
+                      "target_pool": "cross-network-pool"
+                    }
+                  ],
+                  "name": "example-advanced-lb",
+                  "networks": [
+                    {
+                      "network_id": "${stackit_network.lb_network.network_id}",
+                      "role": "ROLE_LISTENERS_AND_TARGETS"
+                    }
+                  ],
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "target_pools": [
+                    {
+                      "name": "cross-network-pool",
+                      "target_port": 80,
+                      "targets": [
+                        {
+                          "display_name": "${stackit_server.example.name}",
+                          "ip": "${stackit_network_interface.nic.ipv4}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              references:
+                external_address: stackit_public_ip.example.ip
+              dependencies:
+                stackit_key_pair.keypair: |-
+                    {
+                      "name": "example-key-pair",
+                      "public_key": "${chomp(file(\"path/to/id_rsa.pub\"))}"
+                    }
+                stackit_network.example_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.0.0/25",
+                      "labels": {
+                        "key": "value"
+                      },
+                      "name": "example-network",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "routed": true
+                    }
+                stackit_network.lb_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.10.0/25",
+                      "name": "lb-network-example",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_network.target_network: |-
+                    {
+                      "ipv4_nameservers": [
+                        "8.8.8.8"
+                      ],
+                      "ipv4_prefix": "192.168.10.0/25",
+                      "name": "target-network-example",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_network_interface.nic: |-
+                    {
+                      "network_id": "${stackit_network.target_network.network_id}",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "security_group_ids": [
+                        "${stackit_security_group.target_sg.security_group_id}"
+                      ]
+                    }
+                stackit_public_ip.example: |-
+                    {
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_public_ip.public-ip: |-
+                    {
+                      "lifecycle": [
+                        {
+                          "ignore_changes": [
+                            "${network_interface_id}"
+                          ]
+                        }
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_security_group.target_sg: |-
+                    {
+                      "description": "Allows ingress traffic from the example load balancer.",
+                      "name": "target-sg-for-lb-access",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_security_group_rule.allow_lb_ingress: |-
+                    {
+                      "direction": "ingress",
+                      "port_range": {
+                        "max": 80,
+                        "min": 80
+                      },
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "protocol": {
+                        "name": "tcp"
+                      },
+                      "remote_security_group_id": "${stackit_loadbalancer.example.security_group_id}",
+                      "security_group_id": "${stackit_security_group.target_sg.security_group_id}"
+                    }
+                stackit_server.boot-from-image: |-
+                    {
+                      "availability_zone": "xxxx-x",
+                      "boot_volume": {
+                        "size": 64,
+                        "source_id": "59838a89-51b1-4892-b57f-b3caf598ee2f",
+                        "source_type": "image"
+                      },
+                      "keypair_name": "${stackit_key_pair.keypair.name}",
+                      "machine_type": "g2i.1",
+                      "name": "example-server",
+                      "network_interfaces": [
+                        "${stackit_network_interface.nic.network_interface_id}"
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_server.example: |-
+                    {
+                      "availability_zone": "eu01-1",
+                      "boot_volume": {
+                        "size": 10,
+                        "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "source_type": "image"
+                      },
+                      "machine_type": "g2i.2",
+                      "name": "example-remote-target",
+                      "network_interfaces": [
+                        "${stackit_network_interface.nic.network_interface_id}"
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+        argumentDocs:
+            acl: (Set of String) Load Balancer is accessible only from an IP address in this range.
+            active_health_check: (Attributes) (see below for nested schema)
+            credentials_ref: (String) Credentials reference for logs. Not changeable after creation.
+            disable_security_group_assignment: (Boolean) If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+            display_name: (String)
+            external_address: (String) External Load Balancer IP address where this Load Balancer is exposed.
+            healthy_threshold: (Number) Healthy threshold of the health checking.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id","region","name".
+            idle_timeout: '(String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s'
+            interval: (String) Interval duration of health checking in seconds.
+            interval_jitter: (String) Interval duration threshold of the health checking in seconds.
+            ip: (String) Target IP
+            listeners: (Attributes List) List of all listeners which will accept traffic. Limited to 20. (see below for nested schema)
+            logs: (Attributes) Observability logs configuration. Not changeable after creation. (see below for nested schema)
+            metrics: (Attributes) Observability metrics configuration. Not changeable after creation. (see below for nested schema)
+            name: (String) Load balancer name.
+            network_id: (String) Openstack network ID.
+            networks: (Attributes List) List of networks that listeners and targets reside in. (see below for nested schema)
+            observability: (Attributes) We offer Load Balancer metrics observability via ARGUS or external solutions. Not changeable after creation. (see below for nested schema)
+            options: (Attributes) Defines any optional functionality you want to have enabled on your load balancer. (see below for nested schema)
+            plan_id: '(String) The service plan ID. If not defined, the default service plan is p10. Possible values are: p10, p50, p250, p750.'
+            port: (Number) Port number where we listen for traffic.
+            private_address: (String) Transient private Load Balancer IP address. It can change any time.
+            private_network_only: (Boolean) If true, Load Balancer is accessible only via a private network IP address.
+            project_id: (String) STACKIT project ID to which the Load Balancer is associated.
+            protocol: '(String) Protocol is the highest network protocol we understand to load balance. Possible values are: PROTOCOL_UNSPECIFIED, PROTOCOL_TCP, PROTOCOL_UDP, PROTOCOL_TCP_PROXY, PROTOCOL_TLS_PASSTHROUGH.'
+            push_url: (String) Credentials reference for logs. Not changeable after creation.
+            region: (String) The resource region. If not defined, the provider region is used.
+            role: '(String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.'
+            security_group_id: (String) The ID of the egress security group assigned to the Load Balancer's internal machines. This ID is essential for allowing traffic from the Load Balancer to targets in different networks or STACKIT network areas (SNA). To enable this, create a security group rule for your target VMs and set the remote_security_group_id of that rule to this value. This is typically used when disable_security_group_assignment is set to true.
+            server_name_indicators: (Attributes List) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
+            session_persistence: (Attributes) Here you can setup various session persistence options, so far only "use_source_ip_address" is supported. (see below for nested schema)
+            target_pool: (String) Reference target pool by target pool name.
+            target_pools: (Attributes List) List of all target pools which will be used in the Load Balancer. Limited to 20. (see below for nested schema)
+            target_port: (Number) Identical port number where each target listens for traffic.
+            targets: (Attributes List) List of all targets which will be used in the pool. Limited to 1000. (see below for nested schema)
+            tcp: (Attributes) Options that are specific to the TCP protocol. (see below for nested schema)
+            timeout: (String) Active health checking timeout duration in seconds.
+            udp: (Attributes) Options that are specific to the UDP protocol. (see below for nested schema)
+            unhealthy_threshold: (Number) Unhealthy threshold of the health checking.
+            use_source_ip_address: (Boolean) If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+        importStatements: []
+    stackit_loadbalancer_observability_credential:
+        subCategory: ""
+        description: Load balancer observability credential resource schema. Must have a region specified in the provider configuration. These contain the username and password for the observability service (e.g. Argus) where the load balancer logs/metrics will be pushed into
+        name: stackit_loadbalancer_observability_credential
+        title: stackit_loadbalancer_observability_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "display_name": "example-credentials",
+                  "password": "example-password",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "username": "example-user"
+                }
+        argumentDocs:
+            credentials_ref: (String) The credentials reference is used by the Load Balancer to define which credentials it will use.
+            display_name: (String) Observability credential name.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id","region","credentials_ref".
+            password: (String) The username for the observability service (e.g. Argus) where the logs/metrics will be pushed into.
+            project_id: (String) STACKIT project ID to which the load balancer observability credential is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            username: (String) The password for the observability service (e.g. Argus) where the logs/metrics will be pushed into.
+        importStatements: []
+    stackit_logme_credential:
+        subCategory: ""
+        description: LogMe credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_logme_credential
+        title: stackit_logme_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            instance_id: (String) ID of the LogMe instance.
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            uri: (String, Sensitive)
+            username: (String)
+        importStatements: []
+    stackit_logme_instance:
+        subCategory: ""
+        description: LogMe instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_logme_instance
+        title: stackit_logme_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22"
+                  },
+                  "plan_name": "stackit-logme2-1.2.50-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "2"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            dashboard_url: (String)
+            enable_monitoring: (Boolean) Enable monitoring.
+            fluentd_tcp: (Number)
+            fluentd_tls: (Number)
+            fluentd_tls_ciphers: (String)
+            fluentd_tls_max_version: (String)
+            fluentd_tls_min_version: (String)
+            fluentd_tls_version: (String)
+            fluentd_udp: (Number)
+            graphite: (String) If set, monitoring with Graphite will be enabled. Expects the host and port where the Graphite metrics should be sent to (host:port).
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the LogMe instance.
+            ism_deletion_after: (String) Combination of an integer and a timerange when an index will be considered "old" and can be deleted. Possible values for the timerange are s, m, h and d.
+            ism_jitter: (Number)
+            ism_job_interval: (Number) Jitter of the execution time.
+            java_heapspace: (Number) The amount of memory (in MB) allocated as heap by the JVM for OpenSearch.
+            java_maxmetaspace: (Number) The amount of memory (in MB) used by the JVM to store metadata for OpenSearch.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted (in seconds).
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key.
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance.
+            name: (String) Instance name.
+            opensearch_tls_ciphers: (List of String)
+            opensearch_tls_protocols: (List of String)
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            syslog: (List of String) List of syslog servers to send logs to.
+            version: (String) The service version.
+        importStatements: []
+    stackit_mariadb_credential:
+        subCategory: ""
+        description: MariaDB credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_mariadb_credential
+        title: stackit_mariadb_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            hosts: (List of String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            instance_id: (String) ID of the MariaDB instance.
+            name: (String)
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            uri: (String, Sensitive)
+            username: (String)
+        importStatements: []
+    stackit_mariadb_instance:
+        subCategory: ""
+        description: MariaDB instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_mariadb_instance
+        title: stackit_mariadb_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22"
+                  },
+                  "plan_name": "stackit-mariadb-1.2.10-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "10.11"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            dashboard_url: (String)
+            enable_monitoring: (Boolean) Enable monitoring.
+            graphite: (String) Graphite server URL (host and port). If set, monitoring with Graphite will be enabled.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the MariaDB instance.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted.
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance. Monitoring instances with the plan "Observability-Monitoring-Starter" are not supported.
+            name: (String) Instance name.
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            syslog: (List of String) List of syslog servers to send logs to.
+            version: (String) The service version.
+        importStatements: []
+    stackit_modelserving_token:
+        subCategory: ""
+        description: AI Model Serving Auth Token Resource schema. Example Usage Automatically rotate AI model serving token
+        name: stackit_modelserving_token
+        title: stackit_modelserving_token Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "Example token",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rotate_when_changed": {
+                    "rotation": "${time_rotating.rotate.id}"
+                  }
+                }
+              dependencies:
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+        argumentDocs:
+            description: (String) The description of the AI model serving auth token.
+            id: (String) Terraform's internal data source. ID. It is structured as "project_id,region,token_id".
+            name: (String) Name of the AI model serving auth token.
+            project_id: (String) STACKIT project ID to which the AI model serving auth token is associated.
+            region: (String) Region to which the AI model serving auth token is associated. If not defined, the provider region is used
+            rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the token when they change, enabling token rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
+            state: (String) State of the AI model serving auth token.
+            token: (String, Sensitive) Content of the AI model serving auth token.
+            token_id: (String) The AI model serving auth token ID.
+            ttl_duration: (String) The TTL duration of the AI model serving auth token. E.g. 5h30m40s,5h,5h30m,30m,30s
+            valid_until: (String) The time until the AI model serving auth token is valid.
+        importStatements: []
+    stackit_mongodbflex_instance:
+        subCategory: ""
+        description: MongoDB Flex instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_mongodbflex_instance
+        title: stackit_mongodbflex_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acl": [
+                    "XXX.XXX.XXX.X/XX",
+                    "XX.XXX.XX.X/XX"
+                  ],
+                  "backup_schedule": "0 0 * * *",
+                  "flavor": {
+                    "cpu": 1,
+                    "ram": 4
+                  },
+                  "name": "example-instance",
+                  "options": {
+                    "point_in_time_window_hours": 30,
+                    "snapshot_retention_days": 3,
+                    "type": "Single"
+                  },
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "replicas": 1,
+                  "storage": {
+                    "class": "class",
+                    "size": 10
+                  },
+                  "version": "7.0"
+                }
+        argumentDocs:
+            acl: (List of String) The Access Control List (ACL) for the MongoDB Flex instance.
+            backup_schedule: (String) The backup schedule. Should follow the cron scheduling system format (e.g. "0 0 * * *").
+            class: (String)
+            cpu: (Number)
+            daily_snapshot_retention_days: (Number) The number of days that daily backups will be retained.
+            description: (String)
+            flavor: (Attributes) (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            instance_id: (String) ID of the MongoDB Flex instance.
+            monthly_snapshot_retention_months: (Number) The number of months that monthly backups will be retained.
+            name: (String) Instance name.
+            options: (Attributes) (see below for nested schema)
+            point_in_time_window_hours: (Number) The number of hours back in time the point-in-time recovery feature will be able to recover.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            ram: (Number)
+            region: (String) The resource region. If not defined, the provider region is used.
+            replicas: (Number)
+            size: (Number)
+            snapshot_retention_days: (Number) The number of days that continuous backups (controlled via the backup_schedule) will be retained.
+            storage: (Attributes) (see below for nested schema)
+            type: '(String) Type of the MongoDB Flex instance. Possible values are: Replica, Sharded, Single.'
+            version: (String)
+            weekly_snapshot_retention_weeks: (Number) The number of weeks that weekly backups will be retained.
+        importStatements: []
+    stackit_mongodbflex_user:
+        subCategory: ""
+        description: MongoDB Flex user resource schema. Must have a region specified in the provider configuration.
+        name: stackit_mongodbflex_user
+        title: stackit_mongodbflex_user Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "database": "database",
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "roles": [
+                    "role"
+                  ],
+                  "username": "username"
+                }
+        argumentDocs:
+            database: (String)
+            host: (String)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id,user_id".
+            instance_id: (String) ID of the MongoDB Flex instance.
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            roles: '(Set of String) Database access levels for the user. Some of the possible values are: [read, readWrite, readWriteAnyDatabase]'
+            uri: (String, Sensitive)
+            user_id: (String) User ID.
+            username: (String)
+        importStatements: []
+    stackit_network:
+        subCategory: ""
+        description: Network resource schema. Must have a region specified in the provider configuration. ~> Behavior of not configured ipv4_nameservers will change from January 2026. When ipv4_nameservers is not set, it will be set to the network area's default_nameservers. To prevent any nameserver configuration, the ipv4_nameservers attribute should be explicitly set to an empty list []. In cases where ipv4_nameservers are defined within the resource, the existing behavior will remain unchanged.
+        name: stackit_network
+        title: stackit_network Resource - stackit
+        examples:
+            - name: example_with_name
+              manifest: |-
+                {
+                  "name": "example-with-name",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+            - name: example_routed_network
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "example-routed-network",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "routed": true
+                }
+            - name: example_non_routed_network
+              manifest: |-
+                {
+                  "ipv4_gateway": "10.1.2.3",
+                  "ipv4_nameservers": [
+                    "1.2.3.4",
+                    "5.6.7.8"
+                  ],
+                  "ipv4_prefix": "10.1.2.0/24",
+                  "ipv4_prefix_length": 24,
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "example-non-routed-network",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "routed": false
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,network_id".
+            ipv4_gateway: (String) The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+            ipv4_nameservers: (List of String) The IPv4 nameservers of the network.
+            ipv4_prefix: (String) The IPv4 prefix of the network (CIDR).
+            ipv4_prefix_length: (Number) The IPv4 prefix length of the network.
+            ipv4_prefixes: (List of String) The IPv4 prefixes of the network.
+            ipv6_gateway: (String) The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+            ipv6_nameservers: (List of String) The IPv6 nameservers of the network.
+            ipv6_prefix: (String) The IPv6 prefix of the network (CIDR).
+            ipv6_prefix_length: (Number) The IPv6 prefix length of the network.
+            ipv6_prefixes: (List of String) The IPv6 prefixes of the network.
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            name: (String) The name of the network.
+            nameservers: (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
+            network_id: (String) The network ID.
+            no_ipv4_gateway: (Boolean) If set to true, the network doesn't have a gateway.
+            no_ipv6_gateway: (Boolean) If set to true, the network doesn't have a gateway.
+            prefixes: (List of String, Deprecated) The prefixes of the network. This field is deprecated and will be removed in January 2026, use ipv4_prefixes to read the prefixes of the IPv4 networks.
+            project_id: (String) STACKIT project ID to which the network is associated.
+            public_ip: (String) The public IP of the network.
+            region: |-
+                (String) Can only be used when experimental "network" is set.
+                The resource region. If not defined, the provider region is used.
+            routed: (Boolean) If set to true, the network is routed and therefore accessible from other networks.
+            routing_table_id: |-
+                (String) Can only be used when experimental "network" is set.
+                The ID of the routing table associated with the network.
+        importStatements: []
+    stackit_network_area:
+        subCategory: ""
+        description: Network area resource schema. Must have a region specified in the provider configuration.
+        name: stackit_network_area
+        title: stackit_network_area Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "example-network-area",
+                  "network_ranges": [
+                    {
+                      "prefix": "192.168.0.0/24"
+                    }
+                  ],
+                  "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "transfer_network": "192.168.1.0/24"
+                }
+        argumentDocs:
+            default_nameservers: (List of String) List of DNS Servers/Nameservers.
+            default_prefix_length: (Number) The default prefix length for networks in the network area.
+            id: (String) Terraform's internal resource ID. It is structured as "organization_id,network_area_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            max_prefix_length: (Number) The maximal prefix length for networks in the network area.
+            min_prefix_length: (Number) The minimal prefix length for networks in the network area.
+            name: (String) The name of the network area.
+            network_area_id: (String) The network area ID.
+            network_range_id: (String)
+            network_ranges: (Attributes List) List of Network ranges. (see below for nested schema)
+            organization_id: (String) STACKIT organization ID to which the network area is associated.
+            prefix: (String) Classless Inter-Domain Routing (CIDR).
+            project_count: (Number) The amount of projects currently referencing this area.
+            transfer_network: (String) Classless Inter-Domain Routing (CIDR).
+        importStatements: []
+    stackit_network_area_route:
+        subCategory: ""
+        description: Network area route resource schema. Must have a region specified in the provider configuration.
+        name: stackit_network_area_route
+        title: stackit_network_area_route Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "network_area_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "next_hop": "192.168.0.0",
+                  "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "prefix": "192.168.0.0/24"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "organization_id,network_area_id,network_area_route_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            network_area_id: (String) The network area ID to which the network area route is associated.
+            network_area_route_id: (String) The network area route ID.
+            next_hop: (String) The IP address of the routing system, that will route the prefix configured. Should be a valid IPv4 address.
+            organization_id: (String) STACKIT organization ID to which the network area is associated.
+            prefix: (String) The network, that is reachable though the Next Hop. Should use CIDR notation.
+        importStatements: []
+    stackit_network_interface:
+        subCategory: ""
+        description: Network interface resource schema. Must have a region specified in the provider configuration.
+        name: stackit_network_interface
+        title: stackit_network_interface Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "allowed_addresses": [
+                    "192.168.0.0/24"
+                  ],
+                  "network_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "security_group_ids": [
+                    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                  ]
+                }
+        argumentDocs:
+            allowed_addresses: (List of String) The list of CIDR (Classless Inter-Domain Routing) notations.
+            device: (String) The device UUID of the network interface.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,network_id,network_interface_id".
+            ipv4: (String) The IPv4 address.
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a network interface.
+            mac: (String) The MAC address of network interface.
+            name: (String) The name of the network interface.
+            network_id: (String) The network ID to which the network interface is associated.
+            network_interface_id: (String) The network interface ID.
+            project_id: (String) STACKIT project ID to which the network is associated.
+            security: (Boolean) The Network Interface Security. If set to false, then no security groups will apply to this network interface.
+            security_group_ids: (List of String) The list of security group UUIDs. If security is set to false, setting this field will lead to an error.
+            type: '(String) Type of network interface. Some of the possible values are: Possible values are: server, metadata, gateway.'
+        importStatements: []
+    stackit_objectstorage_bucket:
+        subCategory: ""
+        description: ObjectStorage bucket resource schema. Must have a region specified in the provider configuration. If you are creating credentialsgroup and bucket resources simultaneously, please include the depends_on field so that they are created sequentially. This prevents errors from concurrent calls to the service enablement that is done in the background.
+        name: stackit_objectstorage_bucket
+        title: stackit_objectstorage_bucket Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-bucket",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,name".
+            name: (String) The bucket name. It must be DNS conform.
+            project_id: (String) STACKIT Project ID to which the bucket is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            url_path_style: (String)
+            url_virtual_hosted_style: (String)
+        importStatements: []
+    stackit_objectstorage_credential:
+        subCategory: ""
+        description: ObjectStorage credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_objectstorage_credential
+        title: stackit_objectstorage_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "credentials_group_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "expiration_timestamp": "2027-01-02T03:04:05Z",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            access_key: (String)
+            credential_id: (String) The credential ID.
+            credentials_group_id: (String) The credential group ID.
+            expiration_timestamp: '(String) Expiration timestamp, in RFC339 format without fractional seconds. Example: "2025-01-01T00:00:00Z". If not set, the credential never expires.'
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,credentials_group_id,credential_id".
+            name: (String)
+            project_id: (String) STACKIT Project ID to which the credential group is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            secret_access_key: (String, Sensitive)
+        importStatements: []
+    stackit_objectstorage_credentials_group:
+        subCategory: ""
+        description: ObjectStorage credentials group resource schema. Must have a region specified in the provider configuration. If you are creating credentialsgroup and bucket resources simultaneously, please include the depends_on field so that they are created sequentially. This prevents errors from concurrent calls to the service enablement that is done in the background.
+        name: stackit_objectstorage_credentials_group
+        title: stackit_objectstorage_credentials_group Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-credentials-group",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credentials_group_id: (String) The credentials group ID
+            id: (String) Terraform's internal data source identifier. It is structured as "project_id,region,credentials_group_id".
+            name: (String) The credentials group's display name.
+            project_id: (String) Project ID to which the credentials group is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            urn: (String) Credentials group uniform resource name (URN)
+        importStatements: []
+    stackit_observability_alertgroup:
+        subCategory: ""
+        description: Observability alert group resource schema. Used to create alerts based on metrics (Thanos). Must have a region specified in the provider configuration.
+        name: stackit_observability_alertgroup
+        title: stackit_observability_alertgroup Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "interval": "60s",
+                  "name": "example-alert-group",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rules": [
+                    {
+                      "alert": "example-alert-name",
+                      "annotations": {
+                        "description": "example description",
+                        "summary": "example summary"
+                      },
+                      "expression": "kube_node_status_condition{condition=\"Ready\", status=\"false\"} \u003e 0",
+                      "for": "60s",
+                      "labels": {
+                        "severity": "critical"
+                      }
+                    },
+                    {
+                      "alert": "example-alert-name-2",
+                      "annotations": {
+                        "description": "example description",
+                        "summary": "example summary"
+                      },
+                      "expression": "kube_node_status_condition{condition=\"Ready\", status=\"false\"} \u003e 0",
+                      "for": "1m",
+                      "labels": {
+                        "severity": "critical"
+                      }
+                    }
+                  ]
+                }
+        argumentDocs:
+            alert: (String) The name of the alert rule. Is the identifier and must be unique in the group.
+            annotations: (Map of String) A map of key:value. Annotations to add or overwrite for each alert
+            expression: (String) The PromQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+            for: (String) Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id,name".
+            instance_id: (String) Observability instance ID to which the alert group is associated.
+            interval: '(String) Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: ''5h30m40s'', ''5h'', ''5h30m'', ''60m'', and ''60s''.'
+            labels: (Map of String) A map of key:value. Labels to add or overwrite for each alert
+            name: (String) The name of the alert group. Is the identifier and must be unique in the group.
+            project_id: (String) STACKIT project ID to which the alert group is associated.
+            rules: (Attributes List) Rules for the alert group (see below for nested schema)
+        importStatements: []
+    stackit_observability_credential:
+        subCategory: ""
+        description: Observability credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_observability_credential
+        title: stackit_observability_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "Description of the credential.",
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            description: (String) A description of the credential.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id,username".
+            instance_id: (String) The Observability Instance ID the credential belongs to.
+            password: (String, Sensitive) Credential password
+            project_id: (String) STACKIT project ID to which the credential is associated.
+            username: (String) Credential username
+        importStatements: []
+    stackit_observability_instance:
+        subCategory: ""
+        description: Observability instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_observability_instance
+        title: stackit_observability_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acl": [
+                    "1.1.1.1/32",
+                    "2.2.2.2/32"
+                  ],
+                  "logs_retention_days": 30,
+                  "metrics_retention_days": 90,
+                  "metrics_retention_days_1h_downsampling": 90,
+                  "metrics_retention_days_5m_downsampling": 90,
+                  "name": "example-instance",
+                  "plan_name": "Observability-Starter-EU01",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "traces_retention_days": 30
+                }
+        argumentDocs:
+            acl: (Set of String) The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+            alert_config: (Attributes) Alert configuration for the instance. (see below for nested schema)
+            alerting_url: (String) Specifies Alerting URL.
+            api_key: (String) The API key for OpsGenie.
+            api_url: (String) The host to send OpsGenie API requests to. Must be a valid URL
+            auth_identity: (String) SMTP authentication information. Must be a valid email address
+            auth_password: (String, Sensitive) SMTP authentication password.
+            auth_username: (String) SMTP authentication username.
+            continue: (Boolean) Whether an alert should continue matching subsequent sibling nodes.
+            dashboard_url: (String) Specifies Observability instance dashboard URL.
+            email_configs: (Attributes List) List of email configurations. (see below for nested schema)
+            from: (String) The sender email address. Must be a valid email address
+            global: (Attributes) Global configuration for the alerts. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. (see below for nested schema)
+            google_chat: (Boolean) Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+            grafana_initial_admin_password: (String, Sensitive) Specifies an initial Grafana admin password.
+            grafana_initial_admin_user: (String) Specifies an initial Grafana admin username.
+            grafana_public_read_access: (Boolean) If true, anyone can access Grafana dashboards without logging in.
+            grafana_url: (String) Specifies Grafana URL.
+            group_by: '(List of String) The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value ''...'' as the sole label name, for example: group_by: [''...'']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.'
+            group_interval: (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+            group_wait: (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            instance_id: (String) The Observability instance ID.
+            is_updatable: (Boolean) Specifies if the instance can be updated.
+            jaeger_traces_url: (String)
+            jaeger_ui_url: (String)
+            logs_push_url: (String) Specifies URL for pushing logs.
+            logs_retention_days: (Number) Specifies for how many days the logs are kept. Default is set to 7.
+            logs_url: (String) Specifies Logs URL.
+            match: (Map of String, Deprecated) A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+            match_regex: (Map of String, Deprecated) A set of regex-matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+            matchers: (List of String) A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+            metrics_push_url: (String) Specifies URL for pushing metrics.
+            metrics_retention_days: (Number) Specifies for how many days the raw metrics are kept. Default is set to 90.
+            metrics_retention_days_1h_downsampling: (Number) Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to 90.
+            metrics_retention_days_5m_downsampling: (Number) Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to 90.
+            metrics_url: (String) Specifies metrics URL.
+            ms_teams: (Boolean) Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+            name: (String) The name of the Observability instance.
+            opsgenie_api_key: (String, Sensitive) The API key for OpsGenie.
+            opsgenie_api_url: (String) The host to send OpsGenie API requests to. Must be a valid URL
+            opsgenie_configs: (Attributes List) List of OpsGenie configurations. (see below for nested schema)
+            otlp_traces_url: (String)
+            parameters: (Map of String) Additional parameters.
+            plan_id: (String) The Observability plan ID.
+            plan_name: (String) Specifies the Observability plan. E.g. Observability-Monitoring-Medium-EU01.
+            priority: '(String) Priority of the alert. Possible values are: P1, P2, P3, P4, P5.'
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            receiver: (String) The name of the receiver to route the alerts to.
+            receivers: (Attributes List) List of alert receivers. (see below for nested schema)
+            repeat_interval: (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+            resolve_timeout: (String) The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+            route: (Attributes) Route configuration for the alerts. (see below for nested schema)
+            routes: (Attributes List) List of child routes. (see below for nested schema)
+            send_resolved: (Boolean) Whether to notify about resolved alerts.
+            smart_host: (String) The SMTP host through which emails are sent.
+            smtp_auth_identity: (String) SMTP authentication information. Must be a valid email address
+            smtp_auth_password: (String, Sensitive) SMTP Auth using LOGIN and PLAIN.
+            smtp_auth_username: (String) SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+            smtp_from: (String) The default SMTP From header field. Must be a valid email address
+            smtp_smart_host: (String) The default SMTP smarthost used for sending emails, including port number in format host:port (eg. smtp.example.com:587). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+            tags: (String) Comma separated list of tags attached to the notifications.
+            targets_url: (String) Specifies Targets URL.
+            to: (String) The email address to send notifications to. Must be a valid email address
+            traces_retention_days: (Number) Specifies for how many days the traces are kept. Default is set to 7.
+            url: (String, Sensitive) The endpoint to send HTTP POST requests to. Must be a valid URL
+            webhooks_configs: (Attributes List) List of Webhooks configurations. (see below for nested schema)
+            zipkin_spans_url: (String)
+        importStatements: []
+    stackit_observability_logalertgroup:
+        subCategory: ""
+        description: Observability log alert group resource schema. Used to create alerts based on logs (Loki). Must have a region specified in the provider configuration.
+        name: stackit_observability_logalertgroup
+        title: stackit_observability_logalertgroup Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "interval": "60m",
+                  "name": "example-log-alert-group",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rules": [
+                    {
+                      "alert": "example-log-alert-name",
+                      "annotations": {
+                        "description": "example description",
+                        "summary": "example summary"
+                      },
+                      "expression": "sum(rate({namespace=\"example\", pod=\"logger\"} |= \"Simulated error message\" [1m])) \u003e 0",
+                      "for": "60s",
+                      "labels": {
+                        "severity": "critical"
+                      }
+                    },
+                    {
+                      "alert": "example-log-alert-name-2",
+                      "annotations": {
+                        "description": "example description",
+                        "summary": "example summary"
+                      },
+                      "expression": "sum(rate({namespace=\"example\", pod=\"logger\"} |= \"Another error message\" [1m])) \u003e 0",
+                      "for": "60s",
+                      "labels": {
+                        "severity": "critical"
+                      }
+                    }
+                  ]
+                }
+        argumentDocs:
+            alert: (String) The name of the alert rule. Is the identifier and must be unique in the group.
+            annotations: (Map of String) A map of key:value. Annotations to add or overwrite for each alert
+            expression: (String) The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+            for: (String) Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id,name".
+            instance_id: (String) Observability instance ID to which the log alert group is associated.
+            interval: '(String) Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: ''5h30m40s'', ''5h'', ''5h30m'', ''60m'', and ''60s''.'
+            labels: (Map of String) A map of key:value. Labels to add or overwrite for each alert
+            name: (String) The name of the log alert group. Is the identifier and must be unique in the group.
+            project_id: (String) STACKIT project ID to which the log alert group is associated.
+            rules: (Attributes List) Rules for the log alert group (see below for nested schema)
+        importStatements: []
+    stackit_observability_scrapeconfig:
+        subCategory: ""
+        description: Observability scrape config resource schema. Must have a region specified in the provider configuration.
+        name: stackit_observability_scrapeconfig
+        title: stackit_observability_scrapeconfig Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "metrics_path": "/my-metrics",
+                  "name": "example-job",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "saml2": {
+                    "enable_url_parameters": true
+                  },
+                  "targets": [
+                    {
+                      "labels": {
+                        "url1": "dev"
+                      },
+                      "urls": [
+                        "url1",
+                        "urls2"
+                      ]
+                    }
+                  ]
+                }
+        argumentDocs:
+            basic_auth: (Attributes) A basic authentication block. (see below for nested schema)
+            enable_url_parameters: (Boolean) Specifies if URL parameters are enabled. Defaults to true
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id,name".
+            instance_id: (String) Observability instance ID to which the scraping job is associated.
+            labels: (Map of String) Specifies labels.
+            metrics_path: (String) Specifies the job scraping url path. E.g. /metrics.
+            name: (String) Specifies the name of the scraping job.
+            password: (String, Sensitive) Specifies basic auth password.
+            project_id: (String) STACKIT project ID to which the scraping job is associated.
+            saml2: (Attributes) A SAML2 configuration block. (see below for nested schema)
+            sample_limit: (Number) Specifies the scrape sample limit. Upper limit depends on the service plan. Defaults to 5000.
+            scheme: (String) Specifies the http scheme. Defaults to https.
+            scrape_interval: (String) Specifies the scrape interval as duration string. Defaults to 5m.
+            scrape_timeout: (String) Specifies the scrape timeout as duration string. Defaults to 2m.
+            targets: (Attributes List) The targets list (specified by the static config). (see below for nested schema)
+            urls: (List of String) Specifies target URLs.
+            username: (String) Specifies basic auth username.
+        importStatements: []
+    stackit_opensearch_credential:
+        subCategory: ""
+        description: OpenSearch credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_opensearch_credential
+        title: stackit_opensearch_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            hosts: (List of String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            instance_id: (String) ID of the OpenSearch instance.
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            scheme: (String)
+            uri: (String, Sensitive)
+            username: (String)
+        importStatements: []
+    stackit_opensearch_instance:
+        subCategory: ""
+        description: OpenSearch instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_opensearch_instance
+        title: stackit_opensearch_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22"
+                  },
+                  "plan_name": "stackit-opensearch-1.2.10-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "2"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            dashboard_url: (String)
+            enable_monitoring: (Boolean) Enable monitoring.
+            graphite: (String) If set, monitoring with Graphite will be enabled. Expects the host and port where the Graphite metrics should be sent to (host:port).
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the OpenSearch instance.
+            java_garbage_collector: (String) The garbage collector to use for OpenSearch.
+            java_heapspace: (Number) The amount of memory (in MB) allocated as heap by the JVM for OpenSearch.
+            java_maxmetaspace: (Number) The amount of memory (in MB) used by the JVM to store metadata for OpenSearch.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted (in seconds).
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key.
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance.
+            name: (String) Instance name.
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            plugins: (List of String) List of plugins to install. Must be a supported plugin name. The plugins repository-s3 and repository-azure are enabled by default and cannot be disabled.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            syslog: (List of String) List of syslog servers to send logs to.
+            tls_ciphers: (List of String) List of TLS ciphers to use.
+            tls_protocols: (List of String) The TLS protocol to use.
+            version: (String) The service version.
+        importStatements: []
+    stackit_postgresflex_database:
+        subCategory: ""
+        description: Postgres Flex database resource schema. Must have a region specified in the provider configuration.
+        name: stackit_postgresflex_database
+        title: stackit_postgresflex_database Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "name": "mydb",
+                  "owner": "myusername",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            database_id: (String) Database ID.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id,database_id".
+            instance_id: (String) ID of the Postgres Flex instance.
+            name: (String) Database name.
+            owner: (String) Username of the database owner.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+        importStatements: []
+    stackit_postgresflex_instance:
+        subCategory: ""
+        description: Postgres Flex instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_postgresflex_instance
+        title: stackit_postgresflex_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acl": [
+                    "XXX.XXX.XXX.X/XX",
+                    "XX.XXX.XX.X/XX"
+                  ],
+                  "backup_schedule": "00 00 * * *",
+                  "flavor": {
+                    "cpu": 2,
+                    "ram": 4
+                  },
+                  "name": "example-instance",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "replicas": 3,
+                  "storage": {
+                    "class": "class",
+                    "size": 5
+                  },
+                  "version": 14
+                }
+        argumentDocs:
+            acl: (List of String) The Access Control List (ACL) for the PostgresFlex instance.
+            backup_schedule: (String)
+            class: (String)
+            cpu: (Number)
+            description: (String)
+            flavor: (Attributes) (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            instance_id: (String) ID of the PostgresFlex instance.
+            name: (String) Instance name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            ram: (Number)
+            region: (String) The resource region. If not defined, the provider region is used.
+            replicas: (Number)
+            size: (Number)
+            storage: (Attributes) (see below for nested schema)
+            version: (String)
+        importStatements: []
+    stackit_postgresflex_user:
+        subCategory: ""
+        description: Postgres Flex user resource schema. Must have a region specified in the provider configuration.
+        name: stackit_postgresflex_user
+        title: stackit_postgresflex_user Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "roles": [
+                    "role"
+                  ],
+                  "username": "username"
+                }
+        argumentDocs:
+            host: (String)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id,user_id".
+            instance_id: (String) ID of the PostgresFlex instance.
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            roles: '(Set of String) Database access levels for the user. Possible values are: login, createdb.'
+            uri: (String, Sensitive)
+            user_id: (String) User ID.
+            username: (String)
+        importStatements: []
+    stackit_public_ip:
+        subCategory: ""
+        description: Public IP resource schema. Must have a region specified in the provider configuration.
+        name: stackit_public_ip
+        title: stackit_public_ip Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "network_interface_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,public_ip_id".
+            ip: (String) The IP address.
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            network_interface_id: (String) Associates the public IP with a network interface or a virtual IP (ID). If you are using this resource with a Kubernetes Load Balancer or any other resource which associates a network interface implicitly, use the lifecycle ignore_changes property in this field to prevent unintentional removal of the network interface due to drift in the Terraform state
+            project_id: (String) STACKIT project ID to which the public IP is associated.
+            public_ip_id: (String) The public IP ID.
+        importStatements: []
+    stackit_public_ip_associate:
+        subCategory: ""
+        description: Associates an existing public IP to a network interface. This is useful for situations where you have a pre-allocated public IP or unable to use the stackit_public_ip resource to create a new public IP. Must have a region specified in the provider configuration. !> The stackit_public_ip_associate resource should not be used together with the stackit_public_ip resource for the same public IP or for the same network interface. Using both resources together for the same public IP or network interface WILL lead to conflicts, as they both have control of the public IP and network interface association.
+        name: stackit_public_ip_associate
+        title: stackit_public_ip_associate Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "network_interface_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "public_ip_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,public_ip_id,network_interface_id".
+            ip: (String) The IP address.
+            network_interface_id: (String) The ID of the network interface (or virtual IP) to which the public IP should be attached to.
+            project_id: (String) STACKIT project ID to which the public IP is associated.
+            public_ip_id: (String) The public IP ID.
+        importStatements: []
+    stackit_rabbitmq_credential:
+        subCategory: ""
+        description: RabbitMQ credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_rabbitmq_credential
+        title: stackit_rabbitmq_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            hosts: (List of String)
+            http_api_uri: (String)
+            http_api_uris: (List of String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            instance_id: (String) ID of the RabbitMQ instance.
+            management: (String)
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            uri: (String, Sensitive)
+            uris: (List of String)
+            username: (String)
+        importStatements: []
+    stackit_rabbitmq_instance:
+        subCategory: ""
+        description: RabbitMQ instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_rabbitmq_instance
+        title: stackit_rabbitmq_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "consumer_timeout": 18000000,
+                    "enable_monitoring": false,
+                    "plugins": [
+                      "rabbitmq_consistent_hash_exchange",
+                      "rabbitmq_federation",
+                      "rabbitmq_tracing"
+                    ],
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22"
+                  },
+                  "plan_name": "stackit-rabbitmq-1.2.10-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "3.13"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            consumer_timeout: (Number) The timeout in milliseconds for the consumer.
+            dashboard_url: (String)
+            enable_monitoring: (Boolean) Enable monitoring.
+            graphite: (String) Graphite server URL (host and port). If set, monitoring with Graphite will be enabled.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the RabbitMQ instance.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted.
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance.
+            name: (String) Instance name.
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            plugins: (List of String) List of plugins to install. Must be a supported plugin name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            roles: (List of String) List of roles to assign to the instance.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            syslog: (List of String) List of syslog servers to send logs to.
+            tls_ciphers: (List of String) List of TLS ciphers to use.
+            tls_protocols: (String) TLS protocol to use.
+            version: (String) The service version.
+        importStatements: []
+    stackit_redis_credential:
+        subCategory: ""
+        description: Redis credential resource schema. Must have a region specified in the provider configuration.
+        name: stackit_redis_credential
+        title: stackit_redis_credential Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            credential_id: (String) The credential's ID.
+            host: (String)
+            hosts: (List of String)
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,credential_id".
+            instance_id: (String) ID of the Redis instance.
+            load_balanced_host: (String)
+            password: (String, Sensitive)
+            port: (Number)
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            uri: (String, Sensitive) Connection URI.
+            username: (String)
+        importStatements: []
+    stackit_redis_instance:
+        subCategory: ""
+        description: Redis instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_redis_instance
+        title: stackit_redis_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-instance",
+                  "parameters": {
+                    "down_after_milliseconds": 30000,
+                    "enable_monitoring": false,
+                    "sgw_acl": "193.148.160.0/19,45.129.40.0/21,45.135.244.0/22",
+                    "syslog": [
+                      "logs4.your-syslog-endpoint.com:54321"
+                    ]
+                  },
+                  "plan_name": "stackit-redis-1.2.10-replica",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "version": "7"
+                }
+        argumentDocs:
+            cf_guid: (String)
+            cf_organization_guid: (String)
+            cf_space_guid: (String)
+            dashboard_url: (String)
+            down_after_milliseconds: (Number) The number of milliseconds after which the instance is considered down.
+            enable_monitoring: (Boolean) Enable monitoring.
+            failover_timeout: (Number) The failover timeout in milliseconds.
+            graphite: (String) Graphite server URL (host and port). If set, monitoring with Graphite will be enabled.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            image_url: (String)
+            instance_id: (String) ID of the Redis instance.
+            lazyfree_lazy_eviction: (String) The lazy eviction enablement (yes or no).
+            lazyfree_lazy_expire: (String) The lazy expire enablement (yes or no).
+            lua_time_limit: (Number) The Lua time limit.
+            max_disk_threshold: (Number) The maximum disk threshold in MB. If the disk usage exceeds this threshold, the instance will be stopped.
+            maxclients: (Number) The maximum number of clients.
+            maxmemory_policy: (String) The policy to handle the maximum memory (volatile-lru, noeviction, etc).
+            maxmemory_samples: (Number) The maximum memory samples.
+            metrics_frequency: (Number) The frequency in seconds at which metrics are emitted.
+            metrics_prefix: (String) The prefix for the metrics. Could be useful when using Graphite monitoring to prefix the metrics with a certain value, like an API key
+            min_replicas_max_lag: (Number) The minimum replicas maximum lag.
+            monitoring_instance_id: (String) The ID of the STACKIT monitoring instance.
+            name: (String) Instance name.
+            notify_keyspace_events: (String) The notify keyspace events.
+            parameters: (Attributes) Configuration parameters. Please note that removing a previously configured field from your Terraform configuration won't replace its value in the API. To update a previously configured field, explicitly set a new value for it. (see below for nested schema)
+            plan_id: (String) The selected plan ID.
+            plan_name: (String) The selected plan name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            sgw_acl: (String) Comma separated list of IP networks in CIDR notation which are allowed to access this instance.
+            snapshot: (String) The snapshot configuration.
+            syslog: (List of String) List of syslog servers to send logs to.
+            tls_ciphers: (List of String) List of TLS ciphers to use.
+            tls_ciphersuites: (String) TLS cipher suites to use.
+            tls_protocols: (String) TLS protocol to use.
+            version: (String) The service version.
+        importStatements: []
+    stackit_resourcemanager_folder:
+        subCategory: ""
+        description: Resource Manager folder resource schema.
+        name: stackit_resourcemanager_folder
+        title: stackit_resourcemanager_folder Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example-folder",
+                  "owner_email": "foo.bar@stackit.cloud",
+                  "parent_container_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              dependencies:
+                stackit_resourcemanager_project.example_project: |-
+                    {
+                      "name": "example-project",
+                      "owner_email": "foo.bar@stackit.cloud",
+                      "parent_container_id": "${stackit_resourcemanager_folder.example.container_id}"
+                    }
+        argumentDocs:
+            container_id: (String) Folder container ID. Globally unique, user-friendly identifier.
+            creation_time: (String) Date-time at which the folder was created.
+            folder_id: (String) Folder UUID identifier. Globally unique folder identifier
+            id: (String) Terraform's internal resource ID. It is structured as "container_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container. A label key must match the regex [A-ZÄÜÖa-zäüöß0-9_-]{1,64}. A label value must match the regex ^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}.
+            name: (String) The name of the folder.
+            owner_email: (String) Email address of the owner of the folder. This value is only considered during creation. Changing it afterwards will have no effect.
+            parent_container_id: (String) Parent resource identifier. Both container ID (user-friendly) and UUID are supported.
+            update_time: (String) Date-time at which the folder was last modified.
+        importStatements: []
+    stackit_resourcemanager_project:
+        subCategory: ""
+        description: Resource Manager project resource schema. -> In case you're getting started with an empty STACKIT organization and want to use this resource to create projects in it, check out this guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/stackit_org_service_account for how to create a service account which you can use for authentication in the STACKIT Terraform provider.
+        name: stackit_resourcemanager_project
+        title: stackit_resourcemanager_project Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "Label 1": "foo"
+                  },
+                  "name": "example-container",
+                  "owner_email": "john.doe@stackit.cloud",
+                  "parent_container_id": "example-parent-container-abc123"
+                }
+        argumentDocs:
+            container_id: (String) Project container ID. Globally unique, user-friendly identifier.
+            creation_time: (String) Date-time at which the project was created.
+            id: (String) Terraform's internal resource ID. It is structured as "container_id".
+            labels: |-
+                (Map of String) Labels are key-value string pairs which can be attached to a resource container. A label key must match the regex [A-ZÄÜÖa-zäüöß0-9_-]{1,64}. A label value must match the regex ^$|[A-ZÄÜÖa-zäüöß0-9_-]{1,64}.
+                To create a project within a STACKIT Network Area, setting the label networkArea=<networkAreaID> is required. This can not be changed after project creation.
+            name: (String) Project name.
+            owner_email: (String) Email address of the owner of the project. This value is only considered during creation. Changing it afterwards will have no effect.
+            parent_container_id: (String) Parent resource identifier. Both container ID (user-friendly) and UUID are supported
+            project_id: (String) Project UUID identifier. This is the ID that can be used in most of the other resources to identify the project.
+            update_time: (String) Date-time at which the project was last modified.
+        importStatements: []
+    stackit_routing_table:
+        subCategory: ""
+        description: Routing table resource schema. Must have a region specified in the provider configuration. ~> This resource is part of the routing-tables experiment and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        name: stackit_routing_table
+        title: stackit_routing_table Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "example",
+                  "network_area_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            created_at: (String) Date-time when the routing table was created
+            description: (String) Description of the routing table.
+            id: (String) Terraform's internal resource ID. It is structured as "organization_id,region,network_area_id,routing_table_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            name: (String) The name of the routing table.
+            network_area_id: (String) The network area ID to which the routing table is associated.
+            organization_id: (String) STACKIT organization ID to which the routing table is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            routing_table_id: (String) The routing tables ID.
+            system_routes: (Boolean) This controls whether the routes for project-to-project communication are created automatically or not.
+            updated_at: (String) Date-time when the routing table was updated
+        importStatements: []
+    stackit_routing_table_route:
+        subCategory: ""
+        description: Routing table route resource schema. Must have a region specified in the provider configuration. ~> This resource is part of the routing-tables experiment and is likely going to undergo significant changes or be removed in the future. Use it at your own discretion.
+        name: stackit_routing_table_route
+        title: stackit_routing_table_route Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "destination": {
+                    "type": "cidrv4",
+                    "value": "192.168.178.0/24"
+                  },
+                  "labels": {
+                    "key": "value"
+                  },
+                  "network_area_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "next_hop": {
+                    "type": "ipv4",
+                    "value": "192.168.178.1"
+                  },
+                  "organization_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "routing_table_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            created_at: (String) Date-time when the route was created.
+            destination: (Attributes) Destination of the route. (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "organization_id,region,network_area_id,routing_table_id,route_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            network_area_id: (String) The network area ID to which the routing table is associated.
+            next_hop: (Attributes) Next hop destination. (see below for nested schema)
+            organization_id: (String) STACKIT organization ID to which the routing table is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            route_id: (String) The ID of the route.
+            routing_table_id: (String) The routing tables ID.
+            type: '(String) CIDRV type. Possible values are: cidrv4, cidrv6. Only cidrv4 is supported during experimental stage.'
+            updated_at: (String) Date-time when the route was updated.
+            value: (String) An CIDR string.
+        importStatements: []
+    stackit_scf_organization:
+        subCategory: ""
+        description: STACKIT Cloud Foundry organization resource schema. Must have a region specified in the provider configuration.
+        name: stackit_scf_organization
+        title: stackit_scf_organization Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "name": "example",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+            - name: example
+              manifest: |-
+                {
+                  "name": "example",
+                  "platform_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "quota_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "suspended": false
+                }
+        argumentDocs:
+            created_at: (String) The time when the organization was created
+            id: (String) Terraform's internal resource ID, structured as "project_id,region,org_id".
+            name: (String) The name of the organization
+            org_id: (String) The ID of the Cloud Foundry Organization
+            platform_id: (String) The ID of the platform associated with the organization
+            project_id: (String) The ID of the project associated with the organization
+            quota_id: (String) The ID of the quota associated with the organization
+            region: (String) The resource region. If not defined, the provider region is used
+            status: (String) The status of the organization (e.g., deleting, delete_failed)
+            suspended: (Boolean) A boolean indicating whether the organization is suspended
+            updated_at: (String) The time when the organization was last updated
+        importStatements: []
+    stackit_scf_organization_manager:
+        subCategory: ""
+        description: STACKIT Cloud Foundry organization manager resource schema.
+        name: stackit_scf_organization_manager
+        title: stackit_scf_organization_manager Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "org_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            created_at: (String) The time when the organization manager was created
+            id: (String) Terraform's internal resource ID, structured as "project_id,region,org_id,user_id".
+            org_id: (String) The ID of the Cloud Foundry Organization
+            password: (String, Sensitive) An auto-generated password
+            platform_id: (String) The ID of the platform associated with the organization of the organization manager
+            project_id: (String) The ID of the project associated with the organization of the organization manager
+            region: (String) The region where the organization of the organization manager is located. If not defined, the provider region is used
+            updated_at: (String) The time when the organization manager was last updated
+            user_id: (String) The ID of the organization manager user
+            username: (String) An auto-generated organization manager user name
+        importStatements: []
+    stackit_secretsmanager_instance:
+        subCategory: ""
+        description: Secrets Manager instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_secretsmanager_instance
+        title: stackit_secretsmanager_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acls": [
+                    "XXX.XXX.XXX.X/XX",
+                    "XX.XXX.XX.X/XX"
+                  ],
+                  "name": "example-instance",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            acls: (Set of String) The access control list for this instance. Each entry is an IP or IP range that is permitted to access, in CIDR notation
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,instance_id".
+            instance_id: (String) ID of the Secrets Manager instance.
+            name: (String) Instance name.
+            project_id: (String) STACKIT project ID to which the instance is associated.
+        importStatements: []
+    stackit_secretsmanager_user:
+        subCategory: ""
+        description: Secrets Manager user resource schema. Must have a region specified in the provider configuration.
+        name: stackit_secretsmanager_user
+        title: stackit_secretsmanager_user Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "description": "Example user",
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "write_enabled": false
+                }
+        argumentDocs:
+            description: (String) A user chosen description to differentiate between multiple users. Can't be changed after creation.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,instance_id,user_id".
+            instance_id: (String) ID of the Secrets Manager instance.
+            password: (String, Sensitive) An auto-generated password.
+            project_id: (String) STACKIT Project ID to which the instance is associated.
+            user_id: (String) The user's ID.
+            username: (String) An auto-generated user name.
+            write_enabled: (Boolean) If true, the user has writeaccess to the secrets engine.
+        importStatements: []
+    stackit_security_group:
+        subCategory: ""
+        description: Security group resource schema. Must have a region specified in the provider configuration.
+        name: stackit_security_group
+        title: stackit_security_group Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "my_security_group",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            description: (String) The description of the security group.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,security_group_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            name: (String) The name of the security group.
+            project_id: (String) STACKIT project ID to which the security group is associated.
+            security_group_id: (String) The security group ID.
+            stateful: (Boolean) Configures if a security group is stateful or stateless. There can only be one type of security groups per network interface/server.
+        importStatements: []
+    stackit_security_group_rule:
+        subCategory: ""
+        description: Security group rule resource schema. Must have a region specified in the provider configuration.
+        name: stackit_security_group_rule
+        title: stackit_security_group_rule Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "direction": "ingress",
+                  "icmp_parameters": {
+                    "code": 0,
+                    "type": 8
+                  },
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "protocol": {
+                    "name": "icmp"
+                  },
+                  "security_group_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            code: (Number) ICMP code. Can be set if the protocol is ICMP.
+            description: (String) The rule description.
+            direction: '(String) The direction of the traffic which the rule should match. Some of the possible values are: Possible values are: ingress, egress.'
+            ether_type: (String) The ethertype which the rule should match.
+            icmp_parameters: (Attributes) ICMP Parameters. These parameters should only be provided if the protocol is ICMP. (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,security_group_id,security_group_rule_id".
+            ip_range: (String) The remote IP range which the rule should match.
+            max: (Number) The maximum port number. Should be greater or equal to the minimum.
+            min: (Number) The minimum port number. Should be less or equal to the maximum.
+            name: '(String) The protocol name which the rule should match. Either name or number must be provided. Possible values are: ah, dccp, egp, esp, gre, icmp, igmp, ipip, ipv6-encap, ipv6-frag, ipv6-icmp, ipv6-nonxt, ipv6-opts, ipv6-route, ospf, pgm, rsvp, sctp, tcp, udp, udplite, vrrp.'
+            number: (Number) The protocol number which the rule should match. Either name or number must be provided.
+            port_range: (Attributes) The range of ports. This should only be provided if the protocol is not ICMP. (see below for nested schema)
+            project_id: (String) STACKIT project ID to which the security group rule is associated.
+            protocol: (Attributes) The internet protocol which the rule should match. (see below for nested schema)
+            remote_security_group_id: (String) The remote security group which the rule should match.
+            security_group_id: (String) The security group ID.
+            security_group_rule_id: (String) The security group rule ID.
+            type: (Number) ICMP type. Can be set if the protocol is ICMP.
+        importStatements: []
+    stackit_server:
+        subCategory: ""
+        description: Server resource schema. Must have a region specified in the provider configuration. Example Usage With key pair
+        name: stackit_server
+        title: stackit_server Resource - stackit
+        examples:
+            - name: user-data-from-file
+              manifest: |-
+                {
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "user_data": "${file(\"${path.module}/cloud-init.yaml\")}"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+              dependencies:
+                stackit_key_pair.keypair: |-
+                    {
+                      "name": "example-key-pair",
+                      "public_key": "${chomp(file(\"path/to/id_rsa.pub\"))}"
+                    }
+            - name: boot-from-volume
+              manifest: |-
+                {
+                  "availability_zone": "eu01-1",
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "example-keypair",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+            - name: boot-from-volume
+              manifest: |-
+                {
+                  "availability_zone": "eu01-1",
+                  "boot_volume": {
+                    "source_id": "${stackit_volume.example-volume.volume_id}",
+                    "source_type": "volume"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+              dependencies:
+                stackit_volume.example-volume: |-
+                    {
+                      "availability_zone": "eu01-1",
+                      "name": "example-volume",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "size": 12,
+                      "source": {
+                        "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                        "type": "image"
+                      }
+                    }
+            - name: server-with-network
+              manifest: |-
+                {
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "network_interfaces": [
+                    "${stackit_network_interface.nic.network_interface_id}"
+                  ],
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+                network_interfaces: stackit_network_interface.nic.network_interface_id
+              dependencies:
+                stackit_network.network: |-
+                    {
+                      "ipv4_prefix_length": 24,
+                      "name": "example-network",
+                      "nameservers": [
+                        "192.0.2.0",
+                        "198.51.100.0",
+                        "203.0.113.0"
+                      ],
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_network_interface.nic: |-
+                    {
+                      "network_id": "${stackit_network.network.network_id}",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "security_group_ids": [
+                        "${stackit_security_group.sec-group.security_group_id}"
+                      ]
+                    }
+                stackit_public_ip.public-ip: |-
+                    {
+                      "network_interface_id": "${stackit_network_interface.nic.network_interface_id}",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                stackit_security_group.sec-group: |-
+                    {
+                      "name": "example-security-group",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "stateful": true
+                    }
+                stackit_security_group_rule.rule: |-
+                    {
+                      "direction": "ingress",
+                      "ether_type": "IPv4",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "security_group_id": "${stackit_security_group.sec-group.security_group_id}"
+                    }
+            - name: server-with-volume
+              manifest: |-
+                {
+                  "availability_zone": "eu01-1",
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+              dependencies:
+                stackit_server_volume_attach.attach_volume: |-
+                    {
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "server_id": "${stackit_server.server-with-volume.server_id}",
+                      "volume_id": "${stackit_volume.example-volume.volume_id}"
+                    }
+                stackit_volume.example-volume: |-
+                    {
+                      "availability_zone": "eu01-1",
+                      "name": "example-volume",
+                      "performance_class": "storage_premium_perf6",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                      "size": 12
+                    }
+            - name: user-data
+              manifest: |-
+                {
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "user_data": "#!/bin/bash\n/bin/su"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+            - name: user-data-from-file
+              manifest: |-
+                {
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                    "source_type": "image"
+                  },
+                  "keypair_name": "${stackit_key_pair.keypair.name}",
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "user_data": "${file(\"${path.module}/cloud-init.yaml\")}"
+                }
+              references:
+                keypair_name: stackit_key_pair.keypair.name
+            - name: example
+              manifest: |-
+                {
+                  "availability_zone": "xxxx-x",
+                  "boot_volume": {
+                    "size": 64,
+                    "source_id": "59838a89-51b1-4892-b57f-b3caf598ee2f",
+                    "source_type": "image"
+                  },
+                  "machine_type": "g2i.1",
+                  "name": "example-server",
+                  "network_interfaces": [
+                    "${stackit_network_interface.example.network_interface_id}"
+                  ],
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+              references:
+                network_interfaces: stackit_network_interface.example.network_interface_id
+        argumentDocs:
+            affinity_group: (String) The affinity group the server is assigned to.
+            availability_zone: (String) The availability zone of the server.
+            boot_volume: (Attributes) The boot volume for the server (see below for nested schema)
+            created_at: (String) Date-time when the server was created
+            delete_on_termination: (Boolean) Delete the volume during the termination of the server. Only allowed when source_type is image.
+            desired_status: '(String) The desired status of the server resource. Possible values are: active, inactive, deallocated.'
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,server_id".
+            image_id: (String) The image ID to be used for an ephemeral disk on the server.
+            keypair_name: (String) The name of the keypair used during server creation.
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            launched_at: (String) Date-time when the server was launched
+            machine_type: (String) Name of the type of the machine for the server. Possible values are documented in Virtual machine flavors
+            name: (String) The name of the server.
+            network_interfaces: (List of String) The IDs of network interfaces which should be attached to the server. Updating it will recreate the server.
+            performance_class: (String) The performance class of the server.
+            project_id: (String) STACKIT project ID to which the server is associated.
+            server_id: (String) The server ID.
+            size: (Number) The size of the boot volume in GB. Must be provided when source_type is image.
+            source_id: (String) The ID of the source, either image ID or volume ID
+            source_type: '(String) The type of the source. Possible values are: volume, image.'
+            updated_at: (String) Date-time when the server was updated
+            user_data: (String) User data that is passed via cloud-init to the server.
+        importStatements: []
+    stackit_server_backup_schedule:
+        subCategory: ""
+        description: Server backup schedule resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        name: stackit_server_backup_schedule
+        title: stackit_server_backup_schedule Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "backup_properties": {
+                    "name": "example_backup_name",
+                    "retention_period": 14,
+                    "volume_ids": null
+                  },
+                  "enabled": true,
+                  "name": "example_backup_schedule_name",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rrule": "DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1",
+                  "server_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            backup_properties: (Attributes) Backup schedule details for the backups. (see below for nested schema)
+            backup_schedule_id: (Number) Backup schedule ID.
+            enabled: (Boolean) Is the backup schedule enabled or disabled.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,server_id,backup_schedule_id".
+            name: (String) The schedule name.
+            project_id: (String) STACKIT Project ID to which the server is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            retention_period: (Number)
+            rrule: (String) Backup schedule described in rrule (recurrence rule) format.
+            server_id: (String) Server ID for the backup schedule.
+            volume_ids: (List of String)
+        importStatements: []
+    stackit_server_network_interface_attach:
+        subCategory: ""
+        description: Network interface attachment resource schema. Attaches a network interface to a server. Must have a region specified in the provider configuration. The attachment only takes full effect after server reboot.
+        name: stackit_server_network_interface_attach
+        title: stackit_server_network_interface_attach Resource - stackit
+        examples:
+            - name: attached_network_interface
+              manifest: |-
+                {
+                  "network_interface_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "server_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,server_id,network_interface_id".
+            network_interface_id: (String) The network interface ID.
+            project_id: (String) STACKIT project ID to which the network interface attachment is associated.
+            server_id: (String) The server ID.
+        importStatements: []
+    stackit_server_service_account_attach:
+        subCategory: ""
+        description: Service account attachment resource schema. Attaches a service account to a server. Must have a region specified in the provider configuration.
+        name: stackit_server_service_account_attach
+        title: stackit_server_service_account_attach Resource - stackit
+        examples:
+            - name: attached_service_account
+              manifest: |-
+                {
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "server_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "service_account_email": "service-account@stackit.cloud"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,server_id,service_account_email".
+            project_id: (String) STACKIT project ID to which the service account attachment is associated.
+            server_id: (String) The server ID.
+            service_account_email: (String) The service account email.
+        importStatements: []
+    stackit_server_update_schedule:
+        subCategory: ""
+        description: Server update schedule resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.terraform.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+        name: stackit_server_update_schedule
+        title: stackit_server_update_schedule Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "enabled": true,
+                  "maintenance_window": 1,
+                  "name": "example_update_schedule_name",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rrule": "DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1",
+                  "server_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            enabled: (Boolean) Is the update schedule enabled or disabled.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,region,server_id,update_schedule_id".
+            maintenance_window: (Number) Maintenance window [1..24].
+            name: (String) The schedule name.
+            project_id: (String) STACKIT Project ID to which the server is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            rrule: (String) Update schedule described in rrule (recurrence rule) format.
+            server_id: (String) Server ID for the update schedule.
+            update_schedule_id: (Number) Update schedule ID.
+        importStatements: []
+    stackit_server_volume_attach:
+        subCategory: ""
+        description: Volume attachment resource schema. Attaches a volume to a server. Must have a region specified in the provider configuration.
+        name: stackit_server_volume_attach
+        title: stackit_server_volume_attach Resource - stackit
+        examples:
+            - name: attached_volume
+              manifest: |-
+                {
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "server_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "volume_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,server_id,volume_id".
+            project_id: (String) STACKIT project ID to which the volume attachment is associated.
+            server_id: (String) The server ID.
+            volume_id: (String) The volume ID.
+        importStatements: []
+    stackit_service_account:
+        subCategory: ""
+        description: Service account resource schema.
+        name: stackit_service_account
+        title: stackit_service_account Resource - stackit
+        examples:
+            - name: sa
+              manifest: |-
+                {
+                  "name": "sa01",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            email: (String) Email of the service account.
+            id: (String) Terraform's internal resource ID, structured as "project_id,email".
+            name: (String) Name of the service account.
+            project_id: (String) STACKIT project ID to which the service account is associated.
+        importStatements: []
+    stackit_service_account_access_token:
+        subCategory: ""
+        description: Service account access token schema. !> This resource is scheduled for deprecation and will be removed on December 17, 2025. To ensure a smooth transition, please refer to our migration guide at https://docs.stackit.cloud/stackit/en/deprecation-plan-for-service-account-access-tokens-and-migration-guide-373293307.html for detailed instructions and recommendations. Example Usage Automatically rotate access tokens
+        name: stackit_service_account_access_token
+        title: stackit_service_account_access_token Resource - stackit
+        examples:
+            - name: sa_token
+              manifest: |-
+                {
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rotate_when_changed": {
+                    "rotation": "${time_rotating.rotate.id}"
+                  },
+                  "service_account_email": "${stackit_service_account.sa.email}",
+                  "ttl_days": 180
+                }
+              references:
+                service_account_email: stackit_service_account.sa.email
+              dependencies:
+                stackit_service_account.sa: |-
+                    {
+                      "name": "sa01",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+        argumentDocs:
+            access_token_id: (String) Identifier for the access token linked to the service account.
+            active: (Boolean) Indicate whether the token is currently active or inactive
+            created_at: (String) Timestamp indicating when the access token was created.
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,service_account_email,access_token_id".
+            project_id: (String) STACKIT project ID associated with the service account token.
+            rotate_when_changed: (Map of String) A map of arbitrary key/value pairs that will force recreation of the token when they change, enabling token rotation based on external conditions such as a rotating timestamp. Changing this forces a new resource to be created.
+            service_account_email: (String) Email address linked to the service account.
+            token: (String, Sensitive) JWT access token for API authentication. Prefixed by 'Bearer' and should be stored securely as it is irretrievable once lost.
+            ttl_days: (Number) Specifies the token's validity duration in days. If unspecified, defaults to 90 days.
+            valid_until: (String) Estimated expiration timestamp of the access token. For precise validity, check the JWT details.
+        importStatements: []
+    stackit_service_account_key:
+        subCategory: ""
+        description: Service account key schema. Example Usage Automatically rotate service account keys
+        name: stackit_service_account_key
+        title: stackit_service_account_key Resource - stackit
+        examples:
+            - name: sa_key
+              manifest: |-
+                {
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "rotate_when_changed": {
+                    "rotation": "${time_rotating.rotate.id}"
+                  },
+                  "service_account_email": "${stackit_service_account.sa.email}",
+                  "ttl_days": 90
+                }
+              references:
+                service_account_email: stackit_service_account.sa.email
+              dependencies:
+                stackit_service_account.sa: |-
+                    {
+                      "name": "sa01",
+                      "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                    }
+                time_rotating.rotate: |-
+                    {
+                      "rotation_days": 80
+                    }
+        argumentDocs:
+            id: (String) Terraform's internal resource identifier. It is structured as "project_id,service_account_email,key_id".
+            json: (String, Sensitive) The raw JSON representation of the service account key json, available for direct use.
+            key_id: (String) The unique identifier for the key associated with the service account.
+            project_id: (String) The STACKIT project ID associated with the service account key.
+            public_key: (String) Specifies the public_key (RSA2048 key-pair). If not provided, a certificate from STACKIT will be used to generate a private_key.
+            rotate_when_changed: (Map of String) A map of arbitrary key/value pairs designed to force key recreation when they change, facilitating key rotation based on external factors such as a changing timestamp. Modifying this map triggers the creation of a new resource.
+            service_account_email: (String) The email address associated with the service account, used for account identification and communication.
+            ttl_days: (Number) Specifies the key's validity duration in days. If left unspecified, the key is considered valid until it is deleted
+        importStatements: []
+    stackit_ske_cluster:
+        subCategory: ""
+        description: SKE Cluster Resource schema. Must have a region specified in the provider configuration. -> When updating node_pools of a stackit_ske_cluster, the Terraform plan might appear incorrect as it matches the node pools by index rather than by name. However, the SKE API correctly identifies node pools by name and applies the intended changes. Please review your changes carefully to ensure the correct configuration will be applied.
+        name: stackit_ske_cluster
+        title: stackit_ske_cluster Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "kubernetes_version_min": "x.x",
+                  "maintenance": {
+                    "enable_kubernetes_version_updates": true,
+                    "enable_machine_image_version_updates": true,
+                    "end": "02:00:00Z",
+                    "start": "01:00:00Z"
+                  },
+                  "name": "example",
+                  "node_pools": [
+                    {
+                      "availability_zones": [
+                        "eu01-3"
+                      ],
+                      "machine_type": "x.x",
+                      "maximum": "3",
+                      "minimum": "2",
+                      "name": "np-example",
+                      "os_version": "x.x.x"
+                    }
+                  ],
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                }
+        argumentDocs:
+            acl: (Attributes) Cluster access control configuration. (see below for nested schema)
+            allow_system_components: (Boolean) Allow system components to run on this node pool.
+            allowed_cidrs: (List of String) Specify a list of CIDRs to whitelist.
+            argus: (Attributes, Deprecated) A single argus block as defined below. This field is deprecated and will be removed 06 January 2026. (see below for nested schema)
+            argus_instance_id: (String) Argus instance ID to choose which Argus instance is used. Required when enabled is set to true.
+            availability_zones: (List of String) Specify a list of availability zones. E.g. eu01-m
+            cri: (String) Specifies the container runtime. Defaults to containerd
+            dns: (Attributes) DNS extension configuration (see below for nested schema)
+            effect: (String) The taint effect. E.g PreferNoSchedule.
+            egress_address_ranges: (List of String) The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster.
+            enable_kubernetes_version_updates: (Boolean) Flag to enable/disable auto-updates of the Kubernetes version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE.
+            enable_machine_image_version_updates: (Boolean) Flag to enable/disable auto-updates of the OS image version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE.
+            enabled: (Boolean) Is ACL enabled?
+            end: (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+            extensions: (Attributes) A single extensions block as defined below. (see below for nested schema)
+            hibernations: (Attributes List) One or more hibernation block as defined below. (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,name".
+            instance_id: (String) Observability instance ID to choose which Observability instance is used. Required when enabled is set to true.
+            key: (String) Taint key to be applied to a node.
+            kubernetes_version_min: (String) The minimum Kubernetes version. This field will be used to set the minimum kubernetes version on creation/update of the cluster. If unset, the latest supported Kubernetes version will be used. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE. To get the current kubernetes version being used for your cluster, use the read-only kubernetes_version_used field.
+            kubernetes_version_used: (String) Full Kubernetes version used. For example, if 1.22 was set in kubernetes_version_min, this value may result to 1.22.15. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE.
+            labels: (Map of String) Labels to add to each node.
+            machine_type: (String) The machine type.
+            maintenance: (Attributes) A single maintenance block as defined below. (see below for nested schema)
+            max_surge: (Number) Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+            max_unavailable: (Number) Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+            maximum: (Number) Maximum number of nodes in the pool.
+            minimum: (Number) Minimum number of nodes in the pool.
+            name: (String) The cluster name.
+            network: (Attributes) Network block as defined below. (see below for nested schema)
+            node_pools: (Attributes List) One or more node_pool block as defined below. (see below for nested schema)
+            observability: (Attributes) A single observability block as defined below. (see below for nested schema)
+            os_name: (String) The name of the OS image. Defaults to flatcar.
+            os_version: (String, Deprecated) This field is deprecated, use os_version_min to configure the version and os_version_used to get the currently used version instead.
+            os_version_min: (String) The minimum OS image version. This field will be used to set the minimum OS image version on creation/update of the cluster. If unset, the latest supported OS image version will be used. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE. To get the current OS image version being used for the node pool, use the read-only os_version_used field.
+            os_version_used: (String) Full OS image version used. For example, if 3815.2 was set in os_version_min, this value may result to 3815.2.2. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in Updates for Kubernetes versions and Operating System versions in SKE.
+            pod_address_ranges: (List of String) The network ranges (in CIDR notation) used by pods of the cluster.
+            project_id: (String) STACKIT project ID to which the cluster is associated.
+            region: (String) The resource region. If not defined, the provider region is used.
+            start: (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+            taints: (Attributes List) Specifies a taint list as defined below. (see below for nested schema)
+            timezone: (String) Timezone name corresponding to a file in the IANA Time Zone database. i.e. Europe/Berlin.
+            value: (String) Taint value corresponding to the taint key.
+            volume_size: (Number) The volume size in GB. Defaults to 20
+            volume_type: (String) Specifies the volume type. Defaults to storage_premium_perf1.
+            zones: (List of String) Specify a list of domain filters for externalDNS (e.g., foo.runs.onstackit.cloud)
+        importStatements: []
+    stackit_ske_kubeconfig:
+        subCategory: ""
+        description: SKE kubeconfig resource schema. Must have a region specified in the provider configuration.
+        name: stackit_ske_kubeconfig
+        title: stackit_ske_kubeconfig Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "cluster_name": "example-cluster",
+                  "expiration": 7200,
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "refresh": true,
+                  "refresh_before": 3600
+                }
+        argumentDocs:
+            cluster_name: (String) Name of the SKE cluster.
+            creation_time: (String) Date-time when the kubeconfig was created
+            expiration: (Number) Expiration time of the kubeconfig, in seconds. Defaults to 3600
+            expires_at: (String) Timestamp when the kubeconfig expires
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,cluster_name,kube_config_id".
+            kube_config: (String, Sensitive) Raw short-lived admin kubeconfig.
+            kube_config_id: (String) Internally generated UUID to identify a kubeconfig resource in Terraform, since the SKE API doesnt return a kubeconfig identifier
+            project_id: (String) STACKIT project ID to which the cluster is associated.
+            refresh: (Boolean) If set to true, the provider will check if the kubeconfig has expired and will generated a new valid one in-place
+            refresh_before: (Number) Number of seconds before expiration to trigger refresh of the kubeconfig at. Only used if refresh is set to true.
+            region: (String) The resource region. If not defined, the provider region is used.
+        importStatements: []
+    stackit_sqlserverflex_instance:
+        subCategory: ""
+        description: SQLServer Flex instance resource schema. Must have a region specified in the provider configuration.
+        name: stackit_sqlserverflex_instance
+        title: stackit_sqlserverflex_instance Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "acl": [
+                    "XXX.XXX.XXX.X/XX",
+                    "XX.XXX.XX.X/XX"
+                  ],
+                  "backup_schedule": "00 00 * * *",
+                  "flavor": {
+                    "cpu": 4,
+                    "ram": 16
+                  },
+                  "name": "example-instance",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "storage": {
+                    "class": "class",
+                    "size": 5
+                  },
+                  "version": 2022
+                }
+        argumentDocs:
+            acl: (List of String) The Access Control List (ACL) for the SQLServer Flex instance.
+            backup_schedule: (String) The backup schedule. Should follow the cron scheduling system format (e.g. "0 0 * * *")
+            class: (String)
+            cpu: (Number)
+            description: (String)
+            edition: (String)
+            flavor: (Attributes) (see below for nested schema)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id".
+            instance_id: (String) ID of the SQLServer Flex instance.
+            name: (String) Instance name.
+            options: (Attributes) (see below for nested schema)
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            ram: (Number)
+            region: (String) The resource region. If not defined, the provider region is used.
+            replicas: (Number)
+            retention_days: (Number)
+            size: (Number)
+            storage: (Attributes) (see below for nested schema)
+            version: (String)
+        importStatements: []
+    stackit_sqlserverflex_user:
+        subCategory: ""
+        description: SQLServer Flex user resource schema. Must have a region specified in the provider configuration.
+        name: stackit_sqlserverflex_user
+        title: stackit_sqlserverflex_user Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "instance_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "roles": [
+                    "role"
+                  ],
+                  "username": "username"
+                }
+        argumentDocs:
+            host: (String)
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,region,instance_id,user_id".
+            instance_id: (String) ID of the SQLServer Flex instance.
+            password: (String, Sensitive) Password of the user account.
+            port: (Number)
+            project_id: (String) STACKIT project ID to which the instance is associated.
+            region: (String)
+            roles: '(Set of String) Database access levels for the user. The values for the default roles are: ##STACKIT_DatabaseManager##, ##STACKIT_LoginManager##, ##STACKIT_ProcessManager##, ##STACKIT_ServerManager##, ##STACKIT_SQLAgentManager##, ##STACKIT_SQLAgentUser##'
+            user_id: (String) User ID.
+            username: (String) Username of the SQLServer Flex instance.
+        importStatements: []
+    stackit_volume:
+        subCategory: ""
+        description: Volume resource schema. Must have a region specified in the provider configuration.
+        name: stackit_volume
+        title: stackit_volume Resource - stackit
+        examples:
+            - name: example
+              manifest: |-
+                {
+                  "availability_zone": "eu01-1",
+                  "labels": {
+                    "key": "value"
+                  },
+                  "name": "my_volume",
+                  "project_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+                  "size": 64
+                }
+        argumentDocs:
+            availability_zone: (String) The availability zone of the volume.
+            description: (String) The description of the volume.
+            id: (String) Terraform's internal resource ID. It is structured as "project_id,volume_id".
+            labels: (Map of String) Labels are key-value string pairs which can be attached to a resource container
+            name: (String) The name of the volume.
+            performance_class: (String) The performance class of the volume. Possible values are documented in Service plans BlockStorage
+            project_id: (String) STACKIT project ID to which the volume is associated.
+            server_id: (String) The server ID of the server to which the volume is attached to.
+            size: (Number) The size of the volume in GB. It can only be updated to a larger value than the current size. Either size or source must be provided
+            source: (Attributes) The source of the volume. It can be either a volume, an image, a snapshot or a backup. Either size or source must be provided (see below for nested schema)
+            type: '(String) The type of the source. Possible values are: volume, image, snapshot, backup.'
+            volume_id: (String) The volume ID.
+        importStatements: []

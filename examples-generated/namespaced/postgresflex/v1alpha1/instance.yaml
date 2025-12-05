@@ -1,0 +1,25 @@
+apiVersion: postgresflex.stackit.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: postgresflex/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    acl:
+    - XXX.XXX.XXX.X/XX
+    - XX.XXX.XX.X/XX
+    backupSchedule: 00 00 * * *
+    flavor:
+      cpu: 2
+      ram: 4
+    name: example-instance
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    replicas: 3
+    storage:
+      class: class
+      size: 5
+    version: 14

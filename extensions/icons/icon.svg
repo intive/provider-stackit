@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="90mm"
+   height="90mm"
+   viewBox="0 0 90 89.999999"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940, 2025-05-08)"
+   sodipodi:docname="icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.89887065"
+     inkscape:cx="156.30725"
+     inkscape:cy="461.1342"
+     inkscape:window-width="1264"
+     inkscape:window-height="1346"
+     inkscape:window-x="3346"
+     inkscape:window-y="55"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-63.5,-26.19375)">
+    <polygon
+       class="st0"
+       points="411.18789,174.23525 424.01614,114.10625 193.7525,114.10625 165.98177,244.24285 235.41042,244.24285 250.3529,174.23525 "
+       id="polygon24"
+       transform="matrix(0.26458333,0,0,0.26458333,37.12401,10.131979)"
+       style="fill:#004e5a" />
+    <polygon
+       class="st0"
+       points="344.94633,342.31871 372.80501,211.77906 303.37635,211.77906 288.34959,282.18971 126.97597,282.18971 114.15138,342.31871 "
+       id="polygon25"
+       transform="matrix(0.26458333,0,0,0.26458333,37.12401,10.131979)"
+       style="fill:#004e5a" />
+  </g>
+</svg>

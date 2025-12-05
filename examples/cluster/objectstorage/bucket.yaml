@@ -1,0 +1,10 @@
+apiVersion: objectstorage.stackit.crossplane.io/v1alpha1
+kind: Bucket
+metadata:
+  name: hello-crossplane
+spec:
+  forProvider:
+    name: hello-crossplane
+    projectId: 12345678-abcd-1234-abcd-123456789abc
+  providerConfigRef:
+    name: provider-stackit-config

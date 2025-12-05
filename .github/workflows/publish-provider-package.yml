@@ -1,0 +1,36 @@
+name: Publish Provider Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: "Source repository (like provider-azuread, provider-kubernetes..)"
+        required: true
+        default: 'provider-stackit'
+        type: string
+      version:
+        description: "Version string to use while publishing the package (e.g. v1.0.0-alpha.1)"
+        default: ''
+        required: false
+      go-version:
+        description: 'Go version to use if building needs to be done'
+        default: '1.24'
+        required: false
+      registry_org:
+        description: 'The organization in the registry to publish the package to'
+        default: 'intive'
+        required: false
+
+jobs:
+  publish-provider-package:
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
+    with:
+      repository: provider-stackit
+      version: ${{ github.event.inputs.version }}
+      go-version: ${{ github.event.inputs.go-version }}
+      cleanup-disk: true
+      registry_org: ${{ github.event.inputs.registry_org }}
+    secrets:
+      GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
+      XPKG_MIRROR_TOKEN: ${{ secrets.XPKG_MIRROR_TOKEN }}
+      XPKG_MIRROR_ACCESS_ID: ${{ secrets.XPKG_MIRROR_ACCESS_ID }}

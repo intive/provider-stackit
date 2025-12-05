@@ -1,0 +1,16 @@
+apiVersion: postgresflex.stackit.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: postgresflex/v1alpha1/database
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: mydb
+    owner: myusername
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

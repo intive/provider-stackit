@@ -1,0 +1,6 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-stackit
+spec:
+  package: xpkg.crossplane.io/intive/provider-stackit:v0.1.0

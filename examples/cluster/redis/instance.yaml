@@ -1,0 +1,22 @@
+apiVersion: redis.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: redis/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: hello-crossplane
+  name: hello-crossplane
+spec:
+  forProvider:
+    name: hello-crossplane
+    parameters:
+      downAfterMilliseconds: 30000
+      enableMonitoring: false
+      sgwAcl: 193.148.160.0/19,45.129.40.0/21,45.135.244.0/22
+      syslog:
+      - logs4.your-syslog-endpoint.com:54321
+    planName: stackit-redis-1.4.10-single
+    projectId: 12345678-abcd-1234-abcd-123456789abc
+    version: "7"
+  providerConfigRef:
+    name: provider-stackit-config
