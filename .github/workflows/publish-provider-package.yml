@@ -1,36 +1,38 @@
 name: Publish Provider Package
 
 on:
-  workflow_dispatch:
-    inputs:
-      repository:
-        description: "Source repository (like provider-azuread, provider-kubernetes..)"
-        required: true
-        default: 'provider-stackit'
-        type: string
-      version:
-        description: "Version string to use while publishing the package (e.g. v1.0.0-alpha.1)"
-        default: ''
-        required: false
-      go-version:
-        description: 'Go version to use if building needs to be done'
-        default: '1.24'
-        required: false
-      registry_org:
-        description: 'The organization in the registry to publish the package to'
-        default: 'intive'
-        required: false
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   publish-provider-package:
     uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
     with:
       repository: provider-stackit
-      version: ${{ github.event.inputs.version }}
-      go-version: ${{ github.event.inputs.go-version }}
+      version: ${{ github.ref_name }}
+      go-version: '1.24'
       cleanup-disk: true
-      registry_org: ${{ github.event.inputs.registry_org }}
+      registry_org: intive
     secrets:
       GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
       XPKG_MIRROR_TOKEN: ${{ secrets.XPKG_MIRROR_TOKEN }}
       XPKG_MIRROR_ACCESS_ID: ${{ secrets.XPKG_MIRROR_ACCESS_ID }}
+
+  create-github-release:
+    needs: publish-provider-package
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
