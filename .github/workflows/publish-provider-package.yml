@@ -3,7 +3,11 @@ name: Publish Provider Package
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
+
+permissions:
+  packages: write
+  contents: read
 
 jobs:
   publish-provider-package:
@@ -11,7 +15,7 @@ jobs:
     with:
       repository: provider-stackit
       version: ${{ github.ref_name }}
-      go-version: '1.24'
+      go-version: "1.24"
       cleanup-disk: true
       registry_org: intive
     secrets:
@@ -21,8 +25,6 @@ jobs:
 
   create-github-release:
     needs: publish-provider-package
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
