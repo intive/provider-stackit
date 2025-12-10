@@ -8,3 +8,9 @@ package v1alpha1
 
 // Hub marks this type as a conversion hub.
 func (tr *Bucket) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Credential) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *CredentialsGroup) Hub() {}

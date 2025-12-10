@@ -7,12 +7,16 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	objectstorageBucketCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-bucket"
+	objectstorageCredentialsCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credential"
+	objectstorageCredentialsGroupCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credentials-group"
 	postgresflexDatabaseCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-database"
 	postgresflexInstanceCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-instance"
 	postgresflexUserCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-user"
 	rediscredentialCluster "github.com/intive/provider-stackit/config/cluster/redis-credential"
 	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
 	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
+	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
+	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
 	postgresflexDatabaseNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-database"
 	postgresflexInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-instance"
 	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
@@ -49,6 +53,8 @@ func GetProvider() *ujconfig.Provider {
 		postgresflexInstanceCluster.Configure,
 		postgresflexDatabaseCluster.Configure,
 		postgresflexUserCluster.Configure,
+		objectstorageCredentialsGroupCluster.Configure,
+		objectstorageCredentialsCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -78,6 +84,8 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		postgresflexInstanceNamespaced.Configure,
 		postgresflexDatabaseNamespaced.Configure,
 		postgresflexUserNamespaced.Configure,
+		objectstorageCredentialsGroupNamespaced.Configure,
+		objectstorageCredentialsNamespaced.Configure,
 	} {
 		configure(pc)
 	}

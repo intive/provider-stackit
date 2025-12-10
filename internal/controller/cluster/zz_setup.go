@@ -10,11 +10,13 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
 	bucket "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/bucket"
+	credential "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credential"
+	credentialsgroup "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credentialsgroup"
 	database "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/database"
 	instance "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/instance"
 	user "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/user"
 	providerconfig "github.com/intive/provider-stackit/internal/controller/cluster/providerconfig"
-	credential "github.com/intive/provider-stackit/internal/controller/cluster/redis/credential"
+	credentialredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/credential"
 	instanceredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/instance"
 )
 
@@ -23,11 +25,13 @@ import (
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		bucket.Setup,
+		credential.Setup,
+		credentialsgroup.Setup,
 		database.Setup,
 		instance.Setup,
 		user.Setup,
 		providerconfig.Setup,
-		credential.Setup,
+		credentialredis.Setup,
 		instanceredis.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
@@ -42,11 +46,13 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		bucket.SetupGated,
+		credential.SetupGated,
+		credentialsgroup.SetupGated,
 		database.SetupGated,
 		instance.SetupGated,
 		user.SetupGated,
 		providerconfig.SetupGated,
-		credential.SetupGated,
+		credentialredis.SetupGated,
 		instanceredis.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {

@@ -8,12 +8,14 @@ import (
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"stackit_objectstorage_bucket":  config.IdentifierFromProvider,
-	"stackit_redis_instance":        config.IdentifierFromProvider,
-	"stackit_redis_credential":      config.IdentifierFromProvider,
-	"stackit_postgresflex_instance": config.IdentifierFromProvider,
-	"stackit_postgresflex_database": config.IdentifierFromProvider,
-	"stackit_postgresflex_user":     config.IdentifierFromProvider,
+	"stackit_objectstorage_bucket":            config.IdentifierFromProvider,
+	"stackit_objectstorage_credentials_group": config.IdentifierFromProvider,
+	"stackit_objectstorage_credential":        config.IdentifierFromProvider,
+	"stackit_redis_instance":                  config.IdentifierFromProvider,
+	"stackit_redis_credential":                config.IdentifierFromProvider,
+	"stackit_postgresflex_instance":           config.IdentifierFromProvider,
+	"stackit_postgresflex_database":           config.IdentifierFromProvider,
+	"stackit_postgresflex_user":               config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
