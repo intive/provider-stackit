@@ -13,6 +13,7 @@ import (
 	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/objectstorage/v1alpha1"
 	v1alpha1postgresflex "github.com/intive/provider-stackit/apis/cluster/postgresflex/v1alpha1"
 	v1alpha1redis "github.com/intive/provider-stackit/apis/cluster/redis/v1alpha1"
+	v1alpha1secretsmanager "github.com/intive/provider-stackit/apis/cluster/secretsmanager/v1alpha1"
 	v1alpha1cluster "github.com/intive/provider-stackit/apis/cluster/v1alpha1"
 	v1beta1 "github.com/intive/provider-stackit/apis/cluster/v1beta1"
 )
@@ -23,6 +24,7 @@ func init() {
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1postgresflex.SchemeBuilder.AddToScheme,
 		v1alpha1redis.SchemeBuilder.AddToScheme,
+		v1alpha1secretsmanager.SchemeBuilder.AddToScheme,
 		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)

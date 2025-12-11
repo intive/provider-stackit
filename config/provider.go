@@ -14,6 +14,8 @@ import (
 	postgresflexUserCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-user"
 	rediscredentialCluster "github.com/intive/provider-stackit/config/cluster/redis-credential"
 	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
+	secretsmanagerInstanceCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-instance"
+	secretsmanagerUserCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-user"
 	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
 	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
 	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
@@ -22,6 +24,8 @@ import (
 	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
 	rediscredentialNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-credential"
 	redisInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-instance"
+	secretsmanagerInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/secretsmanager-instance"
+	secretsmanagerUserNamespaced "github.com/intive/provider-stackit/config/namespaced/secretsmanager-user"
 )
 
 const (
@@ -55,6 +59,8 @@ func GetProvider() *ujconfig.Provider {
 		postgresflexUserCluster.Configure,
 		objectstorageCredentialsGroupCluster.Configure,
 		objectstorageCredentialsCluster.Configure,
+		secretsmanagerInstanceCluster.Configure,
+		secretsmanagerUserCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -86,6 +92,8 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		postgresflexUserNamespaced.Configure,
 		objectstorageCredentialsGroupNamespaced.Configure,
 		objectstorageCredentialsNamespaced.Configure,
+		secretsmanagerInstanceNamespaced.Configure,
+		secretsmanagerUserNamespaced.Configure,
 	} {
 		configure(pc)
 	}

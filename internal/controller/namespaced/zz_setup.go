@@ -18,6 +18,8 @@ import (
 	providerconfig "github.com/intive/provider-stackit/internal/controller/namespaced/providerconfig"
 	credentialredis "github.com/intive/provider-stackit/internal/controller/namespaced/redis/credential"
 	instanceredis "github.com/intive/provider-stackit/internal/controller/namespaced/redis/instance"
+	instancesecretsmanager "github.com/intive/provider-stackit/internal/controller/namespaced/secretsmanager/instance"
+	usersecretsmanager "github.com/intive/provider-stackit/internal/controller/namespaced/secretsmanager/user"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -33,6 +35,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		providerconfig.Setup,
 		credentialredis.Setup,
 		instanceredis.Setup,
+		instancesecretsmanager.Setup,
+		usersecretsmanager.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -54,6 +58,8 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		providerconfig.SetupGated,
 		credentialredis.SetupGated,
 		instanceredis.SetupGated,
+		instancesecretsmanager.SetupGated,
+		usersecretsmanager.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
