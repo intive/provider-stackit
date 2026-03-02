@@ -7,7 +7,9 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	// Common config functions
+	mongodbflex "github.com/intive/provider-stackit/config/common/mongodbflex"
 	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
+	opensearch "github.com/intive/provider-stackit/config/common/opensearch"
 	postgresflex "github.com/intive/provider-stackit/config/common/postgresflex"
 	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
 	redis "github.com/intive/provider-stackit/config/common/redis"
@@ -79,6 +81,8 @@ func ConfigureCommon(pc *ujconfig.Provider) {
 		postgresflex.Configure,
 		secretsmanager.Configure,
 		rabbitmq.Configure,
+		opensearch.Configure,
+		mongodbflex.Configure,
 	} {
 		configure(pc)
 	}
