@@ -144,6 +144,9 @@ jobs:
       - name: Check Diff
         run: make check-diff
 
+      - name: Debug diff
+        run: git diff
+
   unit-tests:
     runs-on: ubuntu-24.04
     needs: detect-noop
