@@ -12,6 +12,7 @@ import (
 
 	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/objectstorage/v1alpha1"
 	v1alpha1postgresflex "github.com/intive/provider-stackit/apis/namespaced/postgresflex/v1alpha1"
+	v1alpha1rabbitmq "github.com/intive/provider-stackit/apis/namespaced/rabbitmq/v1alpha1"
 	v1alpha1redis "github.com/intive/provider-stackit/apis/namespaced/redis/v1alpha1"
 	v1alpha1secretsmanager "github.com/intive/provider-stackit/apis/namespaced/secretsmanager/v1alpha1"
 	v1alpha1namespaced "github.com/intive/provider-stackit/apis/namespaced/v1alpha1"
@@ -23,6 +24,7 @@ func init() {
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
 		v1alpha1postgresflex.SchemeBuilder.AddToScheme,
+		v1alpha1rabbitmq.SchemeBuilder.AddToScheme,
 		v1alpha1redis.SchemeBuilder.AddToScheme,
 		v1alpha1secretsmanager.SchemeBuilder.AddToScheme,
 		v1alpha1namespaced.SchemeBuilder.AddToScheme,

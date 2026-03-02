@@ -16,6 +16,8 @@ import (
 	instance "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/instance"
 	user "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/user"
 	providerconfig "github.com/intive/provider-stackit/internal/controller/cluster/providerconfig"
+	credentialrabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/credential"
+	instancerabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/instance"
 	credentialredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/credential"
 	instanceredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/instance"
 	instancesecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/instance"
@@ -33,6 +35,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instance.Setup,
 		user.Setup,
 		providerconfig.Setup,
+		credentialrabbitmq.Setup,
+		instancerabbitmq.Setup,
 		credentialredis.Setup,
 		instanceredis.Setup,
 		instancesecretsmanager.Setup,
@@ -56,6 +60,8 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		instance.SetupGated,
 		user.SetupGated,
 		providerconfig.SetupGated,
+		credentialrabbitmq.SetupGated,
+		instancerabbitmq.SetupGated,
 		credentialredis.SetupGated,
 		instanceredis.SetupGated,
 		instancesecretsmanager.SetupGated,

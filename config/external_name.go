@@ -18,6 +18,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"stackit_postgresflex_user":               config.IdentifierFromProvider,
 	"stackit_secretsmanager_instance":         config.IdentifierFromProvider,
 	"stackit_secretsmanager_user":             config.IdentifierFromProvider,
+	"stackit_rabbitmq_instance":               config.IdentifierFromProvider,
+	"stackit_rabbitmq_credential":             config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

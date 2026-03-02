@@ -12,6 +12,8 @@ import (
 	postgresflexDatabaseCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-database"
 	postgresflexInstanceCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-instance"
 	postgresflexUserCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-user"
+	rabbitmqCredentialCluster "github.com/intive/provider-stackit/config/cluster/rabbitmq-credential"
+	rabbitmqInstanceCluster "github.com/intive/provider-stackit/config/cluster/rabbitmq-instance"
 	rediscredentialCluster "github.com/intive/provider-stackit/config/cluster/redis-credential"
 	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
 	secretsmanagerInstanceCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-instance"
@@ -22,6 +24,8 @@ import (
 	postgresflexDatabaseNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-database"
 	postgresflexInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-instance"
 	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
+	rabbitmqCredentialNamespaced "github.com/intive/provider-stackit/config/namespaced/rabbitmq-credential"
+	rabbitmqInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/rabbitmq-instance"
 	rediscredentialNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-credential"
 	redisInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-instance"
 	secretsmanagerInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/secretsmanager-instance"
@@ -61,6 +65,8 @@ func GetProvider() *ujconfig.Provider {
 		objectstorageCredentialsCluster.Configure,
 		secretsmanagerInstanceCluster.Configure,
 		secretsmanagerUserCluster.Configure,
+		rabbitmqInstanceCluster.Configure,
+		rabbitmqCredentialCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -94,6 +100,8 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		objectstorageCredentialsNamespaced.Configure,
 		secretsmanagerInstanceNamespaced.Configure,
 		secretsmanagerUserNamespaced.Configure,
+		rabbitmqInstanceNamespaced.Configure,
+		rabbitmqCredentialNamespaced.Configure,
 	} {
 		configure(pc)
 	}
