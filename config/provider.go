@@ -6,6 +6,7 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
+	mongodbCluster "github.com/intive/provider-stackit/config/cluster/mongodbflex"
 	objectstorageBucketCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-bucket"
 	objectstorageCredentialsCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credential"
 	objectstorageCredentialsGroupCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credentials-group"
@@ -19,6 +20,7 @@ import (
 	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
 	secretsmanagerInstanceCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-instance"
 	secretsmanagerUserCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-user"
+	mongodbNamespaced "github.com/intive/provider-stackit/config/namespaced/mongodbflex"
 	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
 	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
 	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
@@ -70,6 +72,7 @@ func GetProvider() *ujconfig.Provider {
 		rabbitmqInstanceCluster.Configure,
 		rabbitmqCredentialCluster.Configure,
 		opensearchCluster.Configure,
+		mongodbCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -106,6 +109,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		rabbitmqInstanceNamespaced.Configure,
 		rabbitmqCredentialNamespaced.Configure,
 		opensearchNamespaced.Configure,
+		mongodbNamespaced.Configure,
 	} {
 		configure(pc)
 	}
