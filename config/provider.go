@@ -18,9 +18,7 @@ import (
 	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
 	secretsmanagerInstanceCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-instance"
 	secretsmanagerUserCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-user"
-	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
-	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
-	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
+	objectstorageNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage"
 	postgresflexDatabaseNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-database"
 	postgresflexInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-instance"
 	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
@@ -90,14 +88,12 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		objectstorageBucketNamespaced.Configure,
+		objectstorageNamespaced.Configure,
 		redisInstanceNamespaced.Configure,
 		rediscredentialNamespaced.Configure,
 		postgresflexInstanceNamespaced.Configure,
 		postgresflexDatabaseNamespaced.Configure,
 		postgresflexUserNamespaced.Configure,
-		objectstorageCredentialsGroupNamespaced.Configure,
-		objectstorageCredentialsNamespaced.Configure,
 		secretsmanagerInstanceNamespaced.Configure,
 		secretsmanagerUserNamespaced.Configure,
 		rabbitmqInstanceNamespaced.Configure,
