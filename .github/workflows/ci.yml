@@ -145,6 +145,7 @@ jobs:
         run: make check-diff
 
       - name: Debug diff
+        if: failure()
         run: git diff
 
   unit-tests:
