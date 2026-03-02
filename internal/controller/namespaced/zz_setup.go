@@ -12,8 +12,10 @@ import (
 	bucket "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/bucket"
 	credential "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credentialsgroup"
+	credentialopensearch "github.com/intive/provider-stackit/internal/controller/namespaced/opensearch/credential"
+	instance "github.com/intive/provider-stackit/internal/controller/namespaced/opensearch/instance"
 	database "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/database"
-	instance "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/instance"
+	instancepostgresflex "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/instance"
 	user "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/user"
 	providerconfig "github.com/intive/provider-stackit/internal/controller/namespaced/providerconfig"
 	credentialrabbitmq "github.com/intive/provider-stackit/internal/controller/namespaced/rabbitmq/credential"
@@ -31,8 +33,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		bucket.Setup,
 		credential.Setup,
 		credentialsgroup.Setup,
-		database.Setup,
+		credentialopensearch.Setup,
 		instance.Setup,
+		database.Setup,
+		instancepostgresflex.Setup,
 		user.Setup,
 		providerconfig.Setup,
 		credentialrabbitmq.Setup,
@@ -56,8 +60,10 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		bucket.SetupGated,
 		credential.SetupGated,
 		credentialsgroup.SetupGated,
-		database.SetupGated,
+		credentialopensearch.SetupGated,
 		instance.SetupGated,
+		database.SetupGated,
+		instancepostgresflex.SetupGated,
 		user.SetupGated,
 		providerconfig.SetupGated,
 		credentialrabbitmq.SetupGated,

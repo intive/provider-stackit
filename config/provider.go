@@ -9,6 +9,7 @@ import (
 	objectstorageBucketCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-bucket"
 	objectstorageCredentialsCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credential"
 	objectstorageCredentialsGroupCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credentials-group"
+	opensearchCluster "github.com/intive/provider-stackit/config/cluster/opensearch"
 	postgresflexDatabaseCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-database"
 	postgresflexInstanceCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-instance"
 	postgresflexUserCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-user"
@@ -21,6 +22,7 @@ import (
 	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
 	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
 	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
+	opensearchNamespaced "github.com/intive/provider-stackit/config/namespaced/opensearch"
 	postgresflexDatabaseNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-database"
 	postgresflexInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-instance"
 	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
@@ -67,6 +69,7 @@ func GetProvider() *ujconfig.Provider {
 		secretsmanagerUserCluster.Configure,
 		rabbitmqInstanceCluster.Configure,
 		rabbitmqCredentialCluster.Configure,
+		opensearchCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -102,6 +105,7 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		secretsmanagerUserNamespaced.Configure,
 		rabbitmqInstanceNamespaced.Configure,
 		rabbitmqCredentialNamespaced.Configure,
+		opensearchNamespaced.Configure,
 	} {
 		configure(pc)
 	}
