@@ -10,7 +10,8 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/objectstorage/v1alpha1"
+	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/mongodbflex/v1alpha1"
+	v1alpha1objectstorage "github.com/intive/provider-stackit/apis/cluster/objectstorage/v1alpha1"
 	v1alpha1opensearch "github.com/intive/provider-stackit/apis/cluster/opensearch/v1alpha1"
 	v1alpha1postgresflex "github.com/intive/provider-stackit/apis/cluster/postgresflex/v1alpha1"
 	v1alpha1rabbitmq "github.com/intive/provider-stackit/apis/cluster/rabbitmq/v1alpha1"
@@ -24,6 +25,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
 		v1alpha1opensearch.SchemeBuilder.AddToScheme,
 		v1alpha1postgresflex.SchemeBuilder.AddToScheme,
 		v1alpha1rabbitmq.SchemeBuilder.AddToScheme,
