@@ -166,7 +166,7 @@ spec:
                     type: string
                   roles:
                     description: |-
-                      (Set of String) Database access levels for the user.
+                      (Set of String) Database access levels for the user. Possible values are: login, createdb.
                       Database access levels for the user.
                     items:
                       type: string
@@ -282,7 +282,7 @@ spec:
                     type: string
                   roles:
                     description: |-
-                      (Set of String) Database access levels for the user.
+                      (Set of String) Database access levels for the user. Possible values are: login, createdb.
                       Database access levels for the user.
                     items:
                       type: string
@@ -422,7 +422,7 @@ spec:
                     type: string
                   roles:
                     description: |-
-                      (Set of String) Database access levels for the user.
+                      (Set of String) Database access levels for the user. Possible values are: login, createdb.
                       Database access levels for the user.
                     items:
                       type: string

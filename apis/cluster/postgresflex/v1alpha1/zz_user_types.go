@@ -37,7 +37,7 @@ type UserInitParameters struct {
 	// The resource region. If not defined, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Set of String) Database access levels for the user.
+	// (Set of String) Database access levels for the user. Possible values are: login, createdb.
 	// Database access levels for the user.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -69,7 +69,7 @@ type UserObservation struct {
 	// The resource region. If not defined, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Set of String) Database access levels for the user.
+	// (Set of String) Database access levels for the user. Possible values are: login, createdb.
 	// Database access levels for the user.
 	// +listType=set
 	Roles []*string `json:"roles,omitempty" tf:"roles,omitempty"`
@@ -109,7 +109,7 @@ type UserParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Set of String) Database access levels for the user.
+	// (Set of String) Database access levels for the user. Possible values are: login, createdb.
 	// Database access levels for the user.
 	// +kubebuilder:validation:Optional
 	// +listType=set
