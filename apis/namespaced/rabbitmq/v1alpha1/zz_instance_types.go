@@ -161,7 +161,7 @@ type ParametersInitParameters struct {
 	// List of TLS ciphers to use.
 	TLSCiphers []*string `json:"tlsCiphers,omitempty" tf:"tls_ciphers,omitempty"`
 
-	// (String) TLS protocol to use.
+	// (List of String) TLS protocol versions to use.
 	// TLS protocol versions to use.
 	TLSProtocols []*string `json:"tlsProtocols,omitempty" tf:"tls_protocols,omitempty"`
 }
@@ -216,7 +216,7 @@ type ParametersObservation struct {
 	// List of TLS ciphers to use.
 	TLSCiphers []*string `json:"tlsCiphers,omitempty" tf:"tls_ciphers,omitempty"`
 
-	// (String) TLS protocol to use.
+	// (List of String) TLS protocol versions to use.
 	// TLS protocol versions to use.
 	TLSProtocols []*string `json:"tlsProtocols,omitempty" tf:"tls_protocols,omitempty"`
 }
@@ -283,7 +283,7 @@ type ParametersParameters struct {
 	// +kubebuilder:validation:Optional
 	TLSCiphers []*string `json:"tlsCiphers,omitempty" tf:"tls_ciphers,omitempty"`
 
-	// (String) TLS protocol to use.
+	// (List of String) TLS protocol versions to use.
 	// TLS protocol versions to use.
 	// +kubebuilder:validation:Optional
 	TLSProtocols []*string `json:"tlsProtocols,omitempty" tf:"tls_protocols,omitempty"`

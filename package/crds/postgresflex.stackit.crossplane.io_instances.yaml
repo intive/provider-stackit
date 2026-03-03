@@ -82,7 +82,7 @@ spec:
                     type: array
                   backupSchedule:
                     description: |-
-                      (String)
+                      (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                       The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                     type: string
                   flavor:
@@ -112,7 +112,7 @@ spec:
                     type: string
                   replicas:
                     description: |-
-                      (Number)
+                      (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                       How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                     type: number
                   storage:
@@ -151,7 +151,7 @@ spec:
                     type: array
                   backupSchedule:
                     description: |-
-                      (String)
+                      (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                       The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                     type: string
                   flavor:
@@ -181,7 +181,7 @@ spec:
                     type: string
                   replicas:
                     description: |-
-                      (Number)
+                      (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                       How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                     type: number
                   storage:
@@ -331,7 +331,7 @@ spec:
                     type: array
                   backupSchedule:
                     description: |-
-                      (String)
+                      (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                       The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
                     type: string
                   flavor:
@@ -375,7 +375,7 @@ spec:
                     type: string
                   replicas:
                     description: |-
-                      (Number)
+                      (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                       How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
                     type: number
                   storage:
