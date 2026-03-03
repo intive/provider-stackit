@@ -1,0 +1,15 @@
+package postgresflex
+
+import "github.com/crossplane/upjet/v2/pkg/config"
+
+func Configure(p *config.Provider) {
+	p.AddResourceConfigurator("stackit_postgresflex_database", addInstanceReference)
+	p.AddResourceConfigurator("stackit_postgresflex_user", addInstanceReference)
+}
+
+func addInstanceReference(r *config.Resource) {
+	r.References["instance_id"] = config.Reference{
+		TerraformName: "stackit_postgresflex_instance",
+		Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("instance_id",true)`,
+	}
+}
