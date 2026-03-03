@@ -54,7 +54,7 @@ type InstanceInitParameters struct {
 	// The Access Control List (ACL) for the PostgresFlex instance.
 	ACL []*string `json:"acl,omitempty" tf:"acl,omitempty"`
 
-	// (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
+	// (String)
 	// The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
 	BackupSchedule *string `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
@@ -73,7 +73,7 @@ type InstanceInitParameters struct {
 	// The resource region. If not defined, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
+	// (Number)
 	// How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
 	Replicas *float64 `json:"replicas,omitempty" tf:"replicas,omitempty"`
 
@@ -90,7 +90,7 @@ type InstanceObservation struct {
 	// The Access Control List (ACL) for the PostgresFlex instance.
 	ACL []*string `json:"acl,omitempty" tf:"acl,omitempty"`
 
-	// (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
+	// (String)
 	// The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
 	BackupSchedule *string `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
 
@@ -116,7 +116,7 @@ type InstanceObservation struct {
 	// The resource region. If not defined, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
+	// (Number)
 	// How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
 	Replicas *float64 `json:"replicas,omitempty" tf:"replicas,omitempty"`
 
@@ -134,7 +134,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	ACL []*string `json:"acl,omitempty" tf:"acl,omitempty"`
 
-	// (String) The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
+	// (String)
 	// The schedule for on what time and how often the database backup will be created. Must be a valid cron expression using numeric minute and hour values, e.g: '0 2 * * *'.
 	// +kubebuilder:validation:Optional
 	BackupSchedule *string `json:"backupSchedule,omitempty" tf:"backup_schedule,omitempty"`
@@ -158,7 +158,7 @@ type InstanceParameters struct {
 	// +kubebuilder:validation:Optional
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 
-	// (Number) How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
+	// (Number)
 	// How many replicas the instance should have. Valid values are 1 for single mode or 3 for replication.
 	// +kubebuilder:validation:Optional
 	Replicas *float64 `json:"replicas,omitempty" tf:"replicas,omitempty"`

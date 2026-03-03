@@ -6,30 +6,12 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
-	objectstorageBucketCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-bucket"
-	objectstorageCredentialsCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credential"
-	objectstorageCredentialsGroupCluster "github.com/intive/provider-stackit/config/cluster/objectstorage-credentials-group"
-	postgresflexDatabaseCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-database"
-	postgresflexInstanceCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-instance"
-	postgresflexUserCluster "github.com/intive/provider-stackit/config/cluster/postgresflex-user"
-	rabbitmqCredentialCluster "github.com/intive/provider-stackit/config/cluster/rabbitmq-credential"
-	rabbitmqInstanceCluster "github.com/intive/provider-stackit/config/cluster/rabbitmq-instance"
-	rediscredentialCluster "github.com/intive/provider-stackit/config/cluster/redis-credential"
-	redisInstanceCluster "github.com/intive/provider-stackit/config/cluster/redis-instance"
-	secretsmanagerInstanceCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-instance"
-	secretsmanagerUserCluster "github.com/intive/provider-stackit/config/cluster/secretsmanager-user"
-	objectstorageBucketNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-bucket"
-	objectstorageCredentialsNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credential"
-	objectstorageCredentialsGroupNamespaced "github.com/intive/provider-stackit/config/namespaced/objectstorage-credentials-group"
-	postgresflexDatabaseNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-database"
-	postgresflexInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-instance"
-	postgresflexUserNamespaced "github.com/intive/provider-stackit/config/namespaced/postgresflex-user"
-	rabbitmqCredentialNamespaced "github.com/intive/provider-stackit/config/namespaced/rabbitmq-credential"
-	rabbitmqInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/rabbitmq-instance"
-	rediscredentialNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-credential"
-	redisInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/redis-instance"
-	secretsmanagerInstanceNamespaced "github.com/intive/provider-stackit/config/namespaced/secretsmanager-instance"
-	secretsmanagerUserNamespaced "github.com/intive/provider-stackit/config/namespaced/secretsmanager-user"
+	// Common config functions
+	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
+	postgresflex "github.com/intive/provider-stackit/config/common/postgresflex"
+	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
+	redis "github.com/intive/provider-stackit/config/common/redis"
+	secretsmanager "github.com/intive/provider-stackit/config/common/secretsmanager"
 )
 
 const (
@@ -53,20 +35,10 @@ func GetProvider() *ujconfig.Provider {
 			ExternalNameConfigurations(),
 		))
 
+	ConfigureCommon(pc)
+
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
-		objectstorageBucketCluster.Configure,
-		redisInstanceCluster.Configure,
-		rediscredentialCluster.Configure,
-		postgresflexInstanceCluster.Configure,
-		postgresflexDatabaseCluster.Configure,
-		postgresflexUserCluster.Configure,
-		objectstorageCredentialsGroupCluster.Configure,
-		objectstorageCredentialsCluster.Configure,
-		secretsmanagerInstanceCluster.Configure,
-		secretsmanagerUserCluster.Configure,
-		rabbitmqInstanceCluster.Configure,
-		rabbitmqCredentialCluster.Configure,
+		// add custom cluster-wide config functions
 	} {
 		configure(pc)
 	}
@@ -88,24 +60,26 @@ func GetProviderNamespaced() *ujconfig.Provider {
 			ManagedResourceNamespace: "crossplane-system",
 		}))
 
+	ConfigureCommon(pc)
+
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
-		objectstorageBucketNamespaced.Configure,
-		redisInstanceNamespaced.Configure,
-		rediscredentialNamespaced.Configure,
-		postgresflexInstanceNamespaced.Configure,
-		postgresflexDatabaseNamespaced.Configure,
-		postgresflexUserNamespaced.Configure,
-		objectstorageCredentialsGroupNamespaced.Configure,
-		objectstorageCredentialsNamespaced.Configure,
-		secretsmanagerInstanceNamespaced.Configure,
-		secretsmanagerUserNamespaced.Configure,
-		rabbitmqInstanceNamespaced.Configure,
-		rabbitmqCredentialNamespaced.Configure,
+		// add custom namespaced config functions
 	} {
 		configure(pc)
 	}
 
 	pc.ConfigureResources()
 	return pc
+}
+
+func ConfigureCommon(pc *ujconfig.Provider) {
+	for _, configure := range []func(provider *ujconfig.Provider){
+		objectstorage.Configure,
+		redis.Configure,
+		postgresflex.Configure,
+		secretsmanager.Configure,
+		rabbitmq.Configure,
+	} {
+		configure(pc)
+	}
 }

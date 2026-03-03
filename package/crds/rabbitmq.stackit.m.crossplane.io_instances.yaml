@@ -139,7 +139,7 @@ spec:
                         type: array
                       tlsProtocols:
                         description: |-
-                          (List of String) TLS protocol versions to use.
+                          (String) TLS protocol to use.
                           TLS protocol versions to use.
                         items:
                           type: string
@@ -254,7 +254,7 @@ spec:
                         type: array
                       tlsProtocols:
                         description: |-
-                          (List of String) TLS protocol versions to use.
+                          (String) TLS protocol to use.
                           TLS protocol versions to use.
                         items:
                           type: string
@@ -459,7 +459,7 @@ spec:
                         type: array
                       tlsProtocols:
                         description: |-
-                          (List of String) TLS protocol versions to use.
+                          (String) TLS protocol to use.
                           TLS protocol versions to use.
                         items:
                           type: string
