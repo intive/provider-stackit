@@ -7,7 +7,7 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
-func (tr *Instance) Hub() {}
+func (tr *ClusterInstance) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *User) Hub() {}
+func (tr *ClusterUser) Hub() {}

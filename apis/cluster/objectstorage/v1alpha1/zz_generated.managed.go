@@ -8,152 +8,152 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
-// GetCondition of this Bucket.
-func (mg *Bucket) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this ClusterBucket.
+func (mg *ClusterBucket) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this Bucket.
-func (mg *Bucket) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this ClusterBucket.
+func (mg *ClusterBucket) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this Bucket.
-func (mg *Bucket) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this ClusterBucket.
+func (mg *ClusterBucket) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this Bucket.
-func (mg *Bucket) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this ClusterBucket.
+func (mg *ClusterBucket) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this Bucket.
-func (mg *Bucket) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this ClusterBucket.
+func (mg *ClusterBucket) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this Bucket.
-func (mg *Bucket) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this ClusterBucket.
+func (mg *ClusterBucket) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this Bucket.
-func (mg *Bucket) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this ClusterBucket.
+func (mg *ClusterBucket) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this Bucket.
-func (mg *Bucket) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this ClusterBucket.
+func (mg *ClusterBucket) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this Bucket.
-func (mg *Bucket) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this ClusterBucket.
+func (mg *ClusterBucket) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this Bucket.
-func (mg *Bucket) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this ClusterBucket.
+func (mg *ClusterBucket) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this Credential.
-func (mg *Credential) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this ClusterCredential.
+func (mg *ClusterCredential) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this Credential.
-func (mg *Credential) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this ClusterCredential.
+func (mg *ClusterCredential) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this Credential.
-func (mg *Credential) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this ClusterCredential.
+func (mg *ClusterCredential) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this Credential.
-func (mg *Credential) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this ClusterCredential.
+func (mg *ClusterCredential) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this Credential.
-func (mg *Credential) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this ClusterCredential.
+func (mg *ClusterCredential) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this Credential.
-func (mg *Credential) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this ClusterCredential.
+func (mg *ClusterCredential) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this Credential.
-func (mg *Credential) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this ClusterCredential.
+func (mg *ClusterCredential) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this Credential.
-func (mg *Credential) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this ClusterCredential.
+func (mg *ClusterCredential) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this Credential.
-func (mg *Credential) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this ClusterCredential.
+func (mg *ClusterCredential) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this Credential.
-func (mg *Credential) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this ClusterCredential.
+func (mg *ClusterCredential) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this CredentialsGroup.
-func (mg *CredentialsGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this CredentialsGroup.
-func (mg *CredentialsGroup) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this CredentialsGroup.
-func (mg *CredentialsGroup) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this CredentialsGroup.
-func (mg *CredentialsGroup) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this CredentialsGroup.
-func (mg *CredentialsGroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this CredentialsGroup.
-func (mg *CredentialsGroup) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this CredentialsGroup.
-func (mg *CredentialsGroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this CredentialsGroup.
-func (mg *CredentialsGroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this CredentialsGroup.
-func (mg *CredentialsGroup) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this CredentialsGroup.
-func (mg *CredentialsGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this ClusterCredentialsGroup.
+func (mg *ClusterCredentialsGroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

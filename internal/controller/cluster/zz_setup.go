@@ -9,38 +9,38 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	bucket "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/bucket"
-	credential "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credential"
-	credentialsgroup "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credentialsgroup"
-	database "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/database"
-	instance "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/instance"
-	user "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/user"
+	clusterbucket "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/clusterbucket"
+	clustercredential "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/clustercredential"
+	clustercredentialsgroup "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/clustercredentialsgroup"
+	clusterdatabase "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/clusterdatabase"
+	clusterinstance "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/clusterinstance"
+	clusteruser "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/clusteruser"
 	providerconfig "github.com/intive/provider-stackit/internal/controller/cluster/providerconfig"
-	credentialrabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/credential"
-	instancerabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/instance"
-	credentialredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/credential"
-	instanceredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/instance"
-	instancesecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/instance"
-	usersecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/user"
+	clustercredentialrabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/clustercredential"
+	clusterinstancerabbitmq "github.com/intive/provider-stackit/internal/controller/cluster/rabbitmq/clusterinstance"
+	clustercredentialredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/clustercredential"
+	clusterinstanceredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/clusterinstance"
+	clusterinstancesecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/clusterinstance"
+	clusterusersecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/clusteruser"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		bucket.Setup,
-		credential.Setup,
-		credentialsgroup.Setup,
-		database.Setup,
-		instance.Setup,
-		user.Setup,
+		clusterbucket.Setup,
+		clustercredential.Setup,
+		clustercredentialsgroup.Setup,
+		clusterdatabase.Setup,
+		clusterinstance.Setup,
+		clusteruser.Setup,
 		providerconfig.Setup,
-		credentialrabbitmq.Setup,
-		instancerabbitmq.Setup,
-		credentialredis.Setup,
-		instanceredis.Setup,
-		instancesecretsmanager.Setup,
-		usersecretsmanager.Setup,
+		clustercredentialrabbitmq.Setup,
+		clusterinstancerabbitmq.Setup,
+		clustercredentialredis.Setup,
+		clusterinstanceredis.Setup,
+		clusterinstancesecretsmanager.Setup,
+		clusterusersecretsmanager.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -53,19 +53,19 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		bucket.SetupGated,
-		credential.SetupGated,
-		credentialsgroup.SetupGated,
-		database.SetupGated,
-		instance.SetupGated,
-		user.SetupGated,
+		clusterbucket.SetupGated,
+		clustercredential.SetupGated,
+		clustercredentialsgroup.SetupGated,
+		clusterdatabase.SetupGated,
+		clusterinstance.SetupGated,
+		clusteruser.SetupGated,
 		providerconfig.SetupGated,
-		credentialrabbitmq.SetupGated,
-		instancerabbitmq.SetupGated,
-		credentialredis.SetupGated,
-		instanceredis.SetupGated,
-		instancesecretsmanager.SetupGated,
-		usersecretsmanager.SetupGated,
+		clustercredentialrabbitmq.SetupGated,
+		clusterinstancerabbitmq.SetupGated,
+		clustercredentialredis.SetupGated,
+		clusterinstanceredis.SetupGated,
+		clusterinstancesecretsmanager.SetupGated,
+		clusterusersecretsmanager.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

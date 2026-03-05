@@ -14,8 +14,8 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this User.
-func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this ClusterUser.
+func (mg *ClusterUser) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -28,8 +28,8 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.ForProvider.InstanceIDRef,
 		Selector:     mg.Spec.ForProvider.InstanceIDSelector,
 		To: reference.To{
-			List:    &InstanceList{},
-			Managed: &Instance{},
+			List:    &ClusterInstanceList{},
+			Managed: &ClusterInstance{},
 		},
 	})
 	if err != nil {
@@ -45,8 +45,8 @@ func (mg *User) ResolveReferences(ctx context.Context, c client.Reader) error {
 		Reference:    mg.Spec.InitProvider.InstanceIDRef,
 		Selector:     mg.Spec.InitProvider.InstanceIDSelector,
 		To: reference.To{
-			List:    &InstanceList{},
-			Managed: &Instance{},
+			List:    &ClusterInstanceList{},
+			Managed: &ClusterInstance{},
 		},
 	})
 	if err != nil {

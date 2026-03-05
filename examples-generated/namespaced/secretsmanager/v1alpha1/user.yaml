@@ -1,4 +1,4 @@
-apiVersion: secretsmanager.stackit.m.crossplane.io/v1alpha1
+apiVersion: secretsmanager.stackit.crossplane.io/v1alpha1
 kind: User
 metadata:
   annotations:

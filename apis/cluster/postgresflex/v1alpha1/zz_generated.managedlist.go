@@ -8,8 +8,8 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this DatabaseList.
-func (l *DatabaseList) GetItems() []resource.Managed {
+// GetItems of this ClusterDatabaseList.
+func (l *ClusterDatabaseList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -17,8 +17,8 @@ func (l *DatabaseList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this InstanceList.
-func (l *InstanceList) GetItems() []resource.Managed {
+// GetItems of this ClusterInstanceList.
+func (l *ClusterInstanceList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -26,8 +26,8 @@ func (l *InstanceList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this UserList.
-func (l *UserList) GetItems() []resource.Managed {
+// GetItems of this ClusterUserList.
+func (l *ClusterUserList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

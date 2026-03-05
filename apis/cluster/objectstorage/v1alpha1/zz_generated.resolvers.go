@@ -14,8 +14,8 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this Credential.
-func (mg *Credential) ResolveReferences(ctx context.Context, c client.Reader) error {
+// ResolveReferences of this ClusterCredential.
+func (mg *ClusterCredential) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPIResolver(c, mg)
 
 	var rsp reference.ResolutionResponse
@@ -28,8 +28,8 @@ func (mg *Credential) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.ForProvider.CredentialsGroupIDRef,
 		Selector:     mg.Spec.ForProvider.CredentialsGroupIDSelector,
 		To: reference.To{
-			List:    &CredentialsGroupList{},
-			Managed: &CredentialsGroup{},
+			List:    &ClusterCredentialsGroupList{},
+			Managed: &ClusterCredentialsGroup{},
 		},
 	})
 	if err != nil {
@@ -45,8 +45,8 @@ func (mg *Credential) ResolveReferences(ctx context.Context, c client.Reader) er
 		Reference:    mg.Spec.InitProvider.CredentialsGroupIDRef,
 		Selector:     mg.Spec.InitProvider.CredentialsGroupIDSelector,
 		To: reference.To{
-			List:    &CredentialsGroupList{},
-			Managed: &CredentialsGroup{},
+			List:    &ClusterCredentialsGroupList{},
+			Managed: &ClusterCredentialsGroup{},
 		},
 	})
 	if err != nil {

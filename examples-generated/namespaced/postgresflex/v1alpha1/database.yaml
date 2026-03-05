@@ -1,4 +1,4 @@
-apiVersion: postgresflex.stackit.m.crossplane.io/v1alpha1
+apiVersion: postgresflex.stackit.crossplane.io/v1alpha1
 kind: Database
 metadata:
   annotations:

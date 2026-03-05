@@ -1,0 +1,16 @@
+apiVersion: postgresflex.stackit.crossplane.io/v1alpha1
+kind: ClusterDatabase
+metadata:
+  annotations:
+    meta.upbound.io/example-id: postgresflex/v1alpha1/clusterdatabase
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: mydb
+    owner: myusername
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

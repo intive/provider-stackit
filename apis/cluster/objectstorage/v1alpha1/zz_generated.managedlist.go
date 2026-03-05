@@ -8,8 +8,8 @@ package v1alpha1
 
 import resource "github.com/crossplane/crossplane-runtime/v2/pkg/resource"
 
-// GetItems of this BucketList.
-func (l *BucketList) GetItems() []resource.Managed {
+// GetItems of this ClusterBucketList.
+func (l *ClusterBucketList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -17,8 +17,8 @@ func (l *BucketList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this CredentialList.
-func (l *CredentialList) GetItems() []resource.Managed {
+// GetItems of this ClusterCredentialList.
+func (l *ClusterCredentialList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]
@@ -26,8 +26,8 @@ func (l *CredentialList) GetItems() []resource.Managed {
 	return items
 }
 
-// GetItems of this CredentialsGroupList.
-func (l *CredentialsGroupList) GetItems() []resource.Managed {
+// GetItems of this ClusterCredentialsGroupList.
+func (l *ClusterCredentialsGroupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

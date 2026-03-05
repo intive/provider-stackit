@@ -7,10 +7,10 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
-func (tr *Bucket) Hub() {}
+func (tr *ClusterBucket) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *Credential) Hub() {}
+func (tr *ClusterCredential) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *CredentialsGroup) Hub() {}
+func (tr *ClusterCredentialsGroup) Hub() {}

@@ -33,6 +33,7 @@ func GetProvider() *ujconfig.Provider {
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
+			ClusterKindPrefix(),
 		))
 
 	ConfigureCommon(pc)
@@ -50,7 +51,7 @@ func GetProvider() *ujconfig.Provider {
 // GetProviderNamespaced returns the namespaced provider configuration
 func GetProviderNamespaced() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("stackit.m.crossplane.io"),
+		ujconfig.WithRootGroup("stackit.crossplane.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -70,6 +71,12 @@ func GetProviderNamespaced() *ujconfig.Provider {
 
 	pc.ConfigureResources()
 	return pc
+}
+
+func ClusterKindPrefix() ujconfig.ResourceOption {
+	return func(r *ujconfig.Resource) {
+		r.Kind = "Cluster" + r.Kind
+	}
 }
 
 func ConfigureCommon(pc *ujconfig.Provider) {
