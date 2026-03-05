@@ -9,10 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	instance "github.com/intive/provider-stackit/internal/controller/cluster/mongodbflex/instance"
+	credential "github.com/intive/provider-stackit/internal/controller/cluster/mariadb/credential"
+	instance "github.com/intive/provider-stackit/internal/controller/cluster/mariadb/instance"
+	instancemongodbflex "github.com/intive/provider-stackit/internal/controller/cluster/mongodbflex/instance"
 	user "github.com/intive/provider-stackit/internal/controller/cluster/mongodbflex/user"
 	bucket "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/bucket"
-	credential "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credential"
+	credentialobjectstorage "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credentialsgroup"
 	credentialopensearch "github.com/intive/provider-stackit/internal/controller/cluster/opensearch/credential"
 	instanceopensearch "github.com/intive/provider-stackit/internal/controller/cluster/opensearch/instance"
@@ -32,10 +34,12 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		credential.Setup,
 		instance.Setup,
+		instancemongodbflex.Setup,
 		user.Setup,
 		bucket.Setup,
-		credential.Setup,
+		credentialobjectstorage.Setup,
 		credentialsgroup.Setup,
 		credentialopensearch.Setup,
 		instanceopensearch.Setup,
@@ -61,10 +65,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		credential.SetupGated,
 		instance.SetupGated,
+		instancemongodbflex.SetupGated,
 		user.SetupGated,
 		bucket.SetupGated,
-		credential.SetupGated,
+		credentialobjectstorage.SetupGated,
 		credentialsgroup.SetupGated,
 		credentialopensearch.SetupGated,
 		instanceopensearch.SetupGated,
