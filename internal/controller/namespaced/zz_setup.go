@@ -9,12 +9,16 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	instance "github.com/intive/provider-stackit/internal/controller/namespaced/mongodbflex/instance"
+	user "github.com/intive/provider-stackit/internal/controller/namespaced/mongodbflex/user"
 	bucket "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/bucket"
 	credential "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credentialsgroup"
+	credentialopensearch "github.com/intive/provider-stackit/internal/controller/namespaced/opensearch/credential"
+	instanceopensearch "github.com/intive/provider-stackit/internal/controller/namespaced/opensearch/instance"
 	database "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/database"
-	instance "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/instance"
-	user "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/user"
+	instancepostgresflex "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/instance"
+	userpostgresflex "github.com/intive/provider-stackit/internal/controller/namespaced/postgresflex/user"
 	providerconfig "github.com/intive/provider-stackit/internal/controller/namespaced/providerconfig"
 	credentialrabbitmq "github.com/intive/provider-stackit/internal/controller/namespaced/rabbitmq/credential"
 	instancerabbitmq "github.com/intive/provider-stackit/internal/controller/namespaced/rabbitmq/instance"
@@ -28,12 +32,16 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		instance.Setup,
+		user.Setup,
 		bucket.Setup,
 		credential.Setup,
 		credentialsgroup.Setup,
+		credentialopensearch.Setup,
+		instanceopensearch.Setup,
 		database.Setup,
-		instance.Setup,
-		user.Setup,
+		instancepostgresflex.Setup,
+		userpostgresflex.Setup,
 		providerconfig.Setup,
 		credentialrabbitmq.Setup,
 		instancerabbitmq.Setup,
@@ -53,12 +61,16 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		instance.SetupGated,
+		user.SetupGated,
 		bucket.SetupGated,
 		credential.SetupGated,
 		credentialsgroup.SetupGated,
+		credentialopensearch.SetupGated,
+		instanceopensearch.SetupGated,
 		database.SetupGated,
-		instance.SetupGated,
-		user.SetupGated,
+		instancepostgresflex.SetupGated,
+		userpostgresflex.SetupGated,
 		providerconfig.SetupGated,
 		credentialrabbitmq.SetupGated,
 		instancerabbitmq.SetupGated,
