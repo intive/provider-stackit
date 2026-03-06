@@ -9,6 +9,7 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
+	network "github.com/intive/provider-stackit/internal/controller/namespaced/network/network"
 	bucket "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/bucket"
 	credential "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credentialsgroup"
@@ -28,6 +29,7 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		network.Setup,
 		bucket.Setup,
 		credential.Setup,
 		credentialsgroup.Setup,
@@ -53,6 +55,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		network.SetupGated,
 		bucket.SetupGated,
 		credential.SetupGated,
 		credentialsgroup.SetupGated,

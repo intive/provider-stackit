@@ -1,0 +1,539 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: networks.network.stackit.m.crossplane.io
+spec:
+  group: network.stackit.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - stackit
+    kind: Network
+    listKind: NetworkList
+    plural: networks
+    singular: network
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Network is the Schema for the Networks API. Network resource
+          schema. Must have a region specified in the provider configuration. ~> Behavior
+          of not configured ipv4_nameservers will change from January 2026. When ipv4_nameservers
+          is not set, it will be set to the network area's default_nameservers. To
+          prevent any nameserver configuration, the ipv4_nameservers attribute should
+          be explicitly set to an empty list []. In cases where ipv4_nameservers are
+          defined within the resource, the existing behavior will remain unchanged.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: NetworkSpec defines the desired state of Network
+            properties:
+              forProvider:
+                properties:
+                  dhcp:
+                    description: |-
+                      (Boolean) If the network has DHCP enabled. Default value is true.
+                      If the network has DHCP enabled. Default value is `true`.
+                    type: boolean
+                  ipv4Gateway:
+                    description: |-
+                      (String) The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv4Nameservers:
+                    description: |-
+                      (List of String) The IPv4 nameservers of the network.
+                      The IPv4 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv4Prefix:
+                    description: |-
+                      (String) The IPv4 prefix of the network (CIDR).
+                      The IPv4 prefix of the network (CIDR).
+                    type: string
+                  ipv4PrefixLength:
+                    description: |-
+                      (Number) The IPv4 prefix length of the network.
+                      The IPv4 prefix length of the network.
+                    type: number
+                  ipv6Gateway:
+                    description: |-
+                      (String) The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv6Nameservers:
+                    description: |-
+                      (List of String) The IPv6 nameservers of the network.
+                      The IPv6 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv6Prefix:
+                    description: |-
+                      (String) The IPv6 prefix of the network (CIDR).
+                      The IPv6 prefix of the network (CIDR).
+                    type: string
+                  ipv6PrefixLength:
+                    description: |-
+                      (Number) The IPv6 prefix length of the network.
+                      The IPv6 prefix length of the network.
+                    type: number
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      value string pairs which can be attached to a resource container
+                      Labels are key-value string pairs which can be attached to a resource container
+                    type: object
+                    x-kubernetes-map-type: granular
+                  name:
+                    description: |-
+                      (String) The name of the network.
+                      The name of the network.
+                    type: string
+                  nameservers:
+                    description: |-
+                      (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
+                      The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
+                    items:
+                      type: string
+                    type: array
+                  noIpv4Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  noIpv6Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the network is associated.
+                      STACKIT project ID to which the network is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  routed:
+                    description: |-
+                      (Boolean) If set to true, the network is routed and therefore accessible from other networks.
+                      If set to `true`, the network is routed and therefore accessible from other networks.
+                    type: boolean
+                  routingTableId:
+                    description: |-
+                      (String) The ID of the routing table associated with the network.
+                      The ID of the routing table associated with the network.
+                    type: string
+                required:
+                - projectId
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  dhcp:
+                    description: |-
+                      (Boolean) If the network has DHCP enabled. Default value is true.
+                      If the network has DHCP enabled. Default value is `true`.
+                    type: boolean
+                  ipv4Gateway:
+                    description: |-
+                      (String) The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv4Nameservers:
+                    description: |-
+                      (List of String) The IPv4 nameservers of the network.
+                      The IPv4 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv4Prefix:
+                    description: |-
+                      (String) The IPv4 prefix of the network (CIDR).
+                      The IPv4 prefix of the network (CIDR).
+                    type: string
+                  ipv4PrefixLength:
+                    description: |-
+                      (Number) The IPv4 prefix length of the network.
+                      The IPv4 prefix length of the network.
+                    type: number
+                  ipv6Gateway:
+                    description: |-
+                      (String) The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv6Nameservers:
+                    description: |-
+                      (List of String) The IPv6 nameservers of the network.
+                      The IPv6 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv6Prefix:
+                    description: |-
+                      (String) The IPv6 prefix of the network (CIDR).
+                      The IPv6 prefix of the network (CIDR).
+                    type: string
+                  ipv6PrefixLength:
+                    description: |-
+                      (Number) The IPv6 prefix length of the network.
+                      The IPv6 prefix length of the network.
+                    type: number
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      value string pairs which can be attached to a resource container
+                      Labels are key-value string pairs which can be attached to a resource container
+                    type: object
+                    x-kubernetes-map-type: granular
+                  name:
+                    description: |-
+                      (String) The name of the network.
+                      The name of the network.
+                    type: string
+                  nameservers:
+                    description: |-
+                      (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
+                      The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
+                    items:
+                      type: string
+                    type: array
+                  noIpv4Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  noIpv6Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  routed:
+                    description: |-
+                      (Boolean) If set to true, the network is routed and therefore accessible from other networks.
+                      If set to `true`, the network is routed and therefore accessible from other networks.
+                    type: boolean
+                  routingTableId:
+                    description: |-
+                      (String) The ID of the routing table associated with the network.
+                      The ID of the routing table associated with the network.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+          status:
+            description: NetworkStatus defines the observed state of Network.
+            properties:
+              atProvider:
+                properties:
+                  dhcp:
+                    description: |-
+                      (Boolean) If the network has DHCP enabled. Default value is true.
+                      If the network has DHCP enabled. Default value is `true`.
+                    type: boolean
+                  id:
+                    description: It is structured as "project_id,region,network_id".
+                    type: string
+                  ipv4Gateway:
+                    description: |-
+                      (String) The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv4Nameservers:
+                    description: |-
+                      (List of String) The IPv4 nameservers of the network.
+                      The IPv4 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv4Prefix:
+                    description: |-
+                      (String) The IPv4 prefix of the network (CIDR).
+                      The IPv4 prefix of the network (CIDR).
+                    type: string
+                  ipv4PrefixLength:
+                    description: |-
+                      (Number) The IPv4 prefix length of the network.
+                      The IPv4 prefix length of the network.
+                    type: number
+                  ipv4Prefixes:
+                    description: |-
+                      (List of String) The IPv4 prefixes of the network.
+                      The IPv4 prefixes of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv6Gateway:
+                    description: |-
+                      (String) The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                      The IPv6 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
+                    type: string
+                  ipv6Nameservers:
+                    description: |-
+                      (List of String) The IPv6 nameservers of the network.
+                      The IPv6 nameservers of the network.
+                    items:
+                      type: string
+                    type: array
+                  ipv6Prefix:
+                    description: |-
+                      (String) The IPv6 prefix of the network (CIDR).
+                      The IPv6 prefix of the network (CIDR).
+                    type: string
+                  ipv6PrefixLength:
+                    description: |-
+                      (Number) The IPv6 prefix length of the network.
+                      The IPv6 prefix length of the network.
+                    type: number
+                  ipv6Prefixes:
+                    description: |-
+                      (List of String) The IPv6 prefixes of the network.
+                      The IPv6 prefixes of the network.
+                    items:
+                      type: string
+                    type: array
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      value string pairs which can be attached to a resource container
+                      Labels are key-value string pairs which can be attached to a resource container
+                    type: object
+                    x-kubernetes-map-type: granular
+                  name:
+                    description: |-
+                      (String) The name of the network.
+                      The name of the network.
+                    type: string
+                  nameservers:
+                    description: |-
+                      (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
+                      The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
+                    items:
+                      type: string
+                    type: array
+                  networkId:
+                    description: |-
+                      (String) The network ID.
+                      The network ID.
+                    type: string
+                  noIpv4Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  noIpv6Gateway:
+                    description: |-
+                      (Boolean) If set to true, the network doesn't have a gateway.
+                      If set to `true`, the network doesn't have a gateway.
+                    type: boolean
+                  prefixes:
+                    description: |-
+                      (List of String, Deprecated) The prefixes of the network. This field is deprecated and will be removed in January 2026, use ipv4_prefixes to read the prefixes of the IPv4 networks.
+                      The prefixes of the network. This field is deprecated and will be removed in January 2026, use `ipv4_prefixes` to read the prefixes of the IPv4 networks.
+                    items:
+                      type: string
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the network is associated.
+                      STACKIT project ID to which the network is associated.
+                    type: string
+                  publicIp:
+                    description: |-
+                      (String) The public IP of the network.
+                      The public IP of the network.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  routed:
+                    description: |-
+                      (Boolean) If set to true, the network is routed and therefore accessible from other networks.
+                      If set to `true`, the network is routed and therefore accessible from other networks.
+                    type: boolean
+                  routingTableId:
+                    description: |-
+                      (String) The ID of the routing table associated with the network.
+                      The ID of the routing table associated with the network.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
