@@ -14,6 +14,8 @@ import (
 	bucket "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/bucket"
 	credential "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/cluster/objectstorage/credentialsgroup"
+	credentialobservability "github.com/intive/provider-stackit/internal/controller/cluster/observability/credential"
+	instanceobservability "github.com/intive/provider-stackit/internal/controller/cluster/observability/instance"
 	credentialopensearch "github.com/intive/provider-stackit/internal/controller/cluster/opensearch/credential"
 	instanceopensearch "github.com/intive/provider-stackit/internal/controller/cluster/opensearch/instance"
 	database "github.com/intive/provider-stackit/internal/controller/cluster/postgresflex/database"
@@ -37,6 +39,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		bucket.Setup,
 		credential.Setup,
 		credentialsgroup.Setup,
+		credentialobservability.Setup,
+		instanceobservability.Setup,
 		credentialopensearch.Setup,
 		instanceopensearch.Setup,
 		database.Setup,
@@ -66,6 +70,8 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		bucket.SetupGated,
 		credential.SetupGated,
 		credentialsgroup.SetupGated,
+		credentialobservability.SetupGated,
+		instanceobservability.SetupGated,
 		credentialopensearch.SetupGated,
 		instanceopensearch.SetupGated,
 		database.SetupGated,
