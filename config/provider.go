@@ -9,12 +9,12 @@ import (
 	// Common config functions
 	mongodbflex "github.com/intive/provider-stackit/config/common/mongodbflex"
 	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
+	"github.com/intive/provider-stackit/config/common/observability"
 	opensearch "github.com/intive/provider-stackit/config/common/opensearch"
 	postgresflex "github.com/intive/provider-stackit/config/common/postgresflex"
 	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
 	redis "github.com/intive/provider-stackit/config/common/redis"
 	secretsmanager "github.com/intive/provider-stackit/config/common/secretsmanager"
-	"github.com/intive/provider-stackit/config/common/observability"
 )
 
 const (
