@@ -8,53 +8,53 @@ package v1alpha1
 
 import xpv1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 
-// GetCondition of this Credential.
-func (mg *Credential) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+// GetCondition of this Alertgroup.
+func (mg *Alertgroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)
 }
 
-// GetDeletionPolicy of this Credential.
-func (mg *Credential) GetDeletionPolicy() xpv1.DeletionPolicy {
+// GetDeletionPolicy of this Alertgroup.
+func (mg *Alertgroup) GetDeletionPolicy() xpv1.DeletionPolicy {
 	return mg.Spec.DeletionPolicy
 }
 
-// GetManagementPolicies of this Credential.
-func (mg *Credential) GetManagementPolicies() xpv1.ManagementPolicies {
+// GetManagementPolicies of this Alertgroup.
+func (mg *Alertgroup) GetManagementPolicies() xpv1.ManagementPolicies {
 	return mg.Spec.ManagementPolicies
 }
 
-// GetProviderConfigReference of this Credential.
-func (mg *Credential) GetProviderConfigReference() *xpv1.Reference {
+// GetProviderConfigReference of this Alertgroup.
+func (mg *Alertgroup) GetProviderConfigReference() *xpv1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
-// GetWriteConnectionSecretToReference of this Credential.
-func (mg *Credential) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+// GetWriteConnectionSecretToReference of this Alertgroup.
+func (mg *Alertgroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
 	return mg.Spec.WriteConnectionSecretToReference
 }
 
-// SetConditions of this Credential.
-func (mg *Credential) SetConditions(c ...xpv1.Condition) {
+// SetConditions of this Alertgroup.
+func (mg *Alertgroup) SetConditions(c ...xpv1.Condition) {
 	mg.Status.SetConditions(c...)
 }
 
-// SetDeletionPolicy of this Credential.
-func (mg *Credential) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+// SetDeletionPolicy of this Alertgroup.
+func (mg *Alertgroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
 	mg.Spec.DeletionPolicy = r
 }
 
-// SetManagementPolicies of this Credential.
-func (mg *Credential) SetManagementPolicies(r xpv1.ManagementPolicies) {
+// SetManagementPolicies of this Alertgroup.
+func (mg *Alertgroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
 	mg.Spec.ManagementPolicies = r
 }
 
-// SetProviderConfigReference of this Credential.
-func (mg *Credential) SetProviderConfigReference(r *xpv1.Reference) {
+// SetProviderConfigReference of this Alertgroup.
+func (mg *Alertgroup) SetProviderConfigReference(r *xpv1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
-// SetWriteConnectionSecretToReference of this Credential.
-func (mg *Credential) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+// SetWriteConnectionSecretToReference of this Alertgroup.
+func (mg *Alertgroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
@@ -105,5 +105,105 @@ func (mg *Instance) SetProviderConfigReference(r *xpv1.Reference) {
 
 // SetWriteConnectionSecretToReference of this Instance.
 func (mg *Instance) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this Logalertgroup.
+func (mg *Logalertgroup) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Logalertgroup.
+func (mg *Logalertgroup) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this Logalertgroup.
+func (mg *Logalertgroup) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this Logalertgroup.
+func (mg *Logalertgroup) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this Logalertgroup.
+func (mg *Logalertgroup) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Logalertgroup.
+func (mg *Logalertgroup) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Logalertgroup.
+func (mg *Logalertgroup) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this Logalertgroup.
+func (mg *Logalertgroup) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this Logalertgroup.
+func (mg *Logalertgroup) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this Logalertgroup.
+func (mg *Logalertgroup) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+
+// GetCondition of this Scrapeconfig.
+func (mg *Scrapeconfig) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this Scrapeconfig.
+func (mg *Scrapeconfig) GetDeletionPolicy() xpv1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetManagementPolicies of this Scrapeconfig.
+func (mg *Scrapeconfig) GetManagementPolicies() xpv1.ManagementPolicies {
+	return mg.Spec.ManagementPolicies
+}
+
+// GetProviderConfigReference of this Scrapeconfig.
+func (mg *Scrapeconfig) GetProviderConfigReference() *xpv1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+// GetWriteConnectionSecretToReference of this Scrapeconfig.
+func (mg *Scrapeconfig) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this Scrapeconfig.
+func (mg *Scrapeconfig) SetConditions(c ...xpv1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this Scrapeconfig.
+func (mg *Scrapeconfig) SetDeletionPolicy(r xpv1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetManagementPolicies of this Scrapeconfig.
+func (mg *Scrapeconfig) SetManagementPolicies(r xpv1.ManagementPolicies) {
+	mg.Spec.ManagementPolicies = r
+}
+
+// SetProviderConfigReference of this Scrapeconfig.
+func (mg *Scrapeconfig) SetProviderConfigReference(r *xpv1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+// SetWriteConnectionSecretToReference of this Scrapeconfig.
+func (mg *Scrapeconfig) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
 	mg.Spec.WriteConnectionSecretToReference = r
 }

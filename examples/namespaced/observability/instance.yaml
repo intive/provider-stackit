@@ -1,4 +1,4 @@
-apiVersion: observability.stackit.crossplane.io/v1alpha1
+apiVersion: observability.stackit.m.crossplane.io/v1alpha1
 kind: Instance
 metadata:
   annotations:

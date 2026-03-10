@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-  name: credentials.observability.stackit.m.crossplane.io
+  name: logalertgroups.observability.stackit.m.crossplane.io
 spec:
   group: observability.stackit.m.crossplane.io
   names:
@@ -12,10 +12,10 @@ spec:
     - crossplane
     - managed
     - stackit
-    kind: Credential
-    listKind: CredentialList
-    plural: credentials
-    singular: credential
+    kind: Logalertgroup
+    listKind: LogalertgroupList
+    plural: logalertgroups
+    singular: logalertgroup
   scope: Namespaced
   versions:
   - additionalPrinterColumns:
@@ -34,9 +34,9 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Credential is the Schema for the Credentials API. Observability
-          credential resource schema. Must have a region specified in the provider
-          configuration.
+        description: Logalertgroup is the Schema for the Logalertgroups API. Observability
+          log alert group resource schema. Used to create alerts based on logs (Loki).
+          Must have a region specified in the provider configuration.
         properties:
           apiVersion:
             description: |-
@@ -56,19 +56,14 @@ spec:
           metadata:
             type: object
           spec:
-            description: CredentialSpec defines the desired state of Credential
+            description: LogalertgroupSpec defines the desired state of Logalertgroup
             properties:
               forProvider:
                 properties:
-                  description:
-                    description: |-
-                      (String) A description of the credential.
-                      A description of the credential.
-                    type: string
                   instanceId:
                     description: |-
-                      (String) The Observability Instance ID the credential belongs to.
-                      The Observability Instance ID the credential belongs to.
+                      (String) Observability instance ID to which the log alert group is associated.
+                      Observability instance ID to which the log alert group is associated.
                     type: string
                   instanceIdRef:
                     description: Reference to a Instance in observability to populate
@@ -152,11 +147,59 @@ spec:
                             type: string
                         type: object
                     type: object
+                  interval:
+                    description: |-
+                      (String) Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                      Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the log alert group. Is the identifier and must be unique in the group.
+                      The name of the log alert group. Is the identifier and must be unique in the group.
+                    type: string
                   projectId:
                     description: |-
-                      (String) STACKIT project ID to which the credential is associated.
-                      STACKIT project ID to which the credential is associated.
+                      (String) STACKIT project ID to which the log alert group is associated.
+                      STACKIT project ID to which the log alert group is associated.
                     type: string
+                  rules:
+                    description: (Attributes List) Rules for the log alert group (see
+                      below for nested schema)
+                    items:
+                      properties:
+                        alert:
+                          description: |-
+                            (String) The name of the alert rule. Is the identifier and must be unique in the group.
+                            The name of the alert rule. Is the identifier and must be unique in the group.
+                          type: string
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Annotations to add or overwrite for each alert
+                            A map of key:value. Annotations to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                        expression:
+                          description: |-
+                            (String) The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                            The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                          type: string
+                        for:
+                          description: |-
+                            (String) Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                            Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Labels to add or overwrite for each alert
+                            A map of key:value. Labels to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                 type: object
               initProvider:
                 description: |-
@@ -171,15 +214,10 @@ spec:
                   for example because of an external controller is managing them, like an
                   autoscaler.
                 properties:
-                  description:
-                    description: |-
-                      (String) A description of the credential.
-                      A description of the credential.
-                    type: string
                   instanceId:
                     description: |-
-                      (String) The Observability Instance ID the credential belongs to.
-                      The Observability Instance ID the credential belongs to.
+                      (String) Observability instance ID to which the log alert group is associated.
+                      Observability instance ID to which the log alert group is associated.
                     type: string
                   instanceIdRef:
                     description: Reference to a Instance in observability to populate
@@ -263,11 +301,59 @@ spec:
                             type: string
                         type: object
                     type: object
+                  interval:
+                    description: |-
+                      (String) Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                      Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the log alert group. Is the identifier and must be unique in the group.
+                      The name of the log alert group. Is the identifier and must be unique in the group.
+                    type: string
                   projectId:
                     description: |-
-                      (String) STACKIT project ID to which the credential is associated.
-                      STACKIT project ID to which the credential is associated.
+                      (String) STACKIT project ID to which the log alert group is associated.
+                      STACKIT project ID to which the log alert group is associated.
                     type: string
+                  rules:
+                    description: (Attributes List) Rules for the log alert group (see
+                      below for nested schema)
+                    items:
+                      properties:
+                        alert:
+                          description: |-
+                            (String) The name of the alert rule. Is the identifier and must be unique in the group.
+                            The name of the alert rule. Is the identifier and must be unique in the group.
+                          type: string
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Annotations to add or overwrite for each alert
+                            A map of key:value. Annotations to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                        expression:
+                          description: |-
+                            (String) The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                            The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                          type: string
+                        for:
+                          description: |-
+                            (String) Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                            Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Labels to add or overwrite for each alert
+                            A map of key:value. Labels to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                 type: object
               managementPolicies:
                 default:
@@ -328,38 +414,84 @@ spec:
             - forProvider
             type: object
             x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
             - message: spec.forProvider.projectId is a required parameter
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
                 || (has(self.initProvider) && has(self.initProvider.projectId))'
+            - message: spec.forProvider.rules is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.rules)
+                || (has(self.initProvider) && has(self.initProvider.rules))'
           status:
-            description: CredentialStatus defines the observed state of Credential.
+            description: LogalertgroupStatus defines the observed state of Logalertgroup.
             properties:
               atProvider:
                 properties:
-                  description:
-                    description: |-
-                      (String) A description of the credential.
-                      A description of the credential.
-                    type: string
                   id:
-                    description: It is structured as "project_id,instance_id,username".
+                    description: It is structured as "project_id,instance_id,name".
                     type: string
                   instanceId:
                     description: |-
-                      (String) The Observability Instance ID the credential belongs to.
-                      The Observability Instance ID the credential belongs to.
+                      (String) Observability instance ID to which the log alert group is associated.
+                      Observability instance ID to which the log alert group is associated.
+                    type: string
+                  interval:
+                    description: |-
+                      (String) Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                      Specifies the frequency at which rules within the group are evaluated. The interval must be at least 60 seconds and defaults to 60 seconds if not set. Supported formats include hours, minutes, and seconds, either singly or in combination. Examples of valid formats are: '5h30m40s', '5h', '5h30m', '60m', and '60s'.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the log alert group. Is the identifier and must be unique in the group.
+                      The name of the log alert group. Is the identifier and must be unique in the group.
                     type: string
                   projectId:
                     description: |-
-                      (String) STACKIT project ID to which the credential is associated.
-                      STACKIT project ID to which the credential is associated.
+                      (String) STACKIT project ID to which the log alert group is associated.
+                      STACKIT project ID to which the log alert group is associated.
                     type: string
-                  username:
-                    description: |-
-                      (String) Credential username
-                      Credential username
-                    type: string
+                  rules:
+                    description: (Attributes List) Rules for the log alert group (see
+                      below for nested schema)
+                    items:
+                      properties:
+                        alert:
+                          description: |-
+                            (String) The name of the alert rule. Is the identifier and must be unique in the group.
+                            The name of the alert rule. Is the identifier and must be unique in the group.
+                          type: string
+                        annotations:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Annotations to add or overwrite for each alert
+                            A map of key:value. Annotations to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                        expression:
+                          description: |-
+                            (String) The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                            The LogQL expression to evaluate. Every evaluation cycle this is evaluated at the current time, and all resultant time series become pending/firing alerts.
+                          type: string
+                        for:
+                          description: |-
+                            (String) Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                            Alerts are considered firing once they have been returned for this long. Alerts which have not yet fired for long enough are considered pending. Default is 0s
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) A map of key:value. Labels to add or overwrite for each alert
+                            A map of key:value. Labels to add or overwrite for each alert
+                          type: object
+                          x-kubernetes-map-type: granular
+                      type: object
+                    type: array
                 type: object
               conditions:
                 description: Conditions of the resource.

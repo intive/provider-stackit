@@ -14,18 +14,18 @@ import (
 	"github.com/crossplane/upjet/v2/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this Credential
-func (mg *Credential) GetTerraformResourceType() string {
-	return "stackit_observability_credential"
+// GetTerraformResourceType returns Terraform resource type for this Scrapeconfig
+func (mg *Scrapeconfig) GetTerraformResourceType() string {
+	return "stackit_observability_scrapeconfig"
 }
 
-// GetConnectionDetailsMapping for this Credential
-func (tr *Credential) GetConnectionDetailsMapping() map[string]string {
-	return map[string]string{"password": "status.atProvider.password"}
+// GetConnectionDetailsMapping for this Scrapeconfig
+func (tr *Scrapeconfig) GetConnectionDetailsMapping() map[string]string {
+	return map[string]string{"basic_auth.password": "basicAuth.passwordSecretRef"}
 }
 
-// GetObservation of this Credential
-func (tr *Credential) GetObservation() (map[string]any, error) {
+// GetObservation of this Scrapeconfig
+func (tr *Scrapeconfig) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -34,8 +34,8 @@ func (tr *Credential) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this Credential
-func (tr *Credential) SetObservation(obs map[string]any) error {
+// SetObservation for this Scrapeconfig
+func (tr *Scrapeconfig) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -43,16 +43,16 @@ func (tr *Credential) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this Credential
-func (tr *Credential) GetID() string {
+// GetID returns ID of underlying Terraform resource of this Scrapeconfig
+func (tr *Scrapeconfig) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this Credential
-func (tr *Credential) GetParameters() (map[string]any, error) {
+// GetParameters of this Scrapeconfig
+func (tr *Scrapeconfig) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -61,8 +61,8 @@ func (tr *Credential) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this Credential
-func (tr *Credential) SetParameters(params map[string]any) error {
+// SetParameters for this Scrapeconfig
+func (tr *Scrapeconfig) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -70,8 +70,8 @@ func (tr *Credential) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this Credential
-func (tr *Credential) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this Scrapeconfig
+func (tr *Scrapeconfig) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (tr *Credential) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// GetInitParameters of this Credential
-func (tr *Credential) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
+// GetInitParameters of this Scrapeconfig
+func (tr *Scrapeconfig) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot get parameters for resource \"%s/%s\"", tr.GetNamespace(), tr.GetName())
@@ -110,10 +110,10 @@ func (tr *Credential) GetMergedParameters(shouldMergeInitProvider bool) (map[str
 	return params, nil
 }
 
-// LateInitialize this Credential using its observed tfState.
+// LateInitialize this Scrapeconfig using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *Credential) LateInitialize(attrs []byte) (bool, error) {
-	params := &CredentialParameters{}
+func (tr *Scrapeconfig) LateInitialize(attrs []byte) (bool, error) {
+	params := &ScrapeconfigParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -124,6 +124,6 @@ func (tr *Credential) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *Credential) GetTerraformSchemaVersion() int {
+func (tr *Scrapeconfig) GetTerraformSchemaVersion() int {
 	return 0
 }
