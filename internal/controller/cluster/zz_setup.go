@@ -26,6 +26,8 @@ import (
 	instanceredis "github.com/intive/provider-stackit/internal/controller/cluster/redis/instance"
 	instancesecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/instance"
 	usersecretsmanager "github.com/intive/provider-stackit/internal/controller/cluster/secretsmanager/user"
+	instancesqlserverflex "github.com/intive/provider-stackit/internal/controller/cluster/sqlserverflex/instance"
+	usersqlserverflex "github.com/intive/provider-stackit/internal/controller/cluster/sqlserverflex/user"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
@@ -49,6 +51,8 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instanceredis.Setup,
 		instancesecretsmanager.Setup,
 		usersecretsmanager.Setup,
+		instancesqlserverflex.Setup,
+		usersqlserverflex.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -78,6 +82,8 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		instanceredis.SetupGated,
 		instancesecretsmanager.SetupGated,
 		usersecretsmanager.SetupGated,
+		instancesqlserverflex.SetupGated,
+		usersqlserverflex.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
