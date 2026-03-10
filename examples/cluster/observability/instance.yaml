@@ -1,0 +1,21 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: observability/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    acl:
+    - 1.1.1.1/32
+    - 2.2.2.2/32
+    logsRetentionDays: 30
+    metricsRetentionDays: 90
+    metricsRetentionDays1HDownsampling: 90
+    metricsRetentionDays5MDownsampling: 90
+    name: example-instance
+    planName: Observability-Starter-EU01
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    tracesRetentionDays: 30
