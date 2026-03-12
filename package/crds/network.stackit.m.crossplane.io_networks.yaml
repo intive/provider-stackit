@@ -163,8 +163,6 @@ spec:
                       (String) The ID of the routing table associated with the network.
                       The ID of the routing table associated with the network.
                     type: string
-                required:
-                - projectId
                 type: object
               initProvider:
                 description: |-
@@ -258,6 +256,11 @@ spec:
                       (Boolean) If set to true, the network doesn't have a gateway.
                       If set to `true`, the network doesn't have a gateway.
                     type: boolean
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the network is associated.
+                      STACKIT project ID to which the network is associated.
+                    type: string
                   region:
                     description: |-
                       (String) The resource region. If not defined, the provider region is used.
@@ -337,6 +340,10 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
                 || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
           status:
             description: NetworkStatus defines the observed state of Network.
             properties:

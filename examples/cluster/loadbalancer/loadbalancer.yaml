@@ -1,0 +1,30 @@
+apiVersion: loadbalancer.stackit.crossplane.io/v1alpha1
+kind: Loadbalancer
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-lb
+  name: example-lb
+spec:
+  forProvider:
+    name: example-lb
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    planId: p10
+    networks:
+      - networkId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        role: ROLE_LISTENERS_AND_TARGETS
+    listeners:
+      - displayName: http-listener
+        port: 80
+        protocol: PROTOCOL_TCP
+        targetPool: example-target-pool
+    targetPools:
+      - name: example-target-pool
+        targetPort: 80
+        activeHealthCheck:
+          healthyThreshold: 3
+          unhealthyThreshold: 3
+          interval: 10s
+          timeout: 5s
+          intervalJitter: 1s
+  providerConfigRef:
+    name: default

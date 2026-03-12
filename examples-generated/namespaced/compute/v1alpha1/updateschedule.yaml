@@ -1,0 +1,19 @@
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: UpdateSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/updateschedule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    enabled: true
+    maintenanceWindow: 1
+    name: example_update_schedule_name
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rrule: DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1
+    serverIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

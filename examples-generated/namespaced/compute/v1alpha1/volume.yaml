@@ -1,0 +1,17 @@
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Volume
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/volume
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    labels:
+      key: value
+    name: my_volume
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    size: 64

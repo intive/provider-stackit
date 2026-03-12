@@ -1,0 +1,15 @@
+apiVersion: kms.stackit.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-key
+  name: example-key
+spec:
+  forProvider:
+    name: example-key
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    keyringIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-keyring
+  providerConfigRef:
+    name: default

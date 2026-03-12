@@ -7,4 +7,37 @@
 package v1alpha1
 
 // Hub marks this type as a conversion hub.
+func (tr *Area) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AreaRegion) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *AreaRoute) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Group) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *GroupRule) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IP) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *IPAssociate) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Network) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkInterface) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *NetworkInterfaceAttach) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Table) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *TableRoute) Hub() {}

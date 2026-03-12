@@ -7,11 +7,33 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	// Common config functions
+	authorization "github.com/intive/provider-stackit/config/common/authorization"
+	cdn "github.com/intive/provider-stackit/config/common/cdn"
+	compute "github.com/intive/provider-stackit/config/common/compute"
+	dns "github.com/intive/provider-stackit/config/common/dns"
+	edgecloud "github.com/intive/provider-stackit/config/common/edgecloud"
+	git "github.com/intive/provider-stackit/config/common/git"
+	kms "github.com/intive/provider-stackit/config/common/kms"
+	loadbalancer "github.com/intive/provider-stackit/config/common/loadbalancer"
+	logme "github.com/intive/provider-stackit/config/common/logme"
+	logs "github.com/intive/provider-stackit/config/common/logs"
+	mariadb "github.com/intive/provider-stackit/config/common/mariadb"
+	modelserving "github.com/intive/provider-stackit/config/common/modelserving"
+	mongodbflex "github.com/intive/provider-stackit/config/common/mongodbflex"
+	network "github.com/intive/provider-stackit/config/common/network"
 	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
+	observability "github.com/intive/provider-stackit/config/common/observability"
+	opensearch "github.com/intive/provider-stackit/config/common/opensearch"
 	postgresflex "github.com/intive/provider-stackit/config/common/postgresflex"
 	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
 	redis "github.com/intive/provider-stackit/config/common/redis"
+	resourcemanager "github.com/intive/provider-stackit/config/common/resourcemanager"
+	scf "github.com/intive/provider-stackit/config/common/scf"
 	secretsmanager "github.com/intive/provider-stackit/config/common/secretsmanager"
+	serviceaccount "github.com/intive/provider-stackit/config/common/serviceaccount"
+	sfs "github.com/intive/provider-stackit/config/common/sfs"
+	ske "github.com/intive/provider-stackit/config/common/ske"
+	sqlserverflex "github.com/intive/provider-stackit/config/common/sqlserverflex"
 )
 
 const (
@@ -79,6 +101,28 @@ func ConfigureCommon(pc *ujconfig.Provider) {
 		postgresflex.Configure,
 		secretsmanager.Configure,
 		rabbitmq.Configure,
+		network.Configure,
+		compute.Configure,
+		dns.Configure,
+		ske.Configure,
+		edgecloud.Configure,
+		kms.Configure,
+		authorization.Configure,
+		resourcemanager.Configure,
+		serviceaccount.Configure,
+		mariadb.Configure,
+		opensearch.Configure,
+		mongodbflex.Configure,
+		sqlserverflex.Configure,
+		logme.Configure,
+		logs.Configure,
+		observability.Configure,
+		cdn.Configure,
+		loadbalancer.Configure,
+		sfs.Configure,
+		git.Configure,
+		scf.Configure,
+		modelserving.Configure,
 	} {
 		configure(pc)
 	}

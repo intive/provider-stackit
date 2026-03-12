@@ -1,0 +1,17 @@
+apiVersion: sfs.stackit.crossplane.io/v1alpha1
+kind: ExportPolicy
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sfs/v1alpha1/exportpolicy
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rules:
+    - ipAcl:
+      - 172.16.0.0/24
+      - 172.16.0.250/32
+      order: 1

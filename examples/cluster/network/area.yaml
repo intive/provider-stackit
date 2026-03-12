@@ -1,0 +1,20 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: Area
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/area
+  labels:
+    testing.upbound.io/example-name: example-network-area
+  name: example-network-area
+spec:
+  forProvider:
+    name: example-network-area
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    transferNetwork: 10.1.2.0/24
+    networkRanges:
+      - prefix: 10.0.0.0/8
+    defaultPrefixLength: 24
+    minPrefixLength: 22
+    maxPrefixLength: 29
+  providerConfigRef:
+    name: default

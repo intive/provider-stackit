@@ -1,0 +1,14 @@
+apiVersion: kms.stackit.crossplane.io/v1alpha1
+kind: WrappingKey
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-wrapping-key
+  name: example-wrapping-key
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    keyringIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-keyring
+  providerConfigRef:
+    name: default

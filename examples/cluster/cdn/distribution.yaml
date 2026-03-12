@@ -1,0 +1,17 @@
+apiVersion: cdn.stackit.crossplane.io/v1alpha1
+kind: Distribution
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-cdn
+  name: example-cdn
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    config:
+      backend:
+        originUrl: https://mybackend.example.com
+        type: http
+      regions:
+        - EU
+  providerConfigRef:
+    name: default

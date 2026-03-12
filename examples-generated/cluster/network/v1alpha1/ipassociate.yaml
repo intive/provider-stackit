@@ -1,0 +1,17 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: IPAssociate
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/ipassociate
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    publicIpIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

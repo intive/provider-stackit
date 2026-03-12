@@ -1,0 +1,29 @@
+apiVersion: authorization.stackit.crossplane.io/v1alpha1
+kind: FolderRoleAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/folderroleassignment
+  labels:
+    testing.upbound.io/example-name: fra
+  name: fra
+spec:
+  forProvider:
+    resourceId: ${stackit_resourcemanager_folder.example.folder_id}
+    role: reader
+    subject: foo.bar@stackit.cloud
+
+---
+
+apiVersion: resourcemanager.stackit.crossplane.io/v1alpha1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/folderroleassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    name: example_folder
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

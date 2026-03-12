@@ -1,0 +1,24 @@
+apiVersion: cdn.stackit.crossplane.io/v1alpha1
+kind: CustomDomain
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/customdomain
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    certificate:
+      certificateSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      privateKeySecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    distributionIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    name: https://xxx.xxx
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

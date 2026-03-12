@@ -1,0 +1,13 @@
+apiVersion: logs.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-logs
+  name: example-logs
+spec:
+  forProvider:
+    name: example-logs
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    plan: logs-entry
+  providerConfigRef:
+    name: default

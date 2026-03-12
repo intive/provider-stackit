@@ -1,0 +1,13 @@
+apiVersion: serviceaccount.stackit.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/account
+  labels:
+    testing.upbound.io/example-name: sa
+  name: sa
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: sa01
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

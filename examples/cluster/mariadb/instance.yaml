@@ -1,0 +1,14 @@
+apiVersion: mariadb.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-mariadb
+  name: example-mariadb
+spec:
+  forProvider:
+    name: example-mariadb
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    plan: stackit-mariadb-1.4.10-single
+    version: "10.6"
+  providerConfigRef:
+    name: default

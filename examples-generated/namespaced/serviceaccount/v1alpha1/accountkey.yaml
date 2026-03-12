@@ -1,0 +1,34 @@
+apiVersion: serviceaccount.stackit.m.crossplane.io/v1alpha1
+kind: AccountKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/accountkey
+  labels:
+    testing.upbound.io/example-name: sa_key
+  name: sa-key
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rotateWhenChanged:
+      rotation: ${time_rotating.rotate.id}
+    serviceAccountEmailSelector:
+      matchLabels:
+        testing.upbound.io/example-name: sa
+    ttlDays: 90
+
+---
+
+apiVersion: serviceaccount.stackit.m.crossplane.io/v1alpha1
+kind: Account
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/accountkey
+  labels:
+    testing.upbound.io/example-name: sa
+  name: sa
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: sa01
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

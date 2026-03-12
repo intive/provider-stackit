@@ -1,0 +1,22 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: AreaRoute
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/arearoute
+  labels:
+    testing.upbound.io/example-name: example-area-route
+  name: example-area-route
+spec:
+  forProvider:
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-network-area
+    destination:
+      type: cidrv4
+      value: 192.168.0.0/24
+    nextHop:
+      type: ipv4
+      value: 10.1.2.1
+  providerConfigRef:
+    name: default

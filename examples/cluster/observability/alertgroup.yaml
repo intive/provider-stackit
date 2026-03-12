@@ -1,0 +1,23 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Alertgroup
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-alertgroup
+  name: example-alertgroup
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-observability
+    name: example-alert-group
+    rules:
+      - alert: HighCPU
+        expr: cpu_usage > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CPU usage is high
+  providerConfigRef:
+    name: default

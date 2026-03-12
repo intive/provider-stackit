@@ -1,0 +1,13 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-observability
+  name: example-observability
+spec:
+  forProvider:
+    name: example-observability
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    plan: observability-free
+  providerConfigRef:
+    name: default

@@ -1,0 +1,15 @@
+apiVersion: resourcemanager.stackit.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1alpha1/project
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      Label 1: foo
+    name: example-container
+    ownerEmail: john.doe@stackit.cloud
+    parentContainerId: example-parent-container-abc123

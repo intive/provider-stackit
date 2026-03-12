@@ -1,0 +1,18 @@
+apiVersion: compute.stackit.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+spec:
+  forProvider:
+    name: example-server
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    machineType: g2i.2
+    availabilityZone: eu01-1
+    bootVolume:
+      sourceType: image
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      size: 64
+  providerConfigRef:
+    name: default

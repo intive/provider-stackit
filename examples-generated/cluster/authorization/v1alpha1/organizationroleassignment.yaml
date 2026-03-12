@@ -1,0 +1,13 @@
+apiVersion: authorization.stackit.crossplane.io/v1alpha1
+kind: OrganizationRoleAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/organizationroleassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    resourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    role: owner
+    subject: john.doe@stackit.cloud

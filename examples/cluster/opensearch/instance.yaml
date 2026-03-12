@@ -1,0 +1,14 @@
+apiVersion: opensearch.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-opensearch
+  name: example-opensearch
+spec:
+  forProvider:
+    name: example-opensearch
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    plan: stackit-opensearch-1-1-10
+    version: "2"
+  providerConfigRef:
+    name: default

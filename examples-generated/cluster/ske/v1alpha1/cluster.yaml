@@ -1,0 +1,29 @@
+apiVersion: ske.stackit.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ske/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    kubernetesVersionMin: x.x
+    maintenance:
+      enableKubernetesVersionUpdates: true
+      enableMachineImageVersionUpdates: true
+      end: 02:00:00Z
+      start: 01:00:00Z
+    name: example
+    nodePools:
+    - availabilityZones:
+      - eu01-3
+      machineType: x.x
+      maximum: "3"
+      minimum: "2"
+      name: np-example
+      osName: xxx
+      osVersion: x.x.x
+      volumeSize: "48"
+      volumeType: storage_premium_perf6
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

@@ -1,0 +1,33 @@
+apiVersion: authorization.stackit.m.crossplane.io/v1alpha1
+kind: ProjectCustomRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/projectcustomrole
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Some description
+    name: my.custom.role
+    permissions:
+    - iam.subject.get
+    resourceId: ${stackit_resourcemanager_project.example.project_id}
+
+---
+
+apiVersion: resourcemanager.stackit.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/projectcustomrole
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example_project
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

@@ -1,0 +1,14 @@
+apiVersion: logme.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-logme
+  name: example-logme
+spec:
+  forProvider:
+    name: example-logme
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    plan: stackit-logme-1-1-10
+    version: "1"
+  providerConfigRef:
+    name: default

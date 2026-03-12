@@ -1,0 +1,14 @@
+apiVersion: sfs.stackit.crossplane.io/v1alpha1
+kind: ResourcePool
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-sfs-pool
+  name: example-sfs-pool
+spec:
+  forProvider:
+    name: example-sfs-pool
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    availabilityZone: eu01-1
+    sizeInGb: 500
+  providerConfigRef:
+    name: default

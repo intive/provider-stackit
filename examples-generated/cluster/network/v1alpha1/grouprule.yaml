@@ -1,0 +1,20 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: GroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/grouprule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    direction: ingress
+    icmpParameters:
+      code: 0
+      type: 8
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    protocol:
+      name: icmp
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,17 @@
+apiVersion: sqlserverflex.stackit.crossplane.io/v1alpha1
+kind: User
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-sqlserverflex-user
+  name: example-sqlserverflex-user
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-sqlserverflex
+    username: example-user
+    roles:
+      - ##read
+  providerConfigRef:
+    name: default

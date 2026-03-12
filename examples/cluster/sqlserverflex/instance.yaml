@@ -1,0 +1,21 @@
+apiVersion: sqlserverflex.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-sqlserverflex
+  name: example-sqlserverflex
+spec:
+  forProvider:
+    name: example-sqlserverflex
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    flavor:
+      cpu: 2
+      ram: 4
+    storage:
+      class: premium-perf2-stackit
+      size: 10
+    version: "2022"
+    acl:
+      - 192.168.0.0/24
+  providerConfigRef:
+    name: default

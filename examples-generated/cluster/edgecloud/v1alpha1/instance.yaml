@@ -1,0 +1,14 @@
+apiVersion: edgecloud.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: edgecloud/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: this
+  name: this
+spec:
+  forProvider:
+    description: ${local.description}
+    displayName: ${local.display_name}
+    planId: ${local.plan_id}
+    projectId: ${local.project_id}

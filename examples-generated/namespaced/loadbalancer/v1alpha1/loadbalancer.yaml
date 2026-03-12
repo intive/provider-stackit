@@ -1,0 +1,256 @@
+apiVersion: loadbalancer.stackit.m.crossplane.io/v1alpha1
+kind: Loadbalancer
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    externalAddress: ${stackit_public_ip.public-ip.ip}
+    listeners:
+    - displayName: example-listener
+      port: 80
+      protocol: PROTOCOL_TCP
+      targetPool: example-target-pool
+      tcp:
+        idleTimeout: 90s
+    name: example-load-balancer
+    networks:
+    - networkId: ${stackit_network.example_network.network_id}
+      role: ROLE_LISTENERS_AND_TARGETS
+    options:
+      privateNetworkOnly: false
+    planId: p10
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    targetPools:
+    - activeHealthCheck:
+        healthyThreshold: 10
+        interval: 3s
+        intervalJitter: 3s
+        timeout: 3s
+        unhealthyThreshold: 10
+      name: example-target-pool
+      targetPort: 80
+      targets:
+      - displayName: example-server
+        ip: ${stackit_network_interface.nic.ipv4}
+
+---
+
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Pair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: keypair
+  name: keypair
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-key-pair
+    publicKey: ${chomp(file("path/to/id_rsa.pub"))}
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example_network
+  name: example-network
+  namespace: crossplane-system
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.0.0/25
+    labels:
+      key: value
+    name: example-network
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    routed: true
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: lb_network
+  name: lb-network
+  namespace: crossplane-system
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.10.0/25
+    name: lb-network-example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: target_network
+  name: target-network
+  namespace: crossplane-system
+spec:
+  forProvider:
+    ipv4Nameservers:
+    - 8.8.8.8
+    ipv4Prefix: 192.168.10.0/25
+    name: target-network-example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: nic
+  name: nic
+  namespace: crossplane-system
+spec:
+  forProvider:
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target_network
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    securityGroupIds:
+    - ${stackit_security_group.target_sg.security_group_id}
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: IP
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: IP
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: public-ip
+  name: public-ip
+  namespace: crossplane-system
+spec:
+  forProvider:
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: target_sg
+  name: target-sg
+  namespace: crossplane-system
+spec:
+  forProvider:
+    description: Allows ingress traffic from the example load balancer.
+    name: target-sg-for-lb-access
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: GroupRule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: allow_lb_ingress
+  name: allow-lb-ingress
+  namespace: crossplane-system
+spec:
+  forProvider:
+    direction: ingress
+    portRange:
+      max: 80
+      min: 80
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    protocol:
+      name: tcp
+    remoteSecurityGroupId: ${stackit_loadbalancer.example.security_group_id}
+    securityGroupIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: target_sg
+
+---
+
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: boot-from-image
+  name: boot-from-image
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: xxxx-x
+    bootVolume:
+      size: 64
+      sourceId: 59838a89-51b1-4892-b57f-b3caf598ee2f
+      sourceType: image
+    keypairName: example-key-pair
+    machineType: g2i.1
+    name: example-server
+    networkInterfaces:
+    - ${stackit_network_interface.nic.network_interface_id}
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 10
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      sourceType: image
+    machineType: g2i.2
+    name: example-remote-target
+    networkInterfaces:
+    - ${stackit_network_interface.nic.network_interface_id}
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

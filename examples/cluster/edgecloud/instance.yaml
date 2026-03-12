@@ -1,0 +1,14 @@
+apiVersion: edgecloud.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-edgecloud
+  name: example-edgecloud
+spec:
+  forProvider:
+    displayName: example-edgecloud
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    planId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    description: Example EdgeCloud instance
+  providerConfigRef:
+    name: default

@@ -1,0 +1,22 @@
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: BackupSchedule
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/backupschedule
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    backupProperties:
+      name: example_backup_name
+      retentionPeriod: 14
+      volumeIds: null
+    enabled: true
+    name: example_backup_schedule_name
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rrule: DTSTART;TZID=Europe/Sofia:20200803T023000 RRULE:FREQ=DAILY;INTERVAL=1
+    serverIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

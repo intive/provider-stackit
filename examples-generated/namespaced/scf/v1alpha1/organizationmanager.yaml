@@ -1,0 +1,15 @@
+apiVersion: scf.stackit.m.crossplane.io/v1alpha1
+kind: OrganizationManager
+metadata:
+  annotations:
+    meta.upbound.io/example-id: scf/v1alpha1/organizationmanager
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    orgIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

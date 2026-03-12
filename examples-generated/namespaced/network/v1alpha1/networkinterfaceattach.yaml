@@ -1,0 +1,16 @@
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: NetworkInterfaceAttach
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/networkinterfaceattach
+  labels:
+    testing.upbound.io/example-name: attached_network_interface
+  name: attached-network-interface
+  namespace: crossplane-system
+spec:
+  forProvider:
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    serverId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

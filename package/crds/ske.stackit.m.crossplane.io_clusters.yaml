@@ -1,0 +1,1012 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: clusters.ske.stackit.m.crossplane.io
+spec:
+  group: ske.stackit.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - stackit
+    kind: Cluster
+    listKind: ClusterList
+    plural: clusters
+    singular: cluster
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Cluster is the Schema for the Clusters API. SKE Cluster Resource
+          schema. Must have a region specified in the provider configuration. However,
+          the SKE API correctly identifies node pools by name and applies the intended
+          changes. Please review your changes carefully to ensure the correct configuration
+          will be applied.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ClusterSpec defines the desired state of Cluster
+            properties:
+              forProvider:
+                properties:
+                  extensions:
+                    description: (Attributes) A single extensions block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      acl:
+                        description: (Attributes) Cluster access control configuration.
+                          (see below for nested schema)
+                        properties:
+                          allowedCidrs:
+                            description: |-
+                              (List of String) Specify a list of CIDRs to whitelist.
+                              Specify a list of CIDRs to whitelist.
+                            items:
+                              type: string
+                            type: array
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Is ACL enabled?
+                            type: boolean
+                        type: object
+                      argus:
+                        description: (Attributes, Deprecated) A single argus block
+                          as defined below. This field is deprecated and will be removed
+                          06 January 2026. (see below for nested schema)
+                        properties:
+                          argusInstanceId:
+                            description: |-
+                              (String) Argus instance ID to choose which Argus instance is used. Required when enabled is set to true.
+                              Argus instance ID to choose which Argus instance is used. Required when enabled is set to `true`.
+                            type: string
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Argus extensions.
+                            type: boolean
+                        type: object
+                      dns:
+                        description: (Attributes) DNS extension configuration (see
+                          below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable DNS extensions
+                            type: boolean
+                          zones:
+                            description: |-
+                              (List of String) Specify a list of domain filters for externalDNS (e.g., foo.runs.onstackit.cloud)
+                              Specify a list of domain filters for externalDNS (e.g., `foo.runs.onstackit.cloud`)
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      observability:
+                        description: (Attributes) A single observability block as
+                          defined below. (see below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Observability extensions.
+                            type: boolean
+                          instanceId:
+                            description: |-
+                              (String) Observability instance ID to choose which Observability instance is used. Required when enabled is set to true.
+                              Observability instance ID to choose which Observability instance is used. Required when enabled is set to `true`.
+                            type: string
+                        type: object
+                    type: object
+                  hibernations:
+                    description: (Attributes List) One or more hibernation block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        end:
+                          description: |-
+                            (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                            End time of hibernation in crontab syntax. E.g. `0 8 * * *` for waking up the cluster at 8am.
+                          type: string
+                        start:
+                          description: |-
+                            (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                            Start time of cluster hibernation in crontab syntax. E.g. `0 18 * * *` for starting everyday at 6pm.
+                          type: string
+                        timezone:
+                          description: |-
+                            (String) Timezone name corresponding to a file in the IANA Time Zone database. i.e. Europe/Berlin.
+                            Timezone name corresponding to a file in the IANA Time Zone database. i.e. `Europe/Berlin`.
+                          type: string
+                      type: object
+                    type: array
+                  kubernetesVersionMin:
+                    description: |-
+                      only kubernetes_version_used field.
+                      The minimum Kubernetes version. This field will be used to set the minimum kubernetes version on creation/update of the cluster. If unset, the latest supported Kubernetes version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current kubernetes version being used for your cluster, use the read-only `kubernetes_version_used` field.
+                    type: string
+                  maintenance:
+                    description: (Attributes) A single maintenance block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      enableKubernetesVersionUpdates:
+                        description: |-
+                          updates of the Kubernetes version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the Kubernetes version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      enableMachineImageVersionUpdates:
+                        description: |-
+                          updates of the OS image version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the OS image version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      end:
+                        description: |-
+                          (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                          Time for maintenance window end. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                      start:
+                        description: |-
+                          (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                          Time for maintenance window start. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                    type: object
+                  name:
+                    description: |-
+                      (String) The cluster name.
+                      The cluster name.
+                    type: string
+                  network:
+                    description: (Attributes) Network block as defined below. (see
+                      below for nested schema)
+                    properties:
+                      id:
+                        description: |-
+                          It is structured as "project_id,region,name".
+                          ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.
+                        type: string
+                    type: object
+                  nodePools:
+                    description: (Attributes List) One or more node_pool block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        allowSystemComponents:
+                          description: |-
+                            (Boolean) Allow system components to run on this node pool.
+                            Allow system components to run on this node pool.
+                          type: boolean
+                        availabilityZones:
+                          description: |-
+                            m
+                            Specify a list of availability zones. E.g. `eu01-m`
+                          items:
+                            type: string
+                          type: array
+                        cri:
+                          description: |-
+                            (String) Specifies the container runtime. Defaults to containerd
+                            Specifies the container runtime. Defaults to `containerd`
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to add to each node.
+                            Labels to add to each node.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        machineType:
+                          description: |-
+                            (String) The machine type.
+                            The machine type.
+                          type: string
+                        maxSurge:
+                          description: |-
+                            (Number) Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maxUnavailable:
+                          description: |-
+                            (Number) Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maximum:
+                          description: |-
+                            (Number) Maximum number of nodes in the pool.
+                            Maximum number of nodes in the pool.
+                          type: number
+                        minimum:
+                          description: |-
+                            (Number) Minimum number of nodes in the pool.
+                            Minimum number of nodes in the pool.
+                          type: number
+                        name:
+                          description: |-
+                            (String) The cluster name.
+                            Specifies the name of the node pool.
+                          type: string
+                        osName:
+                          description: |-
+                            (String) The name of the OS image. Defaults to flatcar.
+                            The name of the OS image. Defaults to `flatcar`.
+                          type: string
+                        osVersion:
+                          description: |-
+                            (String, Deprecated) This field is deprecated, use os_version_min to configure the version and os_version_used to get the currently used version instead.
+                            This field is deprecated, use `os_version_min` to configure the version and `os_version_used` to get the currently used version instead.
+                          type: string
+                        osVersionMin:
+                          description: |-
+                            only os_version_used field.
+                            The minimum OS image version. This field will be used to set the minimum OS image version on creation/update of the cluster. If unset, the latest supported OS image version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current OS image version being used for the node pool, use the read-only `os_version_used` field.
+                          type: string
+                        taints:
+                          description: (Attributes List) Specifies a taint list as
+                            defined below. (see below for nested schema)
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) The taint effect. E.g PreferNoSchedule.
+                                  The taint effect. E.g `PreferNoSchedule`.
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to be applied to a node.
+                                  Taint key to be applied to a node.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Taint value corresponding to the taint key.
+                                  Taint value corresponding to the taint key.
+                                type: string
+                            type: object
+                          type: array
+                        volumeSize:
+                          description: |-
+                            (Number) The volume size in GB. Defaults to 20
+                            The volume size in GB. Defaults to `20`
+                          type: number
+                        volumeType:
+                          description: |-
+                            (String) Specifies the volume type. Defaults to storage_premium_perf1.
+                            Specifies the volume type. Defaults to `storage_premium_perf1`.
+                          type: string
+                      type: object
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the cluster is associated.
+                      STACKIT project ID to which the cluster is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  extensions:
+                    description: (Attributes) A single extensions block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      acl:
+                        description: (Attributes) Cluster access control configuration.
+                          (see below for nested schema)
+                        properties:
+                          allowedCidrs:
+                            description: |-
+                              (List of String) Specify a list of CIDRs to whitelist.
+                              Specify a list of CIDRs to whitelist.
+                            items:
+                              type: string
+                            type: array
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Is ACL enabled?
+                            type: boolean
+                        type: object
+                      argus:
+                        description: (Attributes, Deprecated) A single argus block
+                          as defined below. This field is deprecated and will be removed
+                          06 January 2026. (see below for nested schema)
+                        properties:
+                          argusInstanceId:
+                            description: |-
+                              (String) Argus instance ID to choose which Argus instance is used. Required when enabled is set to true.
+                              Argus instance ID to choose which Argus instance is used. Required when enabled is set to `true`.
+                            type: string
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Argus extensions.
+                            type: boolean
+                        type: object
+                      dns:
+                        description: (Attributes) DNS extension configuration (see
+                          below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable DNS extensions
+                            type: boolean
+                          zones:
+                            description: |-
+                              (List of String) Specify a list of domain filters for externalDNS (e.g., foo.runs.onstackit.cloud)
+                              Specify a list of domain filters for externalDNS (e.g., `foo.runs.onstackit.cloud`)
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      observability:
+                        description: (Attributes) A single observability block as
+                          defined below. (see below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Observability extensions.
+                            type: boolean
+                          instanceId:
+                            description: |-
+                              (String) Observability instance ID to choose which Observability instance is used. Required when enabled is set to true.
+                              Observability instance ID to choose which Observability instance is used. Required when enabled is set to `true`.
+                            type: string
+                        type: object
+                    type: object
+                  hibernations:
+                    description: (Attributes List) One or more hibernation block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        end:
+                          description: |-
+                            (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                            End time of hibernation in crontab syntax. E.g. `0 8 * * *` for waking up the cluster at 8am.
+                          type: string
+                        start:
+                          description: |-
+                            (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                            Start time of cluster hibernation in crontab syntax. E.g. `0 18 * * *` for starting everyday at 6pm.
+                          type: string
+                        timezone:
+                          description: |-
+                            (String) Timezone name corresponding to a file in the IANA Time Zone database. i.e. Europe/Berlin.
+                            Timezone name corresponding to a file in the IANA Time Zone database. i.e. `Europe/Berlin`.
+                          type: string
+                      type: object
+                    type: array
+                  kubernetesVersionMin:
+                    description: |-
+                      only kubernetes_version_used field.
+                      The minimum Kubernetes version. This field will be used to set the minimum kubernetes version on creation/update of the cluster. If unset, the latest supported Kubernetes version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current kubernetes version being used for your cluster, use the read-only `kubernetes_version_used` field.
+                    type: string
+                  maintenance:
+                    description: (Attributes) A single maintenance block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      enableKubernetesVersionUpdates:
+                        description: |-
+                          updates of the Kubernetes version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the Kubernetes version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      enableMachineImageVersionUpdates:
+                        description: |-
+                          updates of the OS image version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the OS image version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      end:
+                        description: |-
+                          (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                          Time for maintenance window end. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                      start:
+                        description: |-
+                          (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                          Time for maintenance window start. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                    type: object
+                  name:
+                    description: |-
+                      (String) The cluster name.
+                      The cluster name.
+                    type: string
+                  network:
+                    description: (Attributes) Network block as defined below. (see
+                      below for nested schema)
+                    properties:
+                      id:
+                        description: |-
+                          It is structured as "project_id,region,name".
+                          ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.
+                        type: string
+                    type: object
+                  nodePools:
+                    description: (Attributes List) One or more node_pool block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        allowSystemComponents:
+                          description: |-
+                            (Boolean) Allow system components to run on this node pool.
+                            Allow system components to run on this node pool.
+                          type: boolean
+                        availabilityZones:
+                          description: |-
+                            m
+                            Specify a list of availability zones. E.g. `eu01-m`
+                          items:
+                            type: string
+                          type: array
+                        cri:
+                          description: |-
+                            (String) Specifies the container runtime. Defaults to containerd
+                            Specifies the container runtime. Defaults to `containerd`
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to add to each node.
+                            Labels to add to each node.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        machineType:
+                          description: |-
+                            (String) The machine type.
+                            The machine type.
+                          type: string
+                        maxSurge:
+                          description: |-
+                            (Number) Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maxUnavailable:
+                          description: |-
+                            (Number) Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maximum:
+                          description: |-
+                            (Number) Maximum number of nodes in the pool.
+                            Maximum number of nodes in the pool.
+                          type: number
+                        minimum:
+                          description: |-
+                            (Number) Minimum number of nodes in the pool.
+                            Minimum number of nodes in the pool.
+                          type: number
+                        name:
+                          description: |-
+                            (String) The cluster name.
+                            Specifies the name of the node pool.
+                          type: string
+                        osName:
+                          description: |-
+                            (String) The name of the OS image. Defaults to flatcar.
+                            The name of the OS image. Defaults to `flatcar`.
+                          type: string
+                        osVersion:
+                          description: |-
+                            (String, Deprecated) This field is deprecated, use os_version_min to configure the version and os_version_used to get the currently used version instead.
+                            This field is deprecated, use `os_version_min` to configure the version and `os_version_used` to get the currently used version instead.
+                          type: string
+                        osVersionMin:
+                          description: |-
+                            only os_version_used field.
+                            The minimum OS image version. This field will be used to set the minimum OS image version on creation/update of the cluster. If unset, the latest supported OS image version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current OS image version being used for the node pool, use the read-only `os_version_used` field.
+                          type: string
+                        taints:
+                          description: (Attributes List) Specifies a taint list as
+                            defined below. (see below for nested schema)
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) The taint effect. E.g PreferNoSchedule.
+                                  The taint effect. E.g `PreferNoSchedule`.
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to be applied to a node.
+                                  Taint key to be applied to a node.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Taint value corresponding to the taint key.
+                                  Taint value corresponding to the taint key.
+                                type: string
+                            type: object
+                          type: array
+                        volumeSize:
+                          description: |-
+                            (Number) The volume size in GB. Defaults to 20
+                            The volume size in GB. Defaults to `20`
+                          type: number
+                        volumeType:
+                          description: |-
+                            (String) Specifies the volume type. Defaults to storage_premium_perf1.
+                            Specifies the volume type. Defaults to `storage_premium_perf1`.
+                          type: string
+                      type: object
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the cluster is associated.
+                      STACKIT project ID to which the cluster is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.nodePools is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.nodePools)
+                || (has(self.initProvider) && has(self.initProvider.nodePools))'
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
+          status:
+            description: ClusterStatus defines the observed state of Cluster.
+            properties:
+              atProvider:
+                properties:
+                  egressAddressRanges:
+                    description: |-
+                      (List of String) The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster.
+                      The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster.
+                    items:
+                      type: string
+                    type: array
+                  extensions:
+                    description: (Attributes) A single extensions block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      acl:
+                        description: (Attributes) Cluster access control configuration.
+                          (see below for nested schema)
+                        properties:
+                          allowedCidrs:
+                            description: |-
+                              (List of String) Specify a list of CIDRs to whitelist.
+                              Specify a list of CIDRs to whitelist.
+                            items:
+                              type: string
+                            type: array
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Is ACL enabled?
+                            type: boolean
+                        type: object
+                      argus:
+                        description: (Attributes, Deprecated) A single argus block
+                          as defined below. This field is deprecated and will be removed
+                          06 January 2026. (see below for nested schema)
+                        properties:
+                          argusInstanceId:
+                            description: |-
+                              (String) Argus instance ID to choose which Argus instance is used. Required when enabled is set to true.
+                              Argus instance ID to choose which Argus instance is used. Required when enabled is set to `true`.
+                            type: string
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Argus extensions.
+                            type: boolean
+                        type: object
+                      dns:
+                        description: (Attributes) DNS extension configuration (see
+                          below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable DNS extensions
+                            type: boolean
+                          zones:
+                            description: |-
+                              (List of String) Specify a list of domain filters for externalDNS (e.g., foo.runs.onstackit.cloud)
+                              Specify a list of domain filters for externalDNS (e.g., `foo.runs.onstackit.cloud`)
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      observability:
+                        description: (Attributes) A single observability block as
+                          defined below. (see below for nested schema)
+                        properties:
+                          enabled:
+                            description: |-
+                              (Boolean) Is ACL enabled?
+                              Flag to enable/disable Observability extensions.
+                            type: boolean
+                          instanceId:
+                            description: |-
+                              (String) Observability instance ID to choose which Observability instance is used. Required when enabled is set to true.
+                              Observability instance ID to choose which Observability instance is used. Required when enabled is set to `true`.
+                            type: string
+                        type: object
+                    type: object
+                  hibernations:
+                    description: (Attributes List) One or more hibernation block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        end:
+                          description: |-
+                            (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                            End time of hibernation in crontab syntax. E.g. `0 8 * * *` for waking up the cluster at 8am.
+                          type: string
+                        start:
+                          description: |-
+                            (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                            Start time of cluster hibernation in crontab syntax. E.g. `0 18 * * *` for starting everyday at 6pm.
+                          type: string
+                        timezone:
+                          description: |-
+                            (String) Timezone name corresponding to a file in the IANA Time Zone database. i.e. Europe/Berlin.
+                            Timezone name corresponding to a file in the IANA Time Zone database. i.e. `Europe/Berlin`.
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: It is structured as "project_id,region,name".
+                    type: string
+                  kubernetesVersionMin:
+                    description: |-
+                      only kubernetes_version_used field.
+                      The minimum Kubernetes version. This field will be used to set the minimum kubernetes version on creation/update of the cluster. If unset, the latest supported Kubernetes version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current kubernetes version being used for your cluster, use the read-only `kubernetes_version_used` field.
+                    type: string
+                  kubernetesVersionUsed:
+                    description: |-
+                      (String) Full Kubernetes version used. For example, if 1.22 was set in kubernetes_version_min, this value may result to 1.22.15. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                      Full Kubernetes version used. For example, if 1.22 was set in `kubernetes_version_min`, this value may result to 1.22.15. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                    type: string
+                  maintenance:
+                    description: (Attributes) A single maintenance block as defined
+                      below. (see below for nested schema)
+                    properties:
+                      enableKubernetesVersionUpdates:
+                        description: |-
+                          updates of the Kubernetes version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the Kubernetes version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      enableMachineImageVersionUpdates:
+                        description: |-
+                          updates of the OS image version. Defaults to true. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                          Flag to enable/disable auto-updates of the OS image version. Defaults to `true`. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                        type: boolean
+                      end:
+                        description: |-
+                          (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
+                          Time for maintenance window end. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                      start:
+                        description: |-
+                          (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
+                          Time for maintenance window start. E.g. `01:23:45Z`, `05:00:00+02:00`.
+                        type: string
+                    type: object
+                  name:
+                    description: |-
+                      (String) The cluster name.
+                      The cluster name.
+                    type: string
+                  network:
+                    description: (Attributes) Network block as defined below. (see
+                      below for nested schema)
+                    properties:
+                      id:
+                        description: |-
+                          It is structured as "project_id,region,name".
+                          ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.
+                        type: string
+                    type: object
+                  nodePools:
+                    description: (Attributes List) One or more node_pool block as
+                      defined below. (see below for nested schema)
+                    items:
+                      properties:
+                        allowSystemComponents:
+                          description: |-
+                            (Boolean) Allow system components to run on this node pool.
+                            Allow system components to run on this node pool.
+                          type: boolean
+                        availabilityZones:
+                          description: |-
+                            m
+                            Specify a list of availability zones. E.g. `eu01-m`
+                          items:
+                            type: string
+                          type: array
+                        cri:
+                          description: |-
+                            (String) Specifies the container runtime. Defaults to containerd
+                            Specifies the container runtime. Defaults to `containerd`
+                          type: string
+                        labels:
+                          additionalProperties:
+                            type: string
+                          description: |-
+                            (Map of String) Labels to add to each node.
+                            Labels to add to each node.
+                          type: object
+                          x-kubernetes-map-type: granular
+                        machineType:
+                          description: |-
+                            (String) The machine type.
+                            The machine type.
+                          type: string
+                        maxSurge:
+                          description: |-
+                            (Number) Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of additional VMs that are created during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maxUnavailable:
+                          description: |-
+                            (Number) Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The max_surge and max_unavailable fields cannot both be unset at the same time.
+                            Maximum number of VMs that that can be unavailable during an update. If set (larger than 0), then it must be at least the amount of zones configured for the nodepool. The `max_surge` and `max_unavailable` fields cannot both be unset at the same time.
+                          type: number
+                        maximum:
+                          description: |-
+                            (Number) Maximum number of nodes in the pool.
+                            Maximum number of nodes in the pool.
+                          type: number
+                        minimum:
+                          description: |-
+                            (Number) Minimum number of nodes in the pool.
+                            Minimum number of nodes in the pool.
+                          type: number
+                        name:
+                          description: |-
+                            (String) The cluster name.
+                            Specifies the name of the node pool.
+                          type: string
+                        osName:
+                          description: |-
+                            (String) The name of the OS image. Defaults to flatcar.
+                            The name of the OS image. Defaults to `flatcar`.
+                          type: string
+                        osVersion:
+                          description: |-
+                            (String, Deprecated) This field is deprecated, use os_version_min to configure the version and os_version_used to get the currently used version instead.
+                            This field is deprecated, use `os_version_min` to configure the version and `os_version_used` to get the currently used version instead.
+                          type: string
+                        osVersionMin:
+                          description: |-
+                            only os_version_used field.
+                            The minimum OS image version. This field will be used to set the minimum OS image version on creation/update of the cluster. If unset, the latest supported OS image version will be used. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/). To get the current OS image version being used for the node pool, use the read-only `os_version_used` field.
+                          type: string
+                        osVersionUsed:
+                          description: |-
+                            (String) Full OS image version used. For example, if 3815.2 was set in os_version_min, this value may result to 3815.2.2. SKE automatically updates the cluster Kubernetes version if you have set maintenance.enable_kubernetes_version_updates to true or if there is a mandatory update, as described in General information for Kubernetes & OS updates.
+                            Full OS image version used. For example, if 3815.2 was set in `os_version_min`, this value may result to 3815.2.2. SKE automatically updates the cluster Kubernetes version if you have set `maintenance.enable_kubernetes_version_updates` to true or if there is a mandatory update, as described in [General information for Kubernetes & OS updates](https://docs.stackit.cloud/products/runtime/kubernetes-engine/basics/version-updates/).
+                          type: string
+                        taints:
+                          description: (Attributes List) Specifies a taint list as
+                            defined below. (see below for nested schema)
+                          items:
+                            properties:
+                              effect:
+                                description: |-
+                                  (String) The taint effect. E.g PreferNoSchedule.
+                                  The taint effect. E.g `PreferNoSchedule`.
+                                type: string
+                              key:
+                                description: |-
+                                  (String) Taint key to be applied to a node.
+                                  Taint key to be applied to a node.
+                                type: string
+                              value:
+                                description: |-
+                                  (String) Taint value corresponding to the taint key.
+                                  Taint value corresponding to the taint key.
+                                type: string
+                            type: object
+                          type: array
+                        volumeSize:
+                          description: |-
+                            (Number) The volume size in GB. Defaults to 20
+                            The volume size in GB. Defaults to `20`
+                          type: number
+                        volumeType:
+                          description: |-
+                            (String) Specifies the volume type. Defaults to storage_premium_perf1.
+                            Specifies the volume type. Defaults to `storage_premium_perf1`.
+                          type: string
+                      type: object
+                    type: array
+                  podAddressRanges:
+                    description: |-
+                      (List of String) The network ranges (in CIDR notation) used by pods of the cluster.
+                      The network ranges (in CIDR notation) used by pods of the cluster.
+                    items:
+                      type: string
+                    type: array
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the cluster is associated.
+                      STACKIT project ID to which the cluster is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

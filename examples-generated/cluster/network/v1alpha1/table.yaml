@@ -1,0 +1,17 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: Table
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/table
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: example
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

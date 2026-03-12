@@ -4,7 +4,7 @@ metadata:
   name: hello-crossplane
 spec:
   forProvider:
-    name: hello-crossplane
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    name: 04ce9fde-hello-crossplane
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   providerConfigRef:
-    name: provider-stackit-config
+    name: default

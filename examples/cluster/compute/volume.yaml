@@ -1,0 +1,14 @@
+apiVersion: compute.stackit.crossplane.io/v1alpha1
+kind: Volume
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-volume
+  name: example-volume
+spec:
+  forProvider:
+    name: example-volume
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    size: 64
+    availabilityZone: eu01-1
+  providerConfigRef:
+    name: default

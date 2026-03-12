@@ -1,0 +1,30 @@
+apiVersion: cdn.stackit.crossplane.io/v1alpha1
+kind: Distribution
+metadata:
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/distribution
+  labels:
+    testing.upbound.io/example-name: example_distribution
+  name: example-distribution
+spec:
+  forProvider:
+    config:
+      backend:
+        geofencing:
+          https://mybackend.onstackit.cloud:
+          - DE
+        originUrl: https://mybackend.onstackit.cloud
+        type: http
+      blockedCountries:
+      - DE
+      - AT
+      - CH
+      optimizer:
+        enabled: true
+      regions:
+      - EU
+      - US
+      - ASIA
+      - AF
+      - SA
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

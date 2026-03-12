@@ -73,6 +73,10 @@ type NetworkInitParameters struct {
 	// If set to `true`, the network doesn't have a gateway.
 	NoIPv6Gateway *bool `json:"noIpv6Gateway,omitempty" tf:"no_ipv6_gateway,omitempty"`
 
+	// (String) STACKIT project ID to which the network is associated.
+	// STACKIT project ID to which the network is associated.
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+
 	// (String) The resource region. If not defined, the provider region is used.
 	// The resource region. If not defined, the provider region is used.
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
@@ -260,8 +264,8 @@ type NetworkParameters struct {
 
 	// (String) STACKIT project ID to which the network is associated.
 	// STACKIT project ID to which the network is associated.
-	// +kubebuilder:validation:Required
-	ProjectID *string `json:"projectId" tf:"project_id,omitempty"`
+	// +kubebuilder:validation:Optional
+	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
 	// (String) The resource region. If not defined, the provider region is used.
 	// The resource region. If not defined, the provider region is used.
@@ -316,6 +320,7 @@ type Network struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
+	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
 	Spec   NetworkSpec   `json:"spec"`
 	Status NetworkStatus `json:"status,omitempty"`
 }

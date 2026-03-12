@@ -1,0 +1,15 @@
+apiVersion: modelserving.stackit.m.crossplane.io/v1alpha1
+kind: Token
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelserving/v1alpha1/token
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: Example token
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rotateWhenChanged:
+      rotation: ${time_rotating.rotate.id}

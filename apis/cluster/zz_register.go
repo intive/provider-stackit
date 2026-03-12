@@ -10,12 +10,33 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/network/v1alpha1"
+	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/authorization/v1alpha1"
+	v1alpha1cdn "github.com/intive/provider-stackit/apis/cluster/cdn/v1alpha1"
+	v1alpha1compute "github.com/intive/provider-stackit/apis/cluster/compute/v1alpha1"
+	v1alpha1dns "github.com/intive/provider-stackit/apis/cluster/dns/v1alpha1"
+	v1alpha1edgecloud "github.com/intive/provider-stackit/apis/cluster/edgecloud/v1alpha1"
+	v1alpha1git "github.com/intive/provider-stackit/apis/cluster/git/v1alpha1"
+	v1alpha1kms "github.com/intive/provider-stackit/apis/cluster/kms/v1alpha1"
+	v1alpha1loadbalancer "github.com/intive/provider-stackit/apis/cluster/loadbalancer/v1alpha1"
+	v1alpha1logme "github.com/intive/provider-stackit/apis/cluster/logme/v1alpha1"
+	v1alpha1logs "github.com/intive/provider-stackit/apis/cluster/logs/v1alpha1"
+	v1alpha1mariadb "github.com/intive/provider-stackit/apis/cluster/mariadb/v1alpha1"
+	v1alpha1modelserving "github.com/intive/provider-stackit/apis/cluster/modelserving/v1alpha1"
+	v1alpha1mongodbflex "github.com/intive/provider-stackit/apis/cluster/mongodbflex/v1alpha1"
+	v1alpha1network "github.com/intive/provider-stackit/apis/cluster/network/v1alpha1"
 	v1alpha1objectstorage "github.com/intive/provider-stackit/apis/cluster/objectstorage/v1alpha1"
+	v1alpha1observability "github.com/intive/provider-stackit/apis/cluster/observability/v1alpha1"
+	v1alpha1opensearch "github.com/intive/provider-stackit/apis/cluster/opensearch/v1alpha1"
 	v1alpha1postgresflex "github.com/intive/provider-stackit/apis/cluster/postgresflex/v1alpha1"
 	v1alpha1rabbitmq "github.com/intive/provider-stackit/apis/cluster/rabbitmq/v1alpha1"
 	v1alpha1redis "github.com/intive/provider-stackit/apis/cluster/redis/v1alpha1"
+	v1alpha1resourcemanager "github.com/intive/provider-stackit/apis/cluster/resourcemanager/v1alpha1"
+	v1alpha1scf "github.com/intive/provider-stackit/apis/cluster/scf/v1alpha1"
 	v1alpha1secretsmanager "github.com/intive/provider-stackit/apis/cluster/secretsmanager/v1alpha1"
+	v1alpha1serviceaccount "github.com/intive/provider-stackit/apis/cluster/serviceaccount/v1alpha1"
+	v1alpha1sfs "github.com/intive/provider-stackit/apis/cluster/sfs/v1alpha1"
+	v1alpha1ske "github.com/intive/provider-stackit/apis/cluster/ske/v1alpha1"
+	v1alpha1sqlserverflex "github.com/intive/provider-stackit/apis/cluster/sqlserverflex/v1alpha1"
 	v1alpha1cluster "github.com/intive/provider-stackit/apis/cluster/v1alpha1"
 	v1beta1 "github.com/intive/provider-stackit/apis/cluster/v1beta1"
 )
@@ -24,11 +45,32 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1cdn.SchemeBuilder.AddToScheme,
+		v1alpha1compute.SchemeBuilder.AddToScheme,
+		v1alpha1dns.SchemeBuilder.AddToScheme,
+		v1alpha1edgecloud.SchemeBuilder.AddToScheme,
+		v1alpha1git.SchemeBuilder.AddToScheme,
+		v1alpha1kms.SchemeBuilder.AddToScheme,
+		v1alpha1loadbalancer.SchemeBuilder.AddToScheme,
+		v1alpha1logme.SchemeBuilder.AddToScheme,
+		v1alpha1logs.SchemeBuilder.AddToScheme,
+		v1alpha1mariadb.SchemeBuilder.AddToScheme,
+		v1alpha1modelserving.SchemeBuilder.AddToScheme,
+		v1alpha1mongodbflex.SchemeBuilder.AddToScheme,
+		v1alpha1network.SchemeBuilder.AddToScheme,
 		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
+		v1alpha1observability.SchemeBuilder.AddToScheme,
+		v1alpha1opensearch.SchemeBuilder.AddToScheme,
 		v1alpha1postgresflex.SchemeBuilder.AddToScheme,
 		v1alpha1rabbitmq.SchemeBuilder.AddToScheme,
 		v1alpha1redis.SchemeBuilder.AddToScheme,
+		v1alpha1resourcemanager.SchemeBuilder.AddToScheme,
+		v1alpha1scf.SchemeBuilder.AddToScheme,
 		v1alpha1secretsmanager.SchemeBuilder.AddToScheme,
+		v1alpha1serviceaccount.SchemeBuilder.AddToScheme,
+		v1alpha1sfs.SchemeBuilder.AddToScheme,
+		v1alpha1ske.SchemeBuilder.AddToScheme,
+		v1alpha1sqlserverflex.SchemeBuilder.AddToScheme,
 		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
 	)

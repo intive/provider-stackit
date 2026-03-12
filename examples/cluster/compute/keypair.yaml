@@ -1,0 +1,12 @@
+apiVersion: compute.stackit.crossplane.io/v1alpha1
+kind: Pair
+metadata:
+  labels:
+    testing.upbound.io/example-name: example-keypair
+  name: example-keypair
+spec:
+  forProvider:
+    name: example-keypair
+    publicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC... user@host"
+  providerConfigRef:
+    name: default

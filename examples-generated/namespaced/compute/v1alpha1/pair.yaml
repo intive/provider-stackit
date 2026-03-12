@@ -1,0 +1,36 @@
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Pair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/pair
+  labels:
+    testing.upbound.io/example-name: keypair
+  name: keypair
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-key-pair
+    publicKey: ${chomp(file("path/to/id_rsa.pub"))}
+
+---
+
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/pair
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 64
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      sourceType: image
+    keypairName: example-key-pair
+    machineType: g2i.1
+    name: example-server
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
