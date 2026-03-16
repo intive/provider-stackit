@@ -12,7 +12,5 @@ spec:
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     writeEnabled: false
-  providerConfigRef:
-    name: provider-stackit-config

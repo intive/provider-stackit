@@ -1,12 +1,14 @@
 apiVersion: cdn.stackit.crossplane.io/v1alpha1
 kind: CustomDomain
 metadata:
+  annotations:
+    meta.upbound.io/example-id: cdn/v1alpha1/customdomain
   labels:
     testing.upbound.io/example-name: example-cdn-domain
   name: example-cdn-domain
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     name: cdn.example.com
     distributionIdSelector:
       matchLabels:
@@ -20,5 +22,3 @@ spec:
         key: tls.key
         name: cdn-tls-secret
         namespace: crossplane-system
-  providerConfigRef:
-    name: default

@@ -1,17 +1,17 @@
 apiVersion: compute.stackit.crossplane.io/v1alpha1
 kind: VolumeAttach
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/volumeattach
   labels:
     testing.upbound.io/example-name: example-volume-attach
   name: example-volume-attach
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     serverIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-server
     volumeIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-volume
-  providerConfigRef:
-    name: default

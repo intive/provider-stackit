@@ -8,7 +8,7 @@ metadata:
   name: example-area-route
 spec:
   forProvider:
-    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    organizationId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     networkAreaIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-network-area
@@ -18,5 +18,3 @@ spec:
     nextHop:
       type: ipv4
       value: 10.1.2.1
-  providerConfigRef:
-    name: default

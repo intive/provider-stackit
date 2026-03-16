@@ -1,10 +1,12 @@
 apiVersion: objectstorage.stackit.crossplane.io/v1alpha1
 kind: Bucket
 metadata:
+  annotations:
+    meta.upbound.io/example-id: objectstorage/v1alpha1/bucket
+  labels:
+    testing.upbound.io/example-name: hello-crossplane
   name: hello-crossplane
 spec:
   forProvider:
     name: 04ce9fde-hello-crossplane
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-  providerConfigRef:
-    name: default
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6

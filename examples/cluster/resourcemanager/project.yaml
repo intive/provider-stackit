@@ -1,13 +1,13 @@
 apiVersion: resourcemanager.stackit.crossplane.io/v1alpha1
 kind: Project
 metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1alpha1/project
   labels:
     testing.upbound.io/example-name: example-project
   name: example-project
 spec:
   forProvider:
     name: example-project
-    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    parentContainerId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     ownerEmail: admin@example.com
-  providerConfigRef:
-    name: default

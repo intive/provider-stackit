@@ -13,6 +13,4 @@ spec:
         testing.upbound.io/example-name: hello-crossplane
     name: testdb
     owner: dbAdmin
-    projectId: 12345678-abcd-1234-abcd-123456789abc
-  providerConfigRef:
-    name: provider-stackit-config
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6

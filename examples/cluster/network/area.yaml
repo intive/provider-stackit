@@ -9,12 +9,10 @@ metadata:
 spec:
   forProvider:
     name: example-network-area
-    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    organizationId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     transferNetwork: 10.1.2.0/24
     networkRanges:
       - prefix: 10.0.0.0/8
     defaultPrefixLength: 24
     minPrefixLength: 22
     maxPrefixLength: 29
-  providerConfigRef:
-    name: default

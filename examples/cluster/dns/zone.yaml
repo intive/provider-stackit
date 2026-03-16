@@ -1,16 +1,16 @@
 apiVersion: dns.stackit.crossplane.io/v1alpha1
 kind: Zone
 metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/zone
   labels:
     testing.upbound.io/example-name: example-zone
   name: example-zone
 spec:
   forProvider:
     name: example-zone
-    dnsName: example.com
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    dnsName: uptest-xp01.runs.onstackit.cloud
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     type: primary
     defaultTtl: 300
-    contactEmail: admin@example.com
-  providerConfigRef:
-    name: default
+    contactEmail: admin@uptest-xp01.runs.onstackit.cloud

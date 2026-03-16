@@ -1,14 +1,18 @@
 apiVersion: kms.stackit.crossplane.io/v1alpha1
 kind: WrappingKey
 metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/wrappingkey
   labels:
     testing.upbound.io/example-name: example-wrapping-key
   name: example-wrapping-key
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    displayName: example-wrapping-key
+    algorithm: aes_256_gcm
+    protection: software
+    purpose: symmetric_encrypt_decrypt
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     keyringIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-keyring
-  providerConfigRef:
-    name: default

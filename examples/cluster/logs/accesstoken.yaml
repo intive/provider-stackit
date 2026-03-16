@@ -1,14 +1,18 @@
 apiVersion: logs.stackit.crossplane.io/v1alpha1
 kind: AccessToken
 metadata:
+  annotations:
+    meta.upbound.io/example-id: logs/v1alpha1/accesstoken
   labels:
     testing.upbound.io/example-name: example-logs-token
   name: example-logs-token
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    displayName: example-logs-token
+    permissions:
+      - read
+      - write
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-logs
-  providerConfigRef:
-    name: default

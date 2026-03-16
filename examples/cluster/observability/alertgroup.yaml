@@ -1,12 +1,14 @@
 apiVersion: observability.stackit.crossplane.io/v1alpha1
 kind: Alertgroup
 metadata:
+  annotations:
+    meta.upbound.io/example-id: observability/v1alpha1/alertgroup
   labels:
     testing.upbound.io/example-name: example-alertgroup
   name: example-alertgroup
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     instanceIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-observability
@@ -19,5 +21,3 @@ spec:
           severity: warning
         annotations:
           summary: CPU usage is high
-  providerConfigRef:
-    name: default

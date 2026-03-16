@@ -1,16 +1,16 @@
 apiVersion: compute.stackit.crossplane.io/v1alpha1
 kind: Image
 metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/image
   labels:
     testing.upbound.io/example-name: example-image
   name: example-image
 spec:
   forProvider:
     name: example-image
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     diskFormat: qcow2
     localFilePath: ./path/to/image.qcow2
     minDiskSize: 10
     minRam: 512
-  providerConfigRef:
-    name: default

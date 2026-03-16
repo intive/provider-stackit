@@ -10,7 +10,4 @@ package v1alpha1
 func (tr *Account) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *AccountAccessToken) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *AccountKey) Hub() {}

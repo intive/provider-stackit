@@ -1,13 +1,15 @@
 apiVersion: ske.stackit.crossplane.io/v1alpha1
 kind: Cluster
 metadata:
+  annotations:
+    meta.upbound.io/example-id: ske/v1alpha1/cluster
   labels:
     testing.upbound.io/example-name: example-cluster
   name: example-cluster
 spec:
   forProvider:
     name: example-cluster
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     kubernetesVersionMin: "1.29"
     nodePools:
       - name: pool-1
@@ -21,5 +23,3 @@ spec:
           version: "3815.2.0"
         cri:
           name: containerd
-  providerConfigRef:
-    name: default

@@ -1,16 +1,18 @@
 apiVersion: loadbalancer.stackit.crossplane.io/v1alpha1
 kind: Loadbalancer
 metadata:
+  annotations:
+    meta.upbound.io/example-id: loadbalancer/v1alpha1/loadbalancer
   labels:
     testing.upbound.io/example-name: example-lb
   name: example-lb
 spec:
   forProvider:
     name: example-lb
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     planId: p10
     networks:
-      - networkId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      - networkId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
         role: ROLE_LISTENERS_AND_TARGETS
     listeners:
       - displayName: http-listener
@@ -26,5 +28,3 @@ spec:
           interval: 10s
           timeout: 5s
           intervalJitter: 1s
-  providerConfigRef:
-    name: default

@@ -1,11 +1,12 @@
 apiVersion: scf.stackit.crossplane.io/v1alpha1
 kind: Organization
 metadata:
+  annotations:
+    meta.upbound.io/example-id: scf/v1alpha1/organization
   labels:
     testing.upbound.io/example-name: example-scf-org
   name: example-scf-org
 spec:
   forProvider:
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-  providerConfigRef:
-    name: default
+    name: example-scf-org
+    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6

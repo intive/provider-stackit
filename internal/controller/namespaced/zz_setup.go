@@ -81,7 +81,6 @@ import (
 	instancesecretsmanager "github.com/intive/provider-stackit/internal/controller/namespaced/secretsmanager/instance"
 	usersecretsmanager "github.com/intive/provider-stackit/internal/controller/namespaced/secretsmanager/user"
 	account "github.com/intive/provider-stackit/internal/controller/namespaced/serviceaccount/account"
-	accountaccesstoken "github.com/intive/provider-stackit/internal/controller/namespaced/serviceaccount/accountaccesstoken"
 	accountkey "github.com/intive/provider-stackit/internal/controller/namespaced/serviceaccount/accountkey"
 	exportpolicy "github.com/intive/provider-stackit/internal/controller/namespaced/sfs/exportpolicy"
 	resourcepool "github.com/intive/provider-stackit/internal/controller/namespaced/sfs/resourcepool"
@@ -168,7 +167,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		instancesecretsmanager.Setup,
 		usersecretsmanager.Setup,
 		account.Setup,
-		accountaccesstoken.Setup,
 		accountkey.Setup,
 		exportpolicy.Setup,
 		resourcepool.Setup,
@@ -261,7 +259,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		instancesecretsmanager.SetupGated,
 		usersecretsmanager.SetupGated,
 		account.SetupGated,
-		accountaccesstoken.SetupGated,
 		accountkey.SetupGated,
 		exportpolicy.SetupGated,
 		resourcepool.SetupGated,

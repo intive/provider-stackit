@@ -14,50 +14,6 @@ import (
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-// ResolveReferences of this AccountAccessToken.
-func (mg *AccountAccessToken) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPINamespacedResolver(c, mg)
-
-	var rsp reference.NamespacedResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServiceAccountEmail),
-		Extract:      resource.ExtractParamPath("email", true),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.ServiceAccountEmailRef,
-		Selector:     mg.Spec.ForProvider.ServiceAccountEmailSelector,
-		To: reference.To{
-			List:    &AccountList{},
-			Managed: &Account{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.ServiceAccountEmail")
-	}
-	mg.Spec.ForProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.ServiceAccountEmailRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServiceAccountEmail),
-		Extract:      resource.ExtractParamPath("email", true),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.ServiceAccountEmailRef,
-		Selector:     mg.Spec.InitProvider.ServiceAccountEmailSelector,
-		To: reference.To{
-			List:    &AccountList{},
-			Managed: &Account{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.ServiceAccountEmail")
-	}
-	mg.Spec.InitProvider.ServiceAccountEmail = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.ServiceAccountEmailRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this AccountKey.
 func (mg *AccountKey) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPINamespacedResolver(c, mg)
