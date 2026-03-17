@@ -10,6 +10,7 @@ import (
 	mariadb "github.com/intive/provider-stackit/config/common/mariadb"
 	mongodbflex "github.com/intive/provider-stackit/config/common/mongodbflex"
 	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
+	"github.com/intive/provider-stackit/config/common/observability"
 	opensearch "github.com/intive/provider-stackit/config/common/opensearch"
 	postgresflex "github.com/intive/provider-stackit/config/common/postgresflex"
 	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
@@ -85,6 +86,7 @@ func ConfigureCommon(pc *ujconfig.Provider) {
 		opensearch.Configure,
 		mariadb.Configure,
 		mongodbflex.Configure,
+		observability.Configure,
 	} {
 		configure(pc)
 	}
