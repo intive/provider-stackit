@@ -1,0 +1,1393 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: instances.observability.stackit.crossplane.io
+spec:
+  group: observability.stackit.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - stackit
+    kind: Instance
+    listKind: InstanceList
+    plural: instances
+    singular: instance
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Instance is the Schema for the Instances API. Observability instance
+          resource schema. Must have a region specified in the provider configuration.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: InstanceSpec defines the desired state of Instance
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  acl:
+                    description: |-
+                      (Set of String) The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                      The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  alertConfig:
+                    description: (Attributes) Alert configuration for the instance.
+                      (see below for nested schema)
+                    properties:
+                      global:
+                        description: (Attributes) Global configuration for the alerts.
+                          If nothing passed the default argus config will be used.
+                          It is only possible to update the entire global part, not
+                          individual attributes. (see below for nested schema)
+                        properties:
+                          opsgenieApiKeySecretRef:
+                            description: |-
+                              (String, Sensitive) The API key for OpsGenie.
+                              The API key for OpsGenie.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          opsgenieApiUrl:
+                            description: |-
+                              (String) The host to send OpsGenie API requests to. Must be a valid URL
+                              The host to send OpsGenie API requests to. Must be a valid URL
+                            type: string
+                          resolveTimeout:
+                            description: |-
+                              (String) The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                              The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                            type: string
+                          smtpAuthIdentity:
+                            description: |-
+                              (String) SMTP authentication information. Must be a valid email address
+                              SMTP authentication information. Must be a valid email address
+                            type: string
+                          smtpAuthPasswordSecretRef:
+                            description: |-
+                              (String, Sensitive) SMTP Auth using LOGIN and PLAIN.
+                              SMTP Auth using LOGIN and PLAIN.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          smtpAuthUsername:
+                            description: |-
+                              MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                              SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                            type: string
+                          smtpFrom:
+                            description: |-
+                              (String) The default SMTP From header field. Must be a valid email address
+                              The default SMTP From header field. Must be a valid email address
+                            type: string
+                          smtpSmartHost:
+                            description: |-
+                              (String) The default SMTP smarthost used for sending emails, including port number in format host:port (eg. smtp.example.com:587). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                              The default SMTP smarthost used for sending emails, including port number in format `host:port` (eg. `smtp.example.com:587`). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                            type: string
+                        type: object
+                      receivers:
+                        description: (Attributes List) List of alert receivers. (see
+                          below for nested schema)
+                        items:
+                          properties:
+                            emailConfigs:
+                              description: (Attributes List) List of email configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  authIdentity:
+                                    description: |-
+                                      (String) SMTP authentication information. Must be a valid email address
+                                      SMTP authentication information. Must be a valid email address
+                                    type: string
+                                  authPasswordSecretRef:
+                                    description: |-
+                                      (String, Sensitive) SMTP authentication password.
+                                      SMTP authentication password.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                  authUsername:
+                                    description: |-
+                                      (String) SMTP authentication username.
+                                      SMTP authentication username.
+                                    type: string
+                                  from:
+                                    description: |-
+                                      (String) The sender email address. Must be a valid email address
+                                      The sender email address. Must be a valid email address
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  smartHost:
+                                    description: |-
+                                      (String) The SMTP host through which emails are sent.
+                                      The SMTP host through which emails are sent.
+                                    type: string
+                                  to:
+                                    description: |-
+                                      (String) The email address to send notifications to. Must be a valid email address
+                                      The email address to send notifications to. Must be a valid email address
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                (String) The name of the Observability instance.
+                                Name of the receiver.
+                              type: string
+                            opsgenieConfigs:
+                              description: (Attributes List) List of OpsGenie configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  apiKey:
+                                    description: |-
+                                      (String) The API key for OpsGenie.
+                                      The API key for OpsGenie.
+                                    type: string
+                                  apiUrl:
+                                    description: |-
+                                      (String) The host to send OpsGenie API requests to. Must be a valid URL
+                                      The host to send OpsGenie API requests to. Must be a valid URL
+                                    type: string
+                                  priority:
+                                    description: |-
+                                      (String) Priority of the alert. Possible values are: P1, P2, P3, P4, P5.
+                                      Priority of the alert. Possible values are: `P1`, `P2`, `P3`, `P4`, `P5`.
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  tags:
+                                    description: |-
+                                      (String) Comma separated list of tags attached to the notifications.
+                                      Comma separated list of tags attached to the notifications.
+                                    type: string
+                                type: object
+                              type: array
+                            webhooksConfigs:
+                              description: (Attributes List) List of Webhooks configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  googleChat:
+                                    description: |-
+                                      (Boolean) Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                      Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                    type: boolean
+                                  msTeams:
+                                    description: |-
+                                      (Boolean) Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                      Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                    type: boolean
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  urlSecretRef:
+                                    description: |-
+                                      (String, Sensitive) The endpoint to send HTTP POST requests to. Must be a valid URL
+                                      The endpoint to send HTTP POST requests to. Must be a valid URL
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      route:
+                        description: (Attributes) Route configuration for the alerts.
+                          (see below for nested schema)
+                        properties:
+                          groupBy:
+                            description: |-
+                              is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                              The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                            items:
+                              type: string
+                            type: array
+                          groupInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                              How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                            type: string
+                          groupWait:
+                            description: |-
+                              (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                              How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                            type: string
+                          receiver:
+                            description: |-
+                              (String) The name of the receiver to route the alerts to.
+                              The name of the receiver to route the alerts to.
+                            type: string
+                          repeatInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                              How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                            type: string
+                          routes:
+                            description: (Attributes List) List of child routes. (see
+                              below for nested schema)
+                            items:
+                              properties:
+                                continue:
+                                  description: |-
+                                    (Boolean) Whether an alert should continue matching subsequent sibling nodes.
+                                    Whether an alert should continue matching subsequent sibling nodes.
+                                  type: boolean
+                                groupBy:
+                                  description: |-
+                                    is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                    The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                  items:
+                                    type: string
+                                  type: array
+                                groupInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                    How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                  type: string
+                                groupWait:
+                                  description: |-
+                                    (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                    How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                  type: string
+                                match:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    (Map of String, Deprecated) A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchRegex:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of regex-matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchers:
+                                  description: |-
+                                    (List of String) A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                    A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                  items:
+                                    type: string
+                                  type: array
+                                receiver:
+                                  description: |-
+                                    (String) The name of the receiver to route the alerts to.
+                                    The name of the receiver to route the alerts to.
+                                  type: string
+                                repeatInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                    How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                    type: object
+                  grafanaAdminEnabled:
+                    description: |-
+                      (Boolean) If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                      If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                    type: boolean
+                  logsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the logs are kept. Default is set to 7.
+                      Specifies for how many days the logs are kept. Default is set to `7`.
+                    type: number
+                  metricsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the raw metrics are kept. Default is set to 90.
+                      Specifies for how many days the raw metrics are kept. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays1HDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to 90.
+                      Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays5MDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to 90.
+                      Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to `90`.
+                    type: number
+                  name:
+                    description: |-
+                      (String) The name of the Observability instance.
+                      The name of the Observability instance.
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) Additional parameters.
+                      Additional parameters.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  planName:
+                    description: |-
+                      Monitoring-Medium-EU01.
+                      Specifies the Observability plan. E.g. `Observability-Monitoring-Medium-EU01`.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the instance is associated.
+                      STACKIT project ID to which the instance is associated.
+                    type: string
+                  tracesRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the traces are kept. Default is set to 7.
+                      Specifies for how many days the traces are kept. Default is set to `7`.
+                    type: number
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  acl:
+                    description: |-
+                      (Set of String) The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                      The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  alertConfig:
+                    description: (Attributes) Alert configuration for the instance.
+                      (see below for nested schema)
+                    properties:
+                      global:
+                        description: (Attributes) Global configuration for the alerts.
+                          If nothing passed the default argus config will be used.
+                          It is only possible to update the entire global part, not
+                          individual attributes. (see below for nested schema)
+                        properties:
+                          opsgenieApiKeySecretRef:
+                            description: |-
+                              (String, Sensitive) The API key for OpsGenie.
+                              The API key for OpsGenie.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          opsgenieApiUrl:
+                            description: |-
+                              (String) The host to send OpsGenie API requests to. Must be a valid URL
+                              The host to send OpsGenie API requests to. Must be a valid URL
+                            type: string
+                          resolveTimeout:
+                            description: |-
+                              (String) The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                              The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                            type: string
+                          smtpAuthIdentity:
+                            description: |-
+                              (String) SMTP authentication information. Must be a valid email address
+                              SMTP authentication information. Must be a valid email address
+                            type: string
+                          smtpAuthPasswordSecretRef:
+                            description: |-
+                              (String, Sensitive) SMTP Auth using LOGIN and PLAIN.
+                              SMTP Auth using LOGIN and PLAIN.
+                            properties:
+                              key:
+                                description: The key to select.
+                                type: string
+                              name:
+                                description: Name of the secret.
+                                type: string
+                              namespace:
+                                description: Namespace of the secret.
+                                type: string
+                            required:
+                            - key
+                            - name
+                            - namespace
+                            type: object
+                          smtpAuthUsername:
+                            description: |-
+                              MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                              SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                            type: string
+                          smtpFrom:
+                            description: |-
+                              (String) The default SMTP From header field. Must be a valid email address
+                              The default SMTP From header field. Must be a valid email address
+                            type: string
+                          smtpSmartHost:
+                            description: |-
+                              (String) The default SMTP smarthost used for sending emails, including port number in format host:port (eg. smtp.example.com:587). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                              The default SMTP smarthost used for sending emails, including port number in format `host:port` (eg. `smtp.example.com:587`). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                            type: string
+                        type: object
+                      receivers:
+                        description: (Attributes List) List of alert receivers. (see
+                          below for nested schema)
+                        items:
+                          properties:
+                            emailConfigs:
+                              description: (Attributes List) List of email configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  authIdentity:
+                                    description: |-
+                                      (String) SMTP authentication information. Must be a valid email address
+                                      SMTP authentication information. Must be a valid email address
+                                    type: string
+                                  authPasswordSecretRef:
+                                    description: |-
+                                      (String, Sensitive) SMTP authentication password.
+                                      SMTP authentication password.
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                  authUsername:
+                                    description: |-
+                                      (String) SMTP authentication username.
+                                      SMTP authentication username.
+                                    type: string
+                                  from:
+                                    description: |-
+                                      (String) The sender email address. Must be a valid email address
+                                      The sender email address. Must be a valid email address
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  smartHost:
+                                    description: |-
+                                      (String) The SMTP host through which emails are sent.
+                                      The SMTP host through which emails are sent.
+                                    type: string
+                                  to:
+                                    description: |-
+                                      (String) The email address to send notifications to. Must be a valid email address
+                                      The email address to send notifications to. Must be a valid email address
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                (String) The name of the Observability instance.
+                                Name of the receiver.
+                              type: string
+                            opsgenieConfigs:
+                              description: (Attributes List) List of OpsGenie configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  apiKey:
+                                    description: |-
+                                      (String) The API key for OpsGenie.
+                                      The API key for OpsGenie.
+                                    type: string
+                                  apiUrl:
+                                    description: |-
+                                      (String) The host to send OpsGenie API requests to. Must be a valid URL
+                                      The host to send OpsGenie API requests to. Must be a valid URL
+                                    type: string
+                                  priority:
+                                    description: |-
+                                      (String) Priority of the alert. Possible values are: P1, P2, P3, P4, P5.
+                                      Priority of the alert. Possible values are: `P1`, `P2`, `P3`, `P4`, `P5`.
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  tags:
+                                    description: |-
+                                      (String) Comma separated list of tags attached to the notifications.
+                                      Comma separated list of tags attached to the notifications.
+                                    type: string
+                                type: object
+                              type: array
+                            webhooksConfigs:
+                              description: (Attributes List) List of Webhooks configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  googleChat:
+                                    description: |-
+                                      (Boolean) Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                      Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                    type: boolean
+                                  msTeams:
+                                    description: |-
+                                      (Boolean) Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                      Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                    type: boolean
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  urlSecretRef:
+                                    description: |-
+                                      (String, Sensitive) The endpoint to send HTTP POST requests to. Must be a valid URL
+                                      The endpoint to send HTTP POST requests to. Must be a valid URL
+                                    properties:
+                                      key:
+                                        description: The key to select.
+                                        type: string
+                                      name:
+                                        description: Name of the secret.
+                                        type: string
+                                      namespace:
+                                        description: Namespace of the secret.
+                                        type: string
+                                    required:
+                                    - key
+                                    - name
+                                    - namespace
+                                    type: object
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      route:
+                        description: (Attributes) Route configuration for the alerts.
+                          (see below for nested schema)
+                        properties:
+                          groupBy:
+                            description: |-
+                              is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                              The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                            items:
+                              type: string
+                            type: array
+                          groupInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                              How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                            type: string
+                          groupWait:
+                            description: |-
+                              (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                              How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                            type: string
+                          receiver:
+                            description: |-
+                              (String) The name of the receiver to route the alerts to.
+                              The name of the receiver to route the alerts to.
+                            type: string
+                          repeatInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                              How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                            type: string
+                          routes:
+                            description: (Attributes List) List of child routes. (see
+                              below for nested schema)
+                            items:
+                              properties:
+                                continue:
+                                  description: |-
+                                    (Boolean) Whether an alert should continue matching subsequent sibling nodes.
+                                    Whether an alert should continue matching subsequent sibling nodes.
+                                  type: boolean
+                                groupBy:
+                                  description: |-
+                                    is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                    The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                  items:
+                                    type: string
+                                  type: array
+                                groupInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                    How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                  type: string
+                                groupWait:
+                                  description: |-
+                                    (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                    How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                  type: string
+                                match:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    (Map of String, Deprecated) A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchRegex:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of regex-matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchers:
+                                  description: |-
+                                    (List of String) A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                    A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                  items:
+                                    type: string
+                                  type: array
+                                receiver:
+                                  description: |-
+                                    (String) The name of the receiver to route the alerts to.
+                                    The name of the receiver to route the alerts to.
+                                  type: string
+                                repeatInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                    How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                    type: object
+                  grafanaAdminEnabled:
+                    description: |-
+                      (Boolean) If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                      If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                    type: boolean
+                  logsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the logs are kept. Default is set to 7.
+                      Specifies for how many days the logs are kept. Default is set to `7`.
+                    type: number
+                  metricsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the raw metrics are kept. Default is set to 90.
+                      Specifies for how many days the raw metrics are kept. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays1HDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to 90.
+                      Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays5MDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to 90.
+                      Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to `90`.
+                    type: number
+                  name:
+                    description: |-
+                      (String) The name of the Observability instance.
+                      The name of the Observability instance.
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) Additional parameters.
+                      Additional parameters.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  planName:
+                    description: |-
+                      Monitoring-Medium-EU01.
+                      Specifies the Observability plan. E.g. `Observability-Monitoring-Medium-EU01`.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the instance is associated.
+                      STACKIT project ID to which the instance is associated.
+                    type: string
+                  tracesRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the traces are kept. Default is set to 7.
+                      Specifies for how many days the traces are kept. Default is set to `7`.
+                    type: number
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.planName is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.planName)
+                || (has(self.initProvider) && has(self.initProvider.planName))'
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
+          status:
+            description: InstanceStatus defines the observed state of Instance.
+            properties:
+              atProvider:
+                properties:
+                  acl:
+                    description: |-
+                      (Set of String) The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                      The access control list for this instance. Each entry is an IP address range that is permitted to access, in CIDR notation.
+                    items:
+                      type: string
+                    type: array
+                    x-kubernetes-list-type: set
+                  alertConfig:
+                    description: (Attributes) Alert configuration for the instance.
+                      (see below for nested schema)
+                    properties:
+                      global:
+                        description: (Attributes) Global configuration for the alerts.
+                          If nothing passed the default argus config will be used.
+                          It is only possible to update the entire global part, not
+                          individual attributes. (see below for nested schema)
+                        properties:
+                          opsgenieApiUrl:
+                            description: |-
+                              (String) The host to send OpsGenie API requests to. Must be a valid URL
+                              The host to send OpsGenie API requests to. Must be a valid URL
+                            type: string
+                          resolveTimeout:
+                            description: |-
+                              (String) The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                              The default value used by alertmanager if the alert does not include EndsAt. After this time passes, it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt.
+                            type: string
+                          smtpAuthIdentity:
+                            description: |-
+                              (String) SMTP authentication information. Must be a valid email address
+                              SMTP authentication information. Must be a valid email address
+                            type: string
+                          smtpAuthUsername:
+                            description: |-
+                              MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                              SMTP Auth using CRAM-MD5, LOGIN and PLAIN. If empty, Alertmanager doesn't authenticate to the SMTP server.
+                            type: string
+                          smtpFrom:
+                            description: |-
+                              (String) The default SMTP From header field. Must be a valid email address
+                              The default SMTP From header field. Must be a valid email address
+                            type: string
+                          smtpSmartHost:
+                            description: |-
+                              (String) The default SMTP smarthost used for sending emails, including port number in format host:port (eg. smtp.example.com:587). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                              The default SMTP smarthost used for sending emails, including port number in format `host:port` (eg. `smtp.example.com:587`). Port number usually is 25, or 587 for SMTP over TLS (sometimes referred to as STARTTLS).
+                            type: string
+                        type: object
+                      receivers:
+                        description: (Attributes List) List of alert receivers. (see
+                          below for nested schema)
+                        items:
+                          properties:
+                            emailConfigs:
+                              description: (Attributes List) List of email configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  authIdentity:
+                                    description: |-
+                                      (String) SMTP authentication information. Must be a valid email address
+                                      SMTP authentication information. Must be a valid email address
+                                    type: string
+                                  authUsername:
+                                    description: |-
+                                      (String) SMTP authentication username.
+                                      SMTP authentication username.
+                                    type: string
+                                  from:
+                                    description: |-
+                                      (String) The sender email address. Must be a valid email address
+                                      The sender email address. Must be a valid email address
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  smartHost:
+                                    description: |-
+                                      (String) The SMTP host through which emails are sent.
+                                      The SMTP host through which emails are sent.
+                                    type: string
+                                  to:
+                                    description: |-
+                                      (String) The email address to send notifications to. Must be a valid email address
+                                      The email address to send notifications to. Must be a valid email address
+                                    type: string
+                                type: object
+                              type: array
+                            name:
+                              description: |-
+                                (String) The name of the Observability instance.
+                                Name of the receiver.
+                              type: string
+                            opsgenieConfigs:
+                              description: (Attributes List) List of OpsGenie configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  apiKey:
+                                    description: |-
+                                      (String) The API key for OpsGenie.
+                                      The API key for OpsGenie.
+                                    type: string
+                                  apiUrl:
+                                    description: |-
+                                      (String) The host to send OpsGenie API requests to. Must be a valid URL
+                                      The host to send OpsGenie API requests to. Must be a valid URL
+                                    type: string
+                                  priority:
+                                    description: |-
+                                      (String) Priority of the alert. Possible values are: P1, P2, P3, P4, P5.
+                                      Priority of the alert. Possible values are: `P1`, `P2`, `P3`, `P4`, `P5`.
+                                    type: string
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                  tags:
+                                    description: |-
+                                      (String) Comma separated list of tags attached to the notifications.
+                                      Comma separated list of tags attached to the notifications.
+                                    type: string
+                                type: object
+                              type: array
+                            webhooksConfigs:
+                              description: (Attributes List) List of Webhooks configurations.
+                                (see below for nested schema)
+                              items:
+                                properties:
+                                  googleChat:
+                                    description: |-
+                                      (Boolean) Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                      Google Chat webhooks require special handling, set this to true if the webhook is for Google Chat.
+                                    type: boolean
+                                  msTeams:
+                                    description: |-
+                                      (Boolean) Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                      Microsoft Teams webhooks require special handling, set this to true if the webhook is for Microsoft Teams.
+                                    type: boolean
+                                  sendResolved:
+                                    description: |-
+                                      (Boolean) Whether to notify about resolved alerts.
+                                      Whether to notify about resolved alerts.
+                                    type: boolean
+                                type: object
+                              type: array
+                          type: object
+                        type: array
+                      route:
+                        description: (Attributes) Route configuration for the alerts.
+                          (see below for nested schema)
+                        properties:
+                          continue:
+                            description: |-
+                              (Boolean) Whether an alert should continue matching subsequent sibling nodes.
+                              Whether an alert should continue matching subsequent sibling nodes.
+                            type: boolean
+                          groupBy:
+                            description: |-
+                              is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                              The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                            items:
+                              type: string
+                            type: array
+                          groupInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                              How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                            type: string
+                          groupWait:
+                            description: |-
+                              (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                              How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                            type: string
+                          receiver:
+                            description: |-
+                              (String) The name of the receiver to route the alerts to.
+                              The name of the receiver to route the alerts to.
+                            type: string
+                          repeatInterval:
+                            description: |-
+                              (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                              How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                            type: string
+                          routes:
+                            description: (Attributes List) List of child routes. (see
+                              below for nested schema)
+                            items:
+                              properties:
+                                continue:
+                                  description: |-
+                                    (Boolean) Whether an alert should continue matching subsequent sibling nodes.
+                                    Whether an alert should continue matching subsequent sibling nodes.
+                                  type: boolean
+                                groupBy:
+                                  description: |-
+                                    is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                    The labels by which incoming alerts are grouped together. For example, multiple alerts coming in for cluster=A and alertname=LatencyHigh would be batched into a single group. To aggregate by all possible labels use the special value '...' as the sole label name, for example: group_by: ['...']. This effectively disables aggregation entirely, passing through all alerts as-is. This is unlikely to be what you want, unless you have a very low alert volume or your upstream notification system performs its own grouping.
+                                  items:
+                                    type: string
+                                  type: array
+                                groupInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                    How long to wait before sending a notification about new alerts that are added to a group of alerts for which an initial notification has already been sent. (Usually ~5m or more.)
+                                  type: string
+                                groupWait:
+                                  description: |-
+                                    (String) How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                    How long to initially wait to send a notification for a group of alerts. Allows to wait for an inhibiting alert to arrive or collect more initial alerts for the same group. (Usually ~0s to few minutes.)
+                                  type: string
+                                match:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    (Map of String, Deprecated) A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of equality matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchRegex:
+                                  additionalProperties:
+                                    type: string
+                                  description: |-
+                                    matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use matchers in the routes instead
+                                    A set of regex-matchers an alert has to fulfill to match the node. This field is deprecated and will be removed after 10th March 2026, use `matchers` in the `routes` instead
+                                  type: object
+                                  x-kubernetes-map-type: granular
+                                matchers:
+                                  description: |-
+                                    (List of String) A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                    A list of matchers that an alert has to fulfill to match the node. A matcher is a string with a syntax inspired by PromQL and OpenMetrics.
+                                  items:
+                                    type: string
+                                  type: array
+                                receiver:
+                                  description: |-
+                                    (String) The name of the receiver to route the alerts to.
+                                    The name of the receiver to route the alerts to.
+                                  type: string
+                                repeatInterval:
+                                  description: |-
+                                    (String) How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                    How long to wait before sending a notification again if it has already been sent successfully for an alert. (Usually ~3h or more).
+                                  type: string
+                              type: object
+                            type: array
+                        type: object
+                    type: object
+                  alertingUrl:
+                    description: |-
+                      (String) Specifies Alerting URL.
+                      Specifies Alerting URL.
+                    type: string
+                  dashboardUrl:
+                    description: |-
+                      (String) Specifies Observability instance dashboard URL.
+                      Specifies Observability instance dashboard URL.
+                    type: string
+                  grafanaAdminEnabled:
+                    description: |-
+                      (Boolean) If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                      If true, a default Grafana server admin user is created. It's recommended to set this to false and use STACKIT SSO (Owner or Observability Grafana Server Admin role) instead. It is still possible to manually create a new Grafana admin user via the Grafana UI later.
+                    type: boolean
+                  grafanaInitialAdminUser:
+                    description: |-
+                      (String, Deprecated) Specifies an initial Grafana admin username.
+                      Specifies an initial Grafana admin username.
+                    type: string
+                  grafanaPublicReadAccess:
+                    description: |-
+                      (Boolean) If true, anyone can access Grafana dashboards without logging in.
+                      If true, anyone can access Grafana dashboards without logging in.
+                    type: boolean
+                  grafanaUrl:
+                    description: |-
+                      (String) Specifies Grafana URL.
+                      Specifies Grafana URL.
+                    type: string
+                  id:
+                    description: It is structured as "project_id,instance_id".
+                    type: string
+                  instanceId:
+                    description: |-
+                      (String) The Observability instance ID.
+                      The Observability instance ID.
+                    type: string
+                  isUpdatable:
+                    description: |-
+                      (Boolean) Specifies if the instance can be updated.
+                      Specifies if the instance can be updated.
+                    type: boolean
+                  jaegerTracesUrl:
+                    description: (String)
+                    type: string
+                  jaegerUiUrl:
+                    description: (String)
+                    type: string
+                  logsPushUrl:
+                    description: |-
+                      (String) Specifies URL for pushing logs.
+                      Specifies URL for pushing logs.
+                    type: string
+                  logsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the logs are kept. Default is set to 7.
+                      Specifies for how many days the logs are kept. Default is set to `7`.
+                    type: number
+                  logsUrl:
+                    description: |-
+                      (String) Specifies Logs URL.
+                      Specifies Logs URL.
+                    type: string
+                  metricsPushUrl:
+                    description: |-
+                      (String) Specifies URL for pushing metrics.
+                      Specifies URL for pushing metrics.
+                    type: string
+                  metricsRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the raw metrics are kept. Default is set to 90.
+                      Specifies for how many days the raw metrics are kept. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays1HDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to 90.
+                      Specifies for how many days the 1h downsampled metrics are kept. must be less than the value of the 5m downsampling retention. Default is set to `90`.
+                    type: number
+                  metricsRetentionDays5MDownsampling:
+                    description: |-
+                      (Number) Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to 90.
+                      Specifies for how many days the 5m downsampled metrics are kept. must be less than the value of the general retention. Default is set to `90`.
+                    type: number
+                  metricsUrl:
+                    description: |-
+                      (String) Specifies metrics URL.
+                      Specifies metrics URL.
+                    type: string
+                  name:
+                    description: |-
+                      (String) The name of the Observability instance.
+                      The name of the Observability instance.
+                    type: string
+                  otlpTracesUrl:
+                    description: (String)
+                    type: string
+                  parameters:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      (Map of String) Additional parameters.
+                      Additional parameters.
+                    type: object
+                    x-kubernetes-map-type: granular
+                  planId:
+                    description: |-
+                      (String) The Observability plan ID.
+                      The Observability plan ID.
+                    type: string
+                  planName:
+                    description: |-
+                      Monitoring-Medium-EU01.
+                      Specifies the Observability plan. E.g. `Observability-Monitoring-Medium-EU01`.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the instance is associated.
+                      STACKIT project ID to which the instance is associated.
+                    type: string
+                  targetsUrl:
+                    description: |-
+                      (String) Specifies Targets URL.
+                      Specifies Targets URL.
+                    type: string
+                  tracesRetentionDays:
+                    description: |-
+                      (Number) Specifies for how many days the traces are kept. Default is set to 7.
+                      Specifies for how many days the traces are kept. Default is set to `7`.
+                    type: number
+                  zipkinSpansUrl:
+                    description: (String)
+                    type: string
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
