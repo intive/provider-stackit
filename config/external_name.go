@@ -24,6 +24,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"stackit_opensearch_credential":           config.IdentifierFromProvider,
 	"stackit_mongodbflex_instance":            config.IdentifierFromProvider,
 	"stackit_mongodbflex_user":                config.IdentifierFromProvider,
+	"stackit_sqlserverflex_instance":          config.IdentifierFromProvider,
+	"stackit_sqlserverflex_user":              config.IdentifierFromProvider,
 	"stackit_observability_instance":          config.IdentifierFromProvider,
 	"stackit_observability_alertgroup":        config.IdentifierFromProvider,
 	"stackit_observability_logalertgroup":     config.IdentifierFromProvider,
@@ -31,8 +33,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	// Requires fix in terraform provider
 	// "stackit_observability_credential":        config.IdentifierFromProvider,
-	"stackit_mariadb_instance":                config.IdentifierFromProvider,
-	"stackit_mariadb_credential":              config.IdentifierFromProvider,
+	"stackit_mariadb_instance":   config.IdentifierFromProvider,
+	"stackit_mariadb_credential": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the

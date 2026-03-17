@@ -16,6 +16,7 @@ import (
 	rabbitmq "github.com/intive/provider-stackit/config/common/rabbitmq"
 	redis "github.com/intive/provider-stackit/config/common/redis"
 	secretsmanager "github.com/intive/provider-stackit/config/common/secretsmanager"
+	"github.com/intive/provider-stackit/config/common/sqlserverflex"
 )
 
 const (
@@ -86,6 +87,7 @@ func ConfigureCommon(pc *ujconfig.Provider) {
 		opensearch.Configure,
 		mariadb.Configure,
 		mongodbflex.Configure,
+		sqlserverflex.Configure,
 		observability.Configure,
 	} {
 		configure(pc)
