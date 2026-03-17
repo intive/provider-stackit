@@ -10,7 +10,8 @@ import (
 	"context"
 	reference "github.com/crossplane/crossplane-runtime/v2/pkg/reference"
 	resource "github.com/crossplane/upjet/v2/pkg/resource"
-	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/serviceaccount/v1alpha1"
+	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/network/v1alpha1"
+	v1alpha11 "github.com/intive/provider-stackit/apis/namespaced/serviceaccount/v1alpha1"
 	errors "github.com/pkg/errors"
 	client "sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -59,11 +60,90 @@ func (mg *BackupSchedule) ResolveReferences(ctx context.Context, c client.Reader
 	return nil
 }
 
+// ResolveReferences of this NetworkInterfaceAttach.
+func (mg *NetworkInterfaceAttach) ResolveReferences(ctx context.Context, c client.Reader) error {
+	r := reference.NewAPINamespacedResolver(c, mg)
+
+	var rsp reference.NamespacedResolutionResponse
+	var err error
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkInterfaceID),
+		Extract:      resource.ExtractParamPath("network_interface_id", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.NetworkInterfaceIDRef,
+		Selector:     mg.Spec.ForProvider.NetworkInterfaceIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.NetworkInterfaceList{},
+			Managed: &v1alpha1.NetworkInterface{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.NetworkInterfaceID")
+	}
+	mg.Spec.ForProvider.NetworkInterfaceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.NetworkInterfaceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.ServerID),
+		Extract:      resource.ExtractParamPath("server_id", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.ForProvider.ServerIDRef,
+		Selector:     mg.Spec.ForProvider.ServerIDSelector,
+		To: reference.To{
+			List:    &ServerList{},
+			Managed: &Server{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.ServerID")
+	}
+	mg.Spec.ForProvider.ServerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.ForProvider.ServerIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkInterfaceID),
+		Extract:      resource.ExtractParamPath("network_interface_id", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.NetworkInterfaceIDRef,
+		Selector:     mg.Spec.InitProvider.NetworkInterfaceIDSelector,
+		To: reference.To{
+			List:    &v1alpha1.NetworkInterfaceList{},
+			Managed: &v1alpha1.NetworkInterface{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkInterfaceID")
+	}
+	mg.Spec.InitProvider.NetworkInterfaceID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.NetworkInterfaceIDRef = rsp.ResolvedReference
+
+	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
+		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ServerID),
+		Extract:      resource.ExtractParamPath("server_id", true),
+		Namespace:    mg.GetNamespace(),
+		Reference:    mg.Spec.InitProvider.ServerIDRef,
+		Selector:     mg.Spec.InitProvider.ServerIDSelector,
+		To: reference.To{
+			List:    &ServerList{},
+			Managed: &Server{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.ServerID")
+	}
+	mg.Spec.InitProvider.ServerID = reference.ToPtrValue(rsp.ResolvedValue)
+	mg.Spec.InitProvider.ServerIDRef = rsp.ResolvedReference
+
+	return nil
+}
+
 // ResolveReferences of this Server.
 func (mg *Server) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPINamespacedResolver(c, mg)
 
 	var rsp reference.NamespacedResolutionResponse
+	var mrsp reference.MultiNamespacedResolutionResponse
 	var err error
 
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
@@ -83,6 +163,23 @@ func (mg *Server) ResolveReferences(ctx context.Context, c client.Reader) error 
 	mg.Spec.ForProvider.ImageID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.ForProvider.ImageIDRef = rsp.ResolvedReference
 
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.ForProvider.NetworkInterfaces),
+		Extract:       resource.ExtractParamPath("network_interface_id", true),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.ForProvider.NetworkInterfacesRefs,
+		Selector:      mg.Spec.ForProvider.NetworkInterfacesSelector,
+		To: reference.To{
+			List:    &v1alpha1.NetworkInterfaceList{},
+			Managed: &v1alpha1.NetworkInterface{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.ForProvider.NetworkInterfaces")
+	}
+	mg.Spec.ForProvider.NetworkInterfaces = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.ForProvider.NetworkInterfacesRefs = mrsp.ResolvedReferences
+
 	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
 		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.ImageID),
 		Extract:      resource.ExtractParamPath("image_id", true),
@@ -99,6 +196,23 @@ func (mg *Server) ResolveReferences(ctx context.Context, c client.Reader) error 
 	}
 	mg.Spec.InitProvider.ImageID = reference.ToPtrValue(rsp.ResolvedValue)
 	mg.Spec.InitProvider.ImageIDRef = rsp.ResolvedReference
+
+	mrsp, err = r.ResolveMultiple(ctx, reference.MultiNamespacedResolutionRequest{
+		CurrentValues: reference.FromPtrValues(mg.Spec.InitProvider.NetworkInterfaces),
+		Extract:       resource.ExtractParamPath("network_interface_id", true),
+		Namespace:     mg.GetNamespace(),
+		References:    mg.Spec.InitProvider.NetworkInterfacesRefs,
+		Selector:      mg.Spec.InitProvider.NetworkInterfacesSelector,
+		To: reference.To{
+			List:    &v1alpha1.NetworkInterfaceList{},
+			Managed: &v1alpha1.NetworkInterface{},
+		},
+	})
+	if err != nil {
+		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkInterfaces")
+	}
+	mg.Spec.InitProvider.NetworkInterfaces = reference.ToPtrValues(mrsp.ResolvedValues)
+	mg.Spec.InitProvider.NetworkInterfacesRefs = mrsp.ResolvedReferences
 
 	return nil
 }
@@ -134,8 +248,8 @@ func (mg *ServiceAccountAttach) ResolveReferences(ctx context.Context, c client.
 		Reference:    mg.Spec.ForProvider.ServiceAccountEmailRef,
 		Selector:     mg.Spec.ForProvider.ServiceAccountEmailSelector,
 		To: reference.To{
-			List:    &v1alpha1.AccountList{},
-			Managed: &v1alpha1.Account{},
+			List:    &v1alpha11.AccountList{},
+			Managed: &v1alpha11.Account{},
 		},
 	})
 	if err != nil {
@@ -168,8 +282,8 @@ func (mg *ServiceAccountAttach) ResolveReferences(ctx context.Context, c client.
 		Reference:    mg.Spec.InitProvider.ServiceAccountEmailRef,
 		Selector:     mg.Spec.InitProvider.ServiceAccountEmailSelector,
 		To: reference.To{
-			List:    &v1alpha1.AccountList{},
-			Managed: &v1alpha1.Account{},
+			List:    &v1alpha11.AccountList{},
+			Managed: &v1alpha11.Account{},
 		},
 	})
 	if err != nil {

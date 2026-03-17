@@ -34,9 +34,6 @@ func (tr *Network) Hub() {}
 func (tr *NetworkInterface) Hub() {}
 
 // Hub marks this type as a conversion hub.
-func (tr *NetworkInterfaceAttach) Hub() {}
-
-// Hub marks this type as a conversion hub.
 func (tr *Table) Hub() {}
 
 // Hub marks this type as a conversion hub.

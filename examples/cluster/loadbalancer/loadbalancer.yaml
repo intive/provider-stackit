@@ -12,16 +12,23 @@ spec:
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     planId: p10
     networks:
-      - networkId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+      - networkIdSelector:
+          matchLabels:
+            testing.upbound.io/example-name: example-network
         role: ROLE_LISTENERS_AND_TARGETS
     listeners:
       - displayName: http-listener
         port: 80
         protocol: PROTOCOL_TCP
         targetPool: example-target-pool
+    options:
+      privateNetworkOnly: true
     targetPools:
       - name: example-target-pool
         targetPort: 80
+        targets:
+          - displayName: example-target
+            ip: 10.0.0.69
         activeHealthCheck:
           healthyThreshold: 3
           unhealthyThreshold: 3

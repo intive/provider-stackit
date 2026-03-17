@@ -13,7 +13,7 @@ spec:
     kubernetesVersionMin: "1.29"
     nodePools:
       - name: pool-1
-        machineType: g1.2
+        machineType: g2i.1
         minimum: 1
         maximum: 3
         availabilityZones:

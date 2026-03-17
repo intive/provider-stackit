@@ -39,7 +39,17 @@ type NetworkInterfaceAttachInitParameters struct {
 
 	// (String) The server ID.
 	// The server ID.
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/cluster/compute/v1alpha1.Server
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("server_id",true)
 	ServerID *string `json:"serverId,omitempty" tf:"server_id,omitempty"`
+
+	// Reference to a Server in compute to populate serverId.
+	// +kubebuilder:validation:Optional
+	ServerIDRef *v1.Reference `json:"serverIdRef,omitempty" tf:"-"`
+
+	// Selector for a Server in compute to populate serverId.
+	// +kubebuilder:validation:Optional
+	ServerIDSelector *v1.Selector `json:"serverIdSelector,omitempty" tf:"-"`
 }
 
 type NetworkInterfaceAttachObservation struct {
@@ -93,8 +103,18 @@ type NetworkInterfaceAttachParameters struct {
 
 	// (String) The server ID.
 	// The server ID.
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/cluster/compute/v1alpha1.Server
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("server_id",true)
 	// +kubebuilder:validation:Optional
 	ServerID *string `json:"serverId,omitempty" tf:"server_id,omitempty"`
+
+	// Reference to a Server in compute to populate serverId.
+	// +kubebuilder:validation:Optional
+	ServerIDRef *v1.Reference `json:"serverIdRef,omitempty" tf:"-"`
+
+	// Selector for a Server in compute to populate serverId.
+	// +kubebuilder:validation:Optional
+	ServerIDSelector *v1.Selector `json:"serverIdSelector,omitempty" tf:"-"`
 }
 
 // NetworkInterfaceAttachSpec defines the desired state of NetworkInterfaceAttach
@@ -134,7 +154,6 @@ type NetworkInterfaceAttach struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.projectId) || (has(self.initProvider) && has(self.initProvider.projectId))",message="spec.forProvider.projectId is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.serverId) || (has(self.initProvider) && has(self.initProvider.serverId))",message="spec.forProvider.serverId is a required parameter"
 	Spec   NetworkInterfaceAttachSpec   `json:"spec"`
 	Status NetworkInterfaceAttachStatus `json:"status,omitempty"`
 }

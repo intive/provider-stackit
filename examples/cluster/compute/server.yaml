@@ -10,9 +10,12 @@ spec:
   forProvider:
     name: example-server
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
-    machineType: g2i.2
+    machineType: g2i.1
     availabilityZone: eu01-1
     bootVolume:
       sourceType: image
-      sourceId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
-      size: 64
+      sourceId: edfded8c-6351-4528-829a-3aa2a7ad856c
+      size: 10
+    networkInterfacesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-network-interface

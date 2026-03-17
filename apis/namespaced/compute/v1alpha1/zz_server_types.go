@@ -142,7 +142,17 @@ type ServerInitParameters struct {
 
 	// )creating servers. Still marked as optional in the schema to not introduce breaking changes. There will be a migration path for this field soon.
 	// The IDs of network interfaces which should be attached to the server. Updating it will recreate the server. **Required when (re-)creating servers. Still marked as optional in the schema to not introduce breaking changes. There will be a migration path for this field soon.**
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/namespaced/network/v1alpha1.NetworkInterface
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network_interface_id",true)
 	NetworkInterfaces []*string `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
+
+	// References to NetworkInterface in network to populate networkInterfaces.
+	// +kubebuilder:validation:Optional
+	NetworkInterfacesRefs []v1.NamespacedReference `json:"networkInterfacesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkInterface in network to populate networkInterfaces.
+	// +kubebuilder:validation:Optional
+	NetworkInterfacesSelector *v1.NamespacedSelector `json:"networkInterfacesSelector,omitempty" tf:"-"`
 
 	// (String) STACKIT project ID to which the server is associated.
 	// STACKIT project ID to which the server is associated.
@@ -290,8 +300,18 @@ type ServerParameters struct {
 
 	// )creating servers. Still marked as optional in the schema to not introduce breaking changes. There will be a migration path for this field soon.
 	// The IDs of network interfaces which should be attached to the server. Updating it will recreate the server. **Required when (re-)creating servers. Still marked as optional in the schema to not introduce breaking changes. There will be a migration path for this field soon.**
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/namespaced/network/v1alpha1.NetworkInterface
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network_interface_id",true)
 	// +kubebuilder:validation:Optional
 	NetworkInterfaces []*string `json:"networkInterfaces,omitempty" tf:"network_interfaces,omitempty"`
+
+	// References to NetworkInterface in network to populate networkInterfaces.
+	// +kubebuilder:validation:Optional
+	NetworkInterfacesRefs []v1.NamespacedReference `json:"networkInterfacesRefs,omitempty" tf:"-"`
+
+	// Selector for a list of NetworkInterface in network to populate networkInterfaces.
+	// +kubebuilder:validation:Optional
+	NetworkInterfacesSelector *v1.NamespacedSelector `json:"networkInterfacesSelector,omitempty" tf:"-"`
 
 	// (String) STACKIT project ID to which the server is associated.
 	// STACKIT project ID to which the server is associated.

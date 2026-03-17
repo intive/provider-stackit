@@ -387,7 +387,17 @@ type NetworksInitParameters struct {
 
 	// (String) Openstack network ID.
 	// Openstack network ID.
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/cluster/network/v1alpha1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network_id",true)
 	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
+
+	// Reference to a Network in network to populate networkId.
+	// +kubebuilder:validation:Optional
+	NetworkIDRef *v1.Reference `json:"networkIdRef,omitempty" tf:"-"`
+
+	// Selector for a Network in network to populate networkId.
+	// +kubebuilder:validation:Optional
+	NetworkIDSelector *v1.Selector `json:"networkIdSelector,omitempty" tf:"-"`
 
 	// (String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.
 	// The role defines how the load balancer is using the network. Possible values are: `ROLE_UNSPECIFIED`, `ROLE_LISTENERS_AND_TARGETS`, `ROLE_LISTENERS`, `ROLE_TARGETS`.
@@ -409,8 +419,18 @@ type NetworksParameters struct {
 
 	// (String) Openstack network ID.
 	// Openstack network ID.
+	// +crossplane:generate:reference:type=github.com/intive/provider-stackit/apis/cluster/network/v1alpha1.Network
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network_id",true)
 	// +kubebuilder:validation:Optional
-	NetworkID *string `json:"networkId" tf:"network_id,omitempty"`
+	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
+
+	// Reference to a Network in network to populate networkId.
+	// +kubebuilder:validation:Optional
+	NetworkIDRef *v1.Reference `json:"networkIdRef,omitempty" tf:"-"`
+
+	// Selector for a Network in network to populate networkId.
+	// +kubebuilder:validation:Optional
+	NetworkIDSelector *v1.Selector `json:"networkIdSelector,omitempty" tf:"-"`
 
 	// (String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.
 	// The role defines how the load balancer is using the network. Possible values are: `ROLE_UNSPECIFIED`, `ROLE_LISTENERS_AND_TARGETS`, `ROLE_LISTENERS`, `ROLE_TARGETS`.

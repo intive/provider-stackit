@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     name: example-network-area
-    organizationId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    organizationId: fed80047-d03a-4fe8-9c67-94d68abaa648
     transferNetwork: 10.1.2.0/24
     networkRanges:
       - prefix: 10.0.0.0/8

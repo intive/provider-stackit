@@ -10,5 +10,5 @@ spec:
   forProvider:
     name: example-logme
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
-    planName: stackit-logme-1-1-10
+    planName: stackit-logme2-1.2.50-replica
     version: "1"

@@ -10,4 +10,4 @@ spec:
   forProvider:
     name: example-observability
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
-    planName: observability-free
+    planName: Observability-Starter-EU01

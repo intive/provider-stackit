@@ -21,7 +21,7 @@ import (
 	"github.com/pkg/errors"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/network/v1alpha1"
+	v1alpha1 "github.com/intive/provider-stackit/apis/cluster/compute/v1alpha1"
 	features "github.com/intive/provider-stackit/internal/features"
 )
 

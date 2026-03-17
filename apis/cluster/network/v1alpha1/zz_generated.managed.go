@@ -458,56 +458,6 @@ func (mg *NetworkInterface) SetWriteConnectionSecretToReference(r *xpv1.SecretRe
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
-// GetCondition of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
-	return mg.Status.GetCondition(ct)
-}
-
-// GetDeletionPolicy of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) GetDeletionPolicy() xpv1.DeletionPolicy {
-	return mg.Spec.DeletionPolicy
-}
-
-// GetManagementPolicies of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) GetManagementPolicies() xpv1.ManagementPolicies {
-	return mg.Spec.ManagementPolicies
-}
-
-// GetProviderConfigReference of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) GetProviderConfigReference() *xpv1.Reference {
-	return mg.Spec.ProviderConfigReference
-}
-
-// GetWriteConnectionSecretToReference of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) GetWriteConnectionSecretToReference() *xpv1.SecretReference {
-	return mg.Spec.WriteConnectionSecretToReference
-}
-
-// SetConditions of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) SetConditions(c ...xpv1.Condition) {
-	mg.Status.SetConditions(c...)
-}
-
-// SetDeletionPolicy of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) SetDeletionPolicy(r xpv1.DeletionPolicy) {
-	mg.Spec.DeletionPolicy = r
-}
-
-// SetManagementPolicies of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) SetManagementPolicies(r xpv1.ManagementPolicies) {
-	mg.Spec.ManagementPolicies = r
-}
-
-// SetProviderConfigReference of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) SetProviderConfigReference(r *xpv1.Reference) {
-	mg.Spec.ProviderConfigReference = r
-}
-
-// SetWriteConnectionSecretToReference of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) SetWriteConnectionSecretToReference(r *xpv1.SecretReference) {
-	mg.Spec.WriteConnectionSecretToReference = r
-}
-
 // GetCondition of this Table.
 func (mg *Table) GetCondition(ct xpv1.ConditionType) xpv1.Condition {
 	return mg.Status.GetCondition(ct)

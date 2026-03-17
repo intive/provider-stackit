@@ -10,4 +10,4 @@ spec:
   forProvider:
     resourceId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     role: reader
-    subject: user@example.com
+    subject: uptest-dpildner-n8ejt1i8@sa.stackit.cloud

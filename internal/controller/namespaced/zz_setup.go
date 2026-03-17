@@ -18,6 +18,7 @@ import (
 	backupschedule "github.com/intive/provider-stackit/internal/controller/namespaced/compute/backupschedule"
 	group "github.com/intive/provider-stackit/internal/controller/namespaced/compute/group"
 	image "github.com/intive/provider-stackit/internal/controller/namespaced/compute/image"
+	networkinterfaceattach "github.com/intive/provider-stackit/internal/controller/namespaced/compute/networkinterfaceattach"
 	pair "github.com/intive/provider-stackit/internal/controller/namespaced/compute/pair"
 	server "github.com/intive/provider-stackit/internal/controller/namespaced/compute/server"
 	serviceaccountattach "github.com/intive/provider-stackit/internal/controller/namespaced/compute/serviceaccountattach"
@@ -53,7 +54,6 @@ import (
 	ipassociate "github.com/intive/provider-stackit/internal/controller/namespaced/network/ipassociate"
 	network "github.com/intive/provider-stackit/internal/controller/namespaced/network/network"
 	networkinterface "github.com/intive/provider-stackit/internal/controller/namespaced/network/networkinterface"
-	networkinterfaceattach "github.com/intive/provider-stackit/internal/controller/namespaced/network/networkinterfaceattach"
 	table "github.com/intive/provider-stackit/internal/controller/namespaced/network/table"
 	tableroute "github.com/intive/provider-stackit/internal/controller/namespaced/network/tableroute"
 	bucket "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/bucket"
@@ -104,6 +104,7 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		backupschedule.Setup,
 		group.Setup,
 		image.Setup,
+		networkinterfaceattach.Setup,
 		pair.Setup,
 		server.Setup,
 		serviceaccountattach.Setup,
@@ -139,7 +140,6 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 		ipassociate.Setup,
 		network.Setup,
 		networkinterface.Setup,
-		networkinterfaceattach.Setup,
 		table.Setup,
 		tableroute.Setup,
 		bucket.Setup,
@@ -196,6 +196,7 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		backupschedule.SetupGated,
 		group.SetupGated,
 		image.SetupGated,
+		networkinterfaceattach.SetupGated,
 		pair.SetupGated,
 		server.SetupGated,
 		serviceaccountattach.SetupGated,
@@ -231,7 +232,6 @@ func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 		ipassociate.SetupGated,
 		network.SetupGated,
 		networkinterface.SetupGated,
-		networkinterfaceattach.SetupGated,
 		table.SetupGated,
 		tableroute.SetupGated,
 		bucket.SetupGated,

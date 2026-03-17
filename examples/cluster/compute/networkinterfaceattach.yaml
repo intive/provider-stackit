@@ -1,8 +1,8 @@
-apiVersion: network.stackit.crossplane.io/v1alpha1
+apiVersion: compute.stackit.crossplane.io/v1alpha1
 kind: NetworkInterfaceAttach
 metadata:
   annotations:
-    meta.upbound.io/example-id: network/v1alpha1/networkinterfaceattach
+    meta.upbound.io/example-id: compute/v1alpha1/networkinterfaceattach
   labels:
     testing.upbound.io/example-name: example-nic-attach
   name: example-nic-attach

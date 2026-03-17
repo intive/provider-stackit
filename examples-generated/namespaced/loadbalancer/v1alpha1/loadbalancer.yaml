@@ -19,7 +19,9 @@ spec:
         idleTimeout: 90s
     name: example-load-balancer
     networks:
-    - networkId: ${stackit_network.example_network.network_id}
+    - networkIdSelector:
+        matchLabels:
+          testing.upbound.io/example-name: example_network
       role: ROLE_LISTENERS_AND_TARGETS
     options:
       privateNetworkOnly: false
@@ -227,8 +229,8 @@ spec:
     keypairName: example-key-pair
     machineType: g2i.1
     name: example-server
-    networkInterfaces:
-    - ${stackit_network_interface.nic.network_interface_id}
+    networkInterfacesRefs:
+    - name: nic
     projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
 ---
@@ -251,6 +253,6 @@ spec:
       sourceType: image
     machineType: g2i.2
     name: example-remote-target
-    networkInterfaces:
-    - ${stackit_network_interface.nic.network_interface_id}
+    networkInterfacesRefs:
+    - name: nic
     projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

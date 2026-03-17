@@ -9,9 +9,9 @@ metadata:
 spec:
   forProvider:
     displayName: example-wrapping-key
-    algorithm: aes_256_gcm
+    algorithm: rsa_2048_oaep_sha256
     protection: software
-    purpose: symmetric_encrypt_decrypt
+    purpose: wrap_symmetric_key
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     keyringIdSelector:
       matchLabels:

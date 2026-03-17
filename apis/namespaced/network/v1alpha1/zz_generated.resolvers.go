@@ -312,50 +312,6 @@ func (mg *NetworkInterface) ResolveReferences(ctx context.Context, c client.Read
 	return nil
 }
 
-// ResolveReferences of this NetworkInterfaceAttach.
-func (mg *NetworkInterfaceAttach) ResolveReferences(ctx context.Context, c client.Reader) error {
-	r := reference.NewAPINamespacedResolver(c, mg)
-
-	var rsp reference.NamespacedResolutionResponse
-	var err error
-
-	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.ForProvider.NetworkInterfaceID),
-		Extract:      resource.ExtractParamPath("network_interface_id", true),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.ForProvider.NetworkInterfaceIDRef,
-		Selector:     mg.Spec.ForProvider.NetworkInterfaceIDSelector,
-		To: reference.To{
-			List:    &NetworkInterfaceList{},
-			Managed: &NetworkInterface{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.ForProvider.NetworkInterfaceID")
-	}
-	mg.Spec.ForProvider.NetworkInterfaceID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.ForProvider.NetworkInterfaceIDRef = rsp.ResolvedReference
-
-	rsp, err = r.Resolve(ctx, reference.NamespacedResolutionRequest{
-		CurrentValue: reference.FromPtrValue(mg.Spec.InitProvider.NetworkInterfaceID),
-		Extract:      resource.ExtractParamPath("network_interface_id", true),
-		Namespace:    mg.GetNamespace(),
-		Reference:    mg.Spec.InitProvider.NetworkInterfaceIDRef,
-		Selector:     mg.Spec.InitProvider.NetworkInterfaceIDSelector,
-		To: reference.To{
-			List:    &NetworkInterfaceList{},
-			Managed: &NetworkInterface{},
-		},
-	})
-	if err != nil {
-		return errors.Wrap(err, "mg.Spec.InitProvider.NetworkInterfaceID")
-	}
-	mg.Spec.InitProvider.NetworkInterfaceID = reference.ToPtrValue(rsp.ResolvedValue)
-	mg.Spec.InitProvider.NetworkInterfaceIDRef = rsp.ResolvedReference
-
-	return nil
-}
-
 // ResolveReferences of this Table.
 func (mg *Table) ResolveReferences(ctx context.Context, c client.Reader) error {
 	r := reference.NewAPINamespacedResolver(c, mg)

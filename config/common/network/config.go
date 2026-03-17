@@ -38,13 +38,6 @@ func Configure(p *config.Provider) {
 		}
 	})
 
-	p.AddResourceConfigurator("stackit_server_network_interface_attach", func(r *config.Resource) {
-		r.ShortGroup = "network"
-		r.References["network_interface_id"] = config.Reference{
-			TerraformName: "stackit_network_interface",
-			Extractor:     `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("network_interface_id",true)`,
-		}
-	})
 
 	p.AddResourceConfigurator("stackit_public_ip", func(r *config.Resource) {
 		r.ShortGroup = "network"

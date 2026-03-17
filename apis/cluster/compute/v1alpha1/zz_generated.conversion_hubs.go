@@ -16,6 +16,9 @@ func (tr *Group) Hub() {}
 func (tr *Image) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *NetworkInterfaceAttach) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *Pair) Hub() {}
 
 // Hub marks this type as a conversion hub.

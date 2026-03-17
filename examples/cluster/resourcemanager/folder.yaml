@@ -9,5 +9,5 @@ metadata:
 spec:
   forProvider:
     name: example-folder
-    parentContainerId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
-    ownerEmail: admin@example.com
+    parentContainerId: fed80047-d03a-4fe8-9c67-94d68abaa648
+    ownerEmail: uptest-dpildner-n8ejt1i8@sa.stackit.cloud

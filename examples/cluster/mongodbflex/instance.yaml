@@ -11,10 +11,10 @@ spec:
     name: example-mongodbflex
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     flavor:
-      cpu: 2
-      ram: 4
+      cpu: 1
+      ram: 2
     storage:
-      class: premium-perf2-stackit
+      class: premium-perf2-mongodb
       size: 10
     version: "7.0"
     replicas: 1
