@@ -9,10 +9,12 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	instance "github.com/intive/provider-stackit/internal/controller/namespaced/mongodbflex/instance"
+	credential "github.com/intive/provider-stackit/internal/controller/namespaced/mariadb/credential"
+	instance "github.com/intive/provider-stackit/internal/controller/namespaced/mariadb/instance"
+	instancemongodbflex "github.com/intive/provider-stackit/internal/controller/namespaced/mongodbflex/instance"
 	user "github.com/intive/provider-stackit/internal/controller/namespaced/mongodbflex/user"
 	bucket "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/bucket"
-	credential "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credential"
+	credentialobjectstorage "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credential"
 	credentialsgroup "github.com/intive/provider-stackit/internal/controller/namespaced/objectstorage/credentialsgroup"
 	alertgroup "github.com/intive/provider-stackit/internal/controller/namespaced/observability/alertgroup"
 	instanceobservability "github.com/intive/provider-stackit/internal/controller/namespaced/observability/instance"
@@ -36,10 +38,12 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		credential.Setup,
 		instance.Setup,
+		instancemongodbflex.Setup,
 		user.Setup,
 		bucket.Setup,
-		credential.Setup,
+		credentialobjectstorage.Setup,
 		credentialsgroup.Setup,
 		alertgroup.Setup,
 		instanceobservability.Setup,
@@ -69,10 +73,12 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		credential.SetupGated,
 		instance.SetupGated,
+		instancemongodbflex.SetupGated,
 		user.SetupGated,
 		bucket.SetupGated,
-		credential.SetupGated,
+		credentialobjectstorage.SetupGated,
 		credentialsgroup.SetupGated,
 		alertgroup.SetupGated,
 		instanceobservability.SetupGated,

@@ -10,7 +10,8 @@ package namespaced
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/mongodbflex/v1alpha1"
+	v1alpha1 "github.com/intive/provider-stackit/apis/namespaced/mariadb/v1alpha1"
+	v1alpha1mongodbflex "github.com/intive/provider-stackit/apis/namespaced/mongodbflex/v1alpha1"
 	v1alpha1objectstorage "github.com/intive/provider-stackit/apis/namespaced/objectstorage/v1alpha1"
 	v1alpha1observability "github.com/intive/provider-stackit/apis/namespaced/observability/v1alpha1"
 	v1alpha1opensearch "github.com/intive/provider-stackit/apis/namespaced/opensearch/v1alpha1"
@@ -26,6 +27,7 @@ func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
+		v1alpha1mongodbflex.SchemeBuilder.AddToScheme,
 		v1alpha1objectstorage.SchemeBuilder.AddToScheme,
 		v1alpha1observability.SchemeBuilder.AddToScheme,
 		v1alpha1opensearch.SchemeBuilder.AddToScheme,

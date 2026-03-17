@@ -7,6 +7,7 @@ import (
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
 	// Common config functions
+	mariadb "github.com/intive/provider-stackit/config/common/mariadb"
 	mongodbflex "github.com/intive/provider-stackit/config/common/mongodbflex"
 	objectstorage "github.com/intive/provider-stackit/config/common/objectstorage"
 	"github.com/intive/provider-stackit/config/common/observability"
@@ -83,6 +84,7 @@ func ConfigureCommon(pc *ujconfig.Provider) {
 		secretsmanager.Configure,
 		rabbitmq.Configure,
 		opensearch.Configure,
+		mariadb.Configure,
 		mongodbflex.Configure,
 		observability.Configure,
 	} {

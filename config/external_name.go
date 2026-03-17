@@ -31,6 +31,8 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 
 	// Requires fix in terraform provider
 	// "stackit_observability_credential":        config.IdentifierFromProvider,
+	"stackit_mariadb_instance":                config.IdentifierFromProvider,
+	"stackit_mariadb_credential":              config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
