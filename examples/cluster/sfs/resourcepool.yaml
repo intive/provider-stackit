@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     name: example-sfs-pool
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     availabilityZone: eu01-1
     sizeGigabytes: 500
     performanceClass: storage-class-silver

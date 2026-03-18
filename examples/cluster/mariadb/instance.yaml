@@ -9,6 +9,6 @@ metadata:
 spec:
   forProvider:
     name: example-mariadb
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     planName: stackit-mariadb-1.4.10-single
     version: "10.6"

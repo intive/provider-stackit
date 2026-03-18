@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     name: example-server
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     machineType: g2i.1
     availabilityZone: eu01-1
     bootVolume:

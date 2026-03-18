@@ -9,8 +9,8 @@ metadata:
 spec:
   forProvider:
     name: example-zone
-    dnsName: uptest-xp01.runs.onstackit.cloud
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    dnsName: <DNS-ZONE>
+    projectId: <PROJECT-ID>
     type: primary
     defaultTtl: 300
-    contactEmail: admin@uptest-xp01.runs.onstackit.cloud
+    contactEmail: admin@<DNS-ZONE>

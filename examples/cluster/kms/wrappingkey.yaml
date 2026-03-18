@@ -12,7 +12,7 @@ spec:
     algorithm: rsa_2048_oaep_sha256
     protection: software
     purpose: wrap_symmetric_key
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     keyringIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-keyring

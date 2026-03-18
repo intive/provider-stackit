@@ -9,6 +9,6 @@ metadata:
 spec:
   forProvider:
     name: example-volume
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     size: 10
     availabilityZone: eu01-1

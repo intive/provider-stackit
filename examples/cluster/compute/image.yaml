@@ -9,7 +9,7 @@ metadata:
 spec:
   forProvider:
     name: example-image
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
     diskFormat: qcow2
     localFilePath: ./path/to/image.qcow2
     minDiskSize: 10

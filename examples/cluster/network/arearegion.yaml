@@ -8,7 +8,7 @@ metadata:
   name: example-area-region
 spec:
   forProvider:
-    organizationId: fed80047-d03a-4fe8-9c67-94d68abaa648
+    organizationId: <ORGANIZATION-ID>
     # region defaults to the provider region if not set
     # region: eu01
     networkAreaIdSelector:

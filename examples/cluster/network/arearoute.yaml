@@ -8,7 +8,7 @@ metadata:
   name: example-area-route
 spec:
   forProvider:
-    organizationId: fed80047-d03a-4fe8-9c67-94d68abaa648
+    organizationId: <ORGANIZATION-ID>
     networkAreaIdSelector:
       matchLabels:
         testing.upbound.io/example-name: example-network-area

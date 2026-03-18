@@ -1,18 +1,4 @@
 apiVersion: observability.stackit.crossplane.io/v1alpha1
-kind: Instance
-metadata:
-  annotations:
-    meta.upbound.io/example-id: observability/v1alpha1/instance
-  labels:
-    testing.upbound.io/example-name: example-scrapeconfig
-  name: example-scrapeconfig
-spec:
-  forProvider:
-    name: example-instance
-    planName: Observability-Monitoring-Starter-EU01
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
----
-apiVersion: observability.stackit.crossplane.io/v1alpha1
 kind: Scrapeconfig
 metadata:
   annotations:
@@ -24,10 +10,10 @@ spec:
   forProvider:
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-scrapeconfig
+        testing.upbound.io/example-name: example-observability
     metricsPath: /my-metrics
     name: example-job
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: <PROJECT-ID>
     saml2:
       enableUrlParameters: true
     targets:

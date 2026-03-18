@@ -4,8 +4,8 @@ metadata:
   annotations:
     meta.upbound.io/example-id: postgresflex/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: hello-crossplane
-  name: hello-crossplane
+    testing.upbound.io/example-name: example-postgresflex
+  name: example-postgresflex
 spec:
   forProvider:
     acl:
@@ -15,8 +15,8 @@ spec:
     flavor:
       cpu: 2
       ram: 4
-    name: hello-crossplane
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    name: example-postgresflex
+    projectId: <PROJECT-ID>
     replicas: 1
     storage:
       class: premium-perf2-stackit

@@ -4,13 +4,13 @@ metadata:
   annotations:
     meta.upbound.io/example-id: postgresflex/v1alpha1/database
   labels:
-    testing.upbound.io/example-name: hello-crossplane
-  name: hello-crossplane
+    testing.upbound.io/example-name: example-postgresflex-db
+  name: example-postgresflex-db
 spec:
   forProvider:
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: hello-crossplane
+        testing.upbound.io/example-name: example-postgresflex
     name: testdb
     owner: dbAdmin
-    projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
+    projectId: <PROJECT-ID>
