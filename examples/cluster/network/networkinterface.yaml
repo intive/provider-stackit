@@ -1,0 +1,15 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: NetworkInterface
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/networkinterface
+  labels:
+    testing.upbound.io/example-name: example-network-interface
+  name: example-network-interface
+spec:
+  forProvider:
+    projectId: <PROJECT-ID>
+    networkIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-network
+    name: example-network-interface

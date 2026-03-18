@@ -1,0 +1,31 @@
+apiVersion: resourcemanager.stackit.m.crossplane.io/v1alpha1
+kind: Folder
+metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1alpha1/folder
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-folder
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: resourcemanager.stackit.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: resourcemanager/v1alpha1/folder
+  labels:
+    testing.upbound.io/example-name: example_project
+  name: example-project
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-project
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: ${stackit_resourcemanager_folder.example.container_id}

@@ -1,0 +1,14 @@
+apiVersion: serviceaccount.stackit.crossplane.io/v1alpha1
+kind: AccountKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: serviceaccount/v1alpha1/accountkey
+  labels:
+    testing.upbound.io/example-name: example-sa-key
+  name: example-sa-key
+spec:
+  forProvider:
+    projectId: <PROJECT-ID>
+    serviceAccountEmailSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-sa

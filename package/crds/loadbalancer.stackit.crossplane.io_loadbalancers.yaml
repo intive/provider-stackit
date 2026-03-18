@@ -1,0 +1,1142 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.19.0
+  name: loadbalancers.loadbalancer.stackit.crossplane.io
+spec:
+  group: loadbalancer.stackit.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - stackit
+    kind: Loadbalancer
+    listKind: LoadbalancerList
+    plural: loadbalancers
+    singular: loadbalancer
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Loadbalancer is the Schema for the Loadbalancers API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: LoadbalancerSpec defines the desired state of Loadbalancer
+            properties:
+              deletionPolicy:
+                default: Delete
+                description: |-
+                  DeletionPolicy specifies what will happen to the underlying external
+                  when this managed resource is deleted - either "Delete" or "Orphan" the
+                  external resource.
+                  This field is planned to be deprecated in favor of the ManagementPolicies
+                  field in a future release. Currently, both could be set independently and
+                  non-default values would be honored if the feature flag is enabled.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              forProvider:
+                properties:
+                  disableSecurityGroupAssignment:
+                    description: |-
+                      (Boolean) If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                      If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                    type: boolean
+                  externalAddress:
+                    description: |-
+                      (String) External Load Balancer IP address where this Load Balancer is exposed.
+                      External Load Balancer IP address where this Load Balancer is exposed.
+                    type: string
+                  listeners:
+                    description: (Attributes List) List of all listeners which will
+                      accept traffic. Limited to 20. (see below for nested schema)
+                    items:
+                      properties:
+                        displayName:
+                          description: (String)
+                          type: string
+                        port:
+                          description: |-
+                            (Number) Port number where we listen for traffic.
+                            Port number where we listen for traffic.
+                          type: number
+                        protocol:
+                          description: |-
+                            (String) Protocol is the highest network protocol we understand to load balance. Possible values are: PROTOCOL_UNSPECIFIED, PROTOCOL_TCP, PROTOCOL_UDP, PROTOCOL_TCP_PROXY, PROTOCOL_TLS_PASSTHROUGH.
+                            Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
+                          type: string
+                        serverNameIndicators:
+                          description: (Attributes List) A list of domain names to
+                            match in order to pass TLS traffic to the target pool
+                            in the current listener (see below for nested schema)
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Load balancer name.
+                                  A domain name to match in order to pass TLS traffic to the target pool in the current listener
+                                type: string
+                            type: object
+                          type: array
+                        targetPool:
+                          description: |-
+                            (String) Reference target pool by target pool name.
+                            Reference target pool by target pool name.
+                          type: string
+                        tcp:
+                          description: (Attributes) Options that are specific to the
+                            TCP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                        udp:
+                          description: (Attributes) Options that are specific to the
+                            UDP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle session is closed. The default value is set to 1 minute, and the maximum value is 2 minutes. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Load balancer name.
+                      Load balancer name.
+                    type: string
+                  networks:
+                    description: (Attributes List) List of networks that listeners
+                      and targets reside in. (see below for nested schema)
+                    items:
+                      properties:
+                        networkId:
+                          description: |-
+                            (String) Openstack network ID.
+                            Openstack network ID.
+                          type: string
+                        networkIdRef:
+                          description: Reference to a Network in network to populate
+                            networkId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkIdSelector:
+                          description: Selector for a Network in network to populate
+                            networkId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        role:
+                          description: |-
+                            (String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.
+                            The role defines how the load balancer is using the network. Possible values are: `ROLE_UNSPECIFIED`, `ROLE_LISTENERS_AND_TARGETS`, `ROLE_LISTENERS`, `ROLE_TARGETS`.
+                          type: string
+                      type: object
+                    type: array
+                  options:
+                    description: (Attributes) Defines any optional functionality you
+                      want to have enabled on your load balancer. (see below for nested
+                      schema)
+                    properties:
+                      acl:
+                        description: |-
+                          (Set of String) Load Balancer is accessible only from an IP address in this range.
+                          Load Balancer is accessible only from an IP address in this range.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      observability:
+                        description: (Attributes) We offer Load Balancer metrics observability
+                          via ARGUS or external solutions. Not changeable after creation.
+                          (see below for nested schema)
+                        properties:
+                          logs:
+                            description: (Attributes) Observability logs configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                            type: object
+                          metrics:
+                            description: (Attributes) Observability metrics configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                            type: object
+                        type: object
+                      privateNetworkOnly:
+                        description: |-
+                          (Boolean) If true, Load Balancer is accessible only via a private network IP address.
+                          If true, Load Balancer is accessible only via a private network IP address.
+                        type: boolean
+                    type: object
+                  planId:
+                    description: |-
+                      (String) The service plan ID. If not defined, the default service plan is p10. Possible values are: p10, p50, p250, p750.
+                      The service plan ID. If not defined, the default service plan is `p10`. Possible values are: `p10`, `p50`, `p250`, `p750`.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the Load Balancer is associated.
+                      STACKIT project ID to which the Load Balancer is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  targetPools:
+                    description: (Attributes List) List of all target pools which
+                      will be used in the Load Balancer. Limited to 20. (see below
+                      for nested schema)
+                    items:
+                      properties:
+                        activeHealthCheck:
+                          description: (Attributes) (see below for nested schema)
+                          properties:
+                            healthyThreshold:
+                              description: |-
+                                (Number) Healthy threshold of the health checking.
+                                Healthy threshold of the health checking.
+                              type: number
+                            interval:
+                              description: |-
+                                (String) Interval duration of health checking in seconds.
+                                Interval duration of health checking in seconds.
+                              type: string
+                            intervalJitter:
+                              description: |-
+                                (String) Interval duration threshold of the health checking in seconds.
+                                Interval duration threshold of the health checking in seconds.
+                              type: string
+                            timeout:
+                              description: |-
+                                (String) Active health checking timeout duration in seconds.
+                                Active health checking timeout duration in seconds.
+                              type: string
+                            unhealthyThreshold:
+                              description: |-
+                                (Number) Unhealthy threshold of the health checking.
+                                Unhealthy threshold of the health checking.
+                              type: number
+                          type: object
+                        name:
+                          description: |-
+                            (String) Load balancer name.
+                            Target pool name.
+                          type: string
+                        sessionPersistence:
+                          description: (Attributes) Here you can setup various session
+                            persistence options, so far only "use_source_ip_address"
+                            is supported. (see below for nested schema)
+                          properties:
+                            useSourceIpAddress:
+                              description: |-
+                                (Boolean) If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                                If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                              type: boolean
+                          type: object
+                        targetPort:
+                          description: |-
+                            (Number) Identical port number where each target listens for traffic.
+                            Identical port number where each target listens for traffic.
+                          type: number
+                        targets:
+                          description: (Attributes List) List of all targets which
+                            will be used in the pool. Limited to 1000. (see below
+                            for nested schema)
+                          items:
+                            properties:
+                              displayName:
+                                description: |-
+                                  (String)
+                                  Target display name
+                                type: string
+                              ip:
+                                description: |-
+                                  (String) Target IP
+                                  Target IP
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  disableSecurityGroupAssignment:
+                    description: |-
+                      (Boolean) If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                      If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                    type: boolean
+                  externalAddress:
+                    description: |-
+                      (String) External Load Balancer IP address where this Load Balancer is exposed.
+                      External Load Balancer IP address where this Load Balancer is exposed.
+                    type: string
+                  listeners:
+                    description: (Attributes List) List of all listeners which will
+                      accept traffic. Limited to 20. (see below for nested schema)
+                    items:
+                      properties:
+                        displayName:
+                          description: (String)
+                          type: string
+                        port:
+                          description: |-
+                            (Number) Port number where we listen for traffic.
+                            Port number where we listen for traffic.
+                          type: number
+                        protocol:
+                          description: |-
+                            (String) Protocol is the highest network protocol we understand to load balance. Possible values are: PROTOCOL_UNSPECIFIED, PROTOCOL_TCP, PROTOCOL_UDP, PROTOCOL_TCP_PROXY, PROTOCOL_TLS_PASSTHROUGH.
+                            Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
+                          type: string
+                        serverNameIndicators:
+                          description: (Attributes List) A list of domain names to
+                            match in order to pass TLS traffic to the target pool
+                            in the current listener (see below for nested schema)
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Load balancer name.
+                                  A domain name to match in order to pass TLS traffic to the target pool in the current listener
+                                type: string
+                            type: object
+                          type: array
+                        targetPool:
+                          description: |-
+                            (String) Reference target pool by target pool name.
+                            Reference target pool by target pool name.
+                          type: string
+                        tcp:
+                          description: (Attributes) Options that are specific to the
+                            TCP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                        udp:
+                          description: (Attributes) Options that are specific to the
+                            UDP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle session is closed. The default value is set to 1 minute, and the maximum value is 2 minutes. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Load balancer name.
+                      Load balancer name.
+                    type: string
+                  networks:
+                    description: (Attributes List) List of networks that listeners
+                      and targets reside in. (see below for nested schema)
+                    items:
+                      properties:
+                        networkId:
+                          description: |-
+                            (String) Openstack network ID.
+                            Openstack network ID.
+                          type: string
+                        networkIdRef:
+                          description: Reference to a Network in network to populate
+                            networkId.
+                          properties:
+                            name:
+                              description: Name of the referenced object.
+                              type: string
+                            policy:
+                              description: Policies for referencing.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        networkIdSelector:
+                          description: Selector for a Network in network to populate
+                            networkId.
+                          properties:
+                            matchControllerRef:
+                              description: |-
+                                MatchControllerRef ensures an object with the same controller reference
+                                as the selecting object is selected.
+                              type: boolean
+                            matchLabels:
+                              additionalProperties:
+                                type: string
+                              description: MatchLabels ensures an object with matching
+                                labels is selected.
+                              type: object
+                            policy:
+                              description: Policies for selection.
+                              properties:
+                                resolution:
+                                  default: Required
+                                  description: |-
+                                    Resolution specifies whether resolution of this reference is required.
+                                    The default is 'Required', which means the reconcile will fail if the
+                                    reference cannot be resolved. 'Optional' means this reference will be
+                                    a no-op if it cannot be resolved.
+                                  enum:
+                                  - Required
+                                  - Optional
+                                  type: string
+                                resolve:
+                                  description: |-
+                                    Resolve specifies when this reference should be resolved. The default
+                                    is 'IfNotPresent', which will attempt to resolve the reference only when
+                                    the corresponding field is not present. Use 'Always' to resolve the
+                                    reference on every reconcile.
+                                  enum:
+                                  - Always
+                                  - IfNotPresent
+                                  type: string
+                              type: object
+                          type: object
+                        role:
+                          description: |-
+                            (String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.
+                            The role defines how the load balancer is using the network. Possible values are: `ROLE_UNSPECIFIED`, `ROLE_LISTENERS_AND_TARGETS`, `ROLE_LISTENERS`, `ROLE_TARGETS`.
+                          type: string
+                      type: object
+                    type: array
+                  options:
+                    description: (Attributes) Defines any optional functionality you
+                      want to have enabled on your load balancer. (see below for nested
+                      schema)
+                    properties:
+                      acl:
+                        description: |-
+                          (Set of String) Load Balancer is accessible only from an IP address in this range.
+                          Load Balancer is accessible only from an IP address in this range.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      observability:
+                        description: (Attributes) We offer Load Balancer metrics observability
+                          via ARGUS or external solutions. Not changeable after creation.
+                          (see below for nested schema)
+                        properties:
+                          logs:
+                            description: (Attributes) Observability logs configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                            type: object
+                          metrics:
+                            description: (Attributes) Observability metrics configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                            type: object
+                        type: object
+                      privateNetworkOnly:
+                        description: |-
+                          (Boolean) If true, Load Balancer is accessible only via a private network IP address.
+                          If true, Load Balancer is accessible only via a private network IP address.
+                        type: boolean
+                    type: object
+                  planId:
+                    description: |-
+                      (String) The service plan ID. If not defined, the default service plan is p10. Possible values are: p10, p50, p250, p750.
+                      The service plan ID. If not defined, the default service plan is `p10`. Possible values are: `p10`, `p50`, `p250`, `p750`.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the Load Balancer is associated.
+                      STACKIT project ID to which the Load Balancer is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  targetPools:
+                    description: (Attributes List) List of all target pools which
+                      will be used in the Load Balancer. Limited to 20. (see below
+                      for nested schema)
+                    items:
+                      properties:
+                        activeHealthCheck:
+                          description: (Attributes) (see below for nested schema)
+                          properties:
+                            healthyThreshold:
+                              description: |-
+                                (Number) Healthy threshold of the health checking.
+                                Healthy threshold of the health checking.
+                              type: number
+                            interval:
+                              description: |-
+                                (String) Interval duration of health checking in seconds.
+                                Interval duration of health checking in seconds.
+                              type: string
+                            intervalJitter:
+                              description: |-
+                                (String) Interval duration threshold of the health checking in seconds.
+                                Interval duration threshold of the health checking in seconds.
+                              type: string
+                            timeout:
+                              description: |-
+                                (String) Active health checking timeout duration in seconds.
+                                Active health checking timeout duration in seconds.
+                              type: string
+                            unhealthyThreshold:
+                              description: |-
+                                (Number) Unhealthy threshold of the health checking.
+                                Unhealthy threshold of the health checking.
+                              type: number
+                          type: object
+                        name:
+                          description: |-
+                            (String) Load balancer name.
+                            Target pool name.
+                          type: string
+                        sessionPersistence:
+                          description: (Attributes) Here you can setup various session
+                            persistence options, so far only "use_source_ip_address"
+                            is supported. (see below for nested schema)
+                          properties:
+                            useSourceIpAddress:
+                              description: |-
+                                (Boolean) If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                                If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                              type: boolean
+                          type: object
+                        targetPort:
+                          description: |-
+                            (Number) Identical port number where each target listens for traffic.
+                            Identical port number where each target listens for traffic.
+                          type: number
+                        targets:
+                          description: (Attributes List) List of all targets which
+                            will be used in the pool. Limited to 1000. (see below
+                            for nested schema)
+                          items:
+                            properties:
+                              displayName:
+                                description: |-
+                                  (String)
+                                  Target display name
+                                type: string
+                              ip:
+                                description: |-
+                                  (String) Target IP
+                                  Target IP
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  This field is planned to replace the DeletionPolicy field in a future
+                  release. Currently, both could be set independently and non-default
+                  values would be honored if the feature flag is enabled. If both are
+                  custom, the DeletionPolicy field will be ignored.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                  policy:
+                    description: Policies for referencing.
+                    properties:
+                      resolution:
+                        default: Required
+                        description: |-
+                          Resolution specifies whether resolution of this reference is required.
+                          The default is 'Required', which means the reconcile will fail if the
+                          reference cannot be resolved. 'Optional' means this reference will be
+                          a no-op if it cannot be resolved.
+                        enum:
+                        - Required
+                        - Optional
+                        type: string
+                      resolve:
+                        description: |-
+                          Resolve specifies when this reference should be resolved. The default
+                          is 'IfNotPresent', which will attempt to resolve the reference only when
+                          the corresponding field is not present. Use 'Always' to resolve the
+                          reference on every reconcile.
+                        enum:
+                        - Always
+                        - IfNotPresent
+                        type: string
+                    type: object
+                required:
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            required:
+            - forProvider
+            type: object
+            x-kubernetes-validations:
+            - message: spec.forProvider.listeners is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.listeners)
+                || (has(self.initProvider) && has(self.initProvider.listeners))'
+            - message: spec.forProvider.name is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.name)
+                || (has(self.initProvider) && has(self.initProvider.name))'
+            - message: spec.forProvider.networks is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.networks)
+                || (has(self.initProvider) && has(self.initProvider.networks))'
+            - message: spec.forProvider.projectId is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.projectId)
+                || (has(self.initProvider) && has(self.initProvider.projectId))'
+            - message: spec.forProvider.targetPools is a required parameter
+              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
+                || ''Update'' in self.managementPolicies) || has(self.forProvider.targetPools)
+                || (has(self.initProvider) && has(self.initProvider.targetPools))'
+          status:
+            description: LoadbalancerStatus defines the observed state of Loadbalancer.
+            properties:
+              atProvider:
+                properties:
+                  disableSecurityGroupAssignment:
+                    description: |-
+                      (Boolean) If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                      If set to true, this will disable the automatic assignment of a security group to the load balancer's targets. This option is primarily used to allow targets that are not within the load balancer's own network or SNA (STACKIT network area). When this is enabled, you are fully responsible for ensuring network connectivity to the targets, including managing all routing and security group rules manually. This setting cannot be changed after the load balancer is created.
+                    type: boolean
+                  externalAddress:
+                    description: |-
+                      (String) External Load Balancer IP address where this Load Balancer is exposed.
+                      External Load Balancer IP address where this Load Balancer is exposed.
+                    type: string
+                  id:
+                    description: It is structured as "project_id","region","name".
+                    type: string
+                  listeners:
+                    description: (Attributes List) List of all listeners which will
+                      accept traffic. Limited to 20. (see below for nested schema)
+                    items:
+                      properties:
+                        displayName:
+                          description: (String)
+                          type: string
+                        port:
+                          description: |-
+                            (Number) Port number where we listen for traffic.
+                            Port number where we listen for traffic.
+                          type: number
+                        protocol:
+                          description: |-
+                            (String) Protocol is the highest network protocol we understand to load balance. Possible values are: PROTOCOL_UNSPECIFIED, PROTOCOL_TCP, PROTOCOL_UDP, PROTOCOL_TCP_PROXY, PROTOCOL_TLS_PASSTHROUGH.
+                            Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
+                          type: string
+                        serverNameIndicators:
+                          description: (Attributes List) A list of domain names to
+                            match in order to pass TLS traffic to the target pool
+                            in the current listener (see below for nested schema)
+                          items:
+                            properties:
+                              name:
+                                description: |-
+                                  (String) Load balancer name.
+                                  A domain name to match in order to pass TLS traffic to the target pool in the current listener
+                                type: string
+                            type: object
+                          type: array
+                        targetPool:
+                          description: |-
+                            (String) Reference target pool by target pool name.
+                            Reference target pool by target pool name.
+                          type: string
+                        tcp:
+                          description: (Attributes) Options that are specific to the
+                            TCP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                        udp:
+                          description: (Attributes) Options that are specific to the
+                            UDP protocol. (see below for nested schema)
+                          properties:
+                            idleTimeout:
+                              description: |-
+                                (String) Time after which an idle connection is closed. The default value is set to 300 seconds, and the maximum value is 3600 seconds. The format is a duration and the unit must be seconds. Example: 30s
+                                Time after which an idle session is closed. The default value is set to 1 minute, and the maximum value is 2 minutes. The format is a duration and the unit must be seconds. Example: 30s
+                              type: string
+                          type: object
+                      type: object
+                    type: array
+                  name:
+                    description: |-
+                      (String) Load balancer name.
+                      Load balancer name.
+                    type: string
+                  networks:
+                    description: (Attributes List) List of networks that listeners
+                      and targets reside in. (see below for nested schema)
+                    items:
+                      properties:
+                        networkId:
+                          description: |-
+                            (String) Openstack network ID.
+                            Openstack network ID.
+                          type: string
+                        role:
+                          description: |-
+                            (String) The role defines how the load balancer is using the network. Possible values are: ROLE_UNSPECIFIED, ROLE_LISTENERS_AND_TARGETS, ROLE_LISTENERS, ROLE_TARGETS.
+                            The role defines how the load balancer is using the network. Possible values are: `ROLE_UNSPECIFIED`, `ROLE_LISTENERS_AND_TARGETS`, `ROLE_LISTENERS`, `ROLE_TARGETS`.
+                          type: string
+                      type: object
+                    type: array
+                  options:
+                    description: (Attributes) Defines any optional functionality you
+                      want to have enabled on your load balancer. (see below for nested
+                      schema)
+                    properties:
+                      acl:
+                        description: |-
+                          (Set of String) Load Balancer is accessible only from an IP address in this range.
+                          Load Balancer is accessible only from an IP address in this range.
+                        items:
+                          type: string
+                        type: array
+                        x-kubernetes-list-type: set
+                      observability:
+                        description: (Attributes) We offer Load Balancer metrics observability
+                          via ARGUS or external solutions. Not changeable after creation.
+                          (see below for nested schema)
+                        properties:
+                          logs:
+                            description: (Attributes) Observability logs configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for logs. Not changeable after creation.
+                                type: string
+                            type: object
+                          metrics:
+                            description: (Attributes) Observability metrics configuration.
+                              Not changeable after creation. (see below for nested
+                              schema)
+                            properties:
+                              credentialsRef:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                              pushUrl:
+                                description: |-
+                                  (String) Credentials reference for logs. Not changeable after creation.
+                                  Credentials reference for metrics. Not changeable after creation.
+                                type: string
+                            type: object
+                        type: object
+                      privateNetworkOnly:
+                        description: |-
+                          (Boolean) If true, Load Balancer is accessible only via a private network IP address.
+                          If true, Load Balancer is accessible only via a private network IP address.
+                        type: boolean
+                    type: object
+                  planId:
+                    description: |-
+                      (String) The service plan ID. If not defined, the default service plan is p10. Possible values are: p10, p50, p250, p750.
+                      The service plan ID. If not defined, the default service plan is `p10`. Possible values are: `p10`, `p50`, `p250`, `p750`.
+                    type: string
+                  privateAddress:
+                    description: |-
+                      (String) Transient private Load Balancer IP address. It can change any time.
+                      Transient private Load Balancer IP address. It can change any time.
+                    type: string
+                  projectId:
+                    description: |-
+                      (String) STACKIT project ID to which the Load Balancer is associated.
+                      STACKIT project ID to which the Load Balancer is associated.
+                    type: string
+                  region:
+                    description: |-
+                      (String) The resource region. If not defined, the provider region is used.
+                      The resource region. If not defined, the provider region is used.
+                    type: string
+                  securityGroupId:
+                    description: |-
+                      (String) The ID of the egress security group assigned to the Load Balancer's internal machines. This ID is essential for allowing traffic from the Load Balancer to targets in different networks or STACKIT network areas (SNA). To enable this, create a security group rule for your target VMs and set the remote_security_group_id of that rule to this value. This is typically used when disable_security_group_assignment is set to true.
+                      The ID of the egress security group assigned to the Load Balancer's internal machines. This ID is essential for allowing traffic from the Load Balancer to targets in different networks or STACKIT network areas (SNA). To enable this, create a security group rule for your target VMs and set the `remote_security_group_id` of that rule to this value. This is typically used when `disable_security_group_assignment` is set to `true`.
+                    type: string
+                  targetPools:
+                    description: (Attributes List) List of all target pools which
+                      will be used in the Load Balancer. Limited to 20. (see below
+                      for nested schema)
+                    items:
+                      properties:
+                        activeHealthCheck:
+                          description: (Attributes) (see below for nested schema)
+                          properties:
+                            healthyThreshold:
+                              description: |-
+                                (Number) Healthy threshold of the health checking.
+                                Healthy threshold of the health checking.
+                              type: number
+                            interval:
+                              description: |-
+                                (String) Interval duration of health checking in seconds.
+                                Interval duration of health checking in seconds.
+                              type: string
+                            intervalJitter:
+                              description: |-
+                                (String) Interval duration threshold of the health checking in seconds.
+                                Interval duration threshold of the health checking in seconds.
+                              type: string
+                            timeout:
+                              description: |-
+                                (String) Active health checking timeout duration in seconds.
+                                Active health checking timeout duration in seconds.
+                              type: string
+                            unhealthyThreshold:
+                              description: |-
+                                (Number) Unhealthy threshold of the health checking.
+                                Unhealthy threshold of the health checking.
+                              type: number
+                          type: object
+                        name:
+                          description: |-
+                            (String) Load balancer name.
+                            Target pool name.
+                          type: string
+                        sessionPersistence:
+                          description: (Attributes) Here you can setup various session
+                            persistence options, so far only "use_source_ip_address"
+                            is supported. (see below for nested schema)
+                          properties:
+                            useSourceIpAddress:
+                              description: |-
+                                (Boolean) If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                                If true then all connections from one source IP address are redirected to the same target. This setting changes the load balancing algorithm to Maglev.
+                              type: boolean
+                          type: object
+                        targetPort:
+                          description: |-
+                            (Number) Identical port number where each target listens for traffic.
+                            Identical port number where each target listens for traffic.
+                          type: number
+                        targets:
+                          description: (Attributes List) List of all targets which
+                            will be used in the pool. Limited to 1000. (see below
+                            for nested schema)
+                          items:
+                            properties:
+                              displayName:
+                                description: |-
+                                  (String)
+                                  Target display name
+                                type: string
+                              ip:
+                                description: |-
+                                  (String) Target IP
+                                  Target IP
+                                type: string
+                            type: object
+                          type: array
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

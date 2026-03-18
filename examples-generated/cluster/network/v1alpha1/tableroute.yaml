@@ -1,0 +1,25 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: TableRoute
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/tableroute
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    destination:
+      type: cidrv4
+      value: 192.168.178.0/24
+    labels:
+      key: value
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    nextHop:
+      type: ipv4
+      value: 192.168.178.1
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    routingTableIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example

@@ -1,0 +1,21 @@
+apiVersion: compute.stackit.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/server
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+spec:
+  forProvider:
+    name: example-server
+    projectId: <PROJECT-ID>
+    machineType: g2i.1
+    availabilityZone: eu01-1
+    bootVolume:
+      sourceType: image
+      sourceId: edfded8c-6351-4528-829a-3aa2a7ad856c
+      size: 10
+    networkInterfacesSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-network-interface

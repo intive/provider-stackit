@@ -1,0 +1,11 @@
+apiVersion: modelserving.stackit.crossplane.io/v1alpha1
+kind: Token
+metadata:
+  annotations:
+    meta.upbound.io/example-id: modelserving/v1alpha1/token
+  labels:
+    testing.upbound.io/example-name: example-modelserving-token
+  name: example-modelserving-token
+spec:
+  forProvider:
+    projectId: <PROJECT-ID>

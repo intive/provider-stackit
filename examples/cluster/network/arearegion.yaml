@@ -1,0 +1,20 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: AreaRegion
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/arearegion
+  labels:
+    testing.upbound.io/example-name: example-area-region
+  name: example-area-region
+spec:
+  forProvider:
+    organizationId: <ORGANIZATION-ID>
+    # region defaults to the provider region if not set
+    # region: eu01
+    networkAreaIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-network-area
+    ipv4:
+      transferNetwork: 10.1.2.0/24
+      networkRanges:
+        - prefix: 10.0.0.0/16

@@ -1,0 +1,18 @@
+apiVersion: kms.stackit.crossplane.io/v1alpha1
+kind: Key
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/key
+  labels:
+    testing.upbound.io/example-name: example-key
+  name: example-key
+spec:
+  forProvider:
+    displayName: example-key
+    algorithm: aes_256_gcm
+    protection: software
+    purpose: symmetric_encrypt_decrypt
+    projectId: <PROJECT-ID>
+    keyringIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-keyring

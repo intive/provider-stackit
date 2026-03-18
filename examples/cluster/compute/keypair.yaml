@@ -1,0 +1,12 @@
+apiVersion: compute.stackit.crossplane.io/v1alpha1
+kind: Pair
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/pair
+  labels:
+    testing.upbound.io/example-name: example-keypair
+  name: example-keypair
+spec:
+  forProvider:
+    name: example-keypair
+    publicKey: "<SSH-PUBLIC-KEY>"

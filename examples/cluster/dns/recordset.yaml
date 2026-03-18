@@ -1,0 +1,19 @@
+apiVersion: dns.stackit.crossplane.io/v1alpha1
+kind: RecordSet
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/recordset
+  labels:
+    testing.upbound.io/example-name: example-recordset
+  name: example-recordset
+spec:
+  forProvider:
+    name: www
+    projectId: <PROJECT-ID>
+    type: A
+    records:
+      - 1.2.3.4
+    ttl: 300
+    zoneIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-zone

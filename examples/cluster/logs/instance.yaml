@@ -1,0 +1,13 @@
+apiVersion: logs.stackit.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: logs/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example-logs
+  name: example-logs
+spec:
+  forProvider:
+    displayName: example-logs
+    projectId: <PROJECT-ID>
+    retentionDays: 7

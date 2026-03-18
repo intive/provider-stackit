@@ -4,11 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: redis/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: hello-crossplane
-  name: hello-crossplane
+    testing.upbound.io/example-name: example-redis
+  name: example-redis
 spec:
   forProvider:
-    name: hello-crossplane
+    name: example-redis
     parameters:
       downAfterMilliseconds: 30000
       enableMonitoring: false
@@ -16,7 +16,5 @@ spec:
       syslog:
       - logs4.your-syslog-endpoint.com:54321
     planName: stackit-redis-1.4.10-single
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    projectId: <PROJECT-ID>
     version: "7"
-  providerConfigRef:
-    name: provider-stackit-config

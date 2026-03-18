@@ -1,0 +1,15 @@
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/group
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: my_security_group
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

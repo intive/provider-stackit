@@ -1,18 +1,4 @@
 apiVersion: observability.stackit.crossplane.io/v1alpha1
-kind: Instance
-metadata:
-  annotations:
-    meta.upbound.io/example-id: observability/v1alpha1/instance
-  labels:
-    testing.upbound.io/example-name: example-alertgroup
-  name: example-alertgroup
-spec:
-  forProvider:
-    name: example-instance
-    planName: Observability-Monitoring-Starter-EU01
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
----
-apiVersion: observability.stackit.crossplane.io/v1alpha1
 kind: Alertgroup
 metadata:
   annotations:
@@ -22,24 +8,16 @@ metadata:
   name: example-alertgroup
 spec:
   forProvider:
+    projectId: <PROJECT-ID>
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example-alertgroup
-    interval: 60s
+        testing.upbound.io/example-name: example-observability
     name: example-alert-group
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     rules:
-    - alert: example-alert-name
-      annotations:
-        description: example description
-        summary: example summary
-      expression: kube_node_status_condition{condition="Ready", status="false"} >
-        0
-      for: 60s
-      labels:
-        severity: critical
-    - expression: kube_node_status_condition{condition="Ready", status="false"} >
-        0
-      labels:
-        severity: critical
-      record: example_record_name
+      - alert: HighCPU
+        expression: cpu_usage > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: CPU usage is high

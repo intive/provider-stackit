@@ -1,0 +1,22 @@
+apiVersion: ske.stackit.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: ske/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: example-cluster
+  name: example-cluster
+spec:
+  forProvider:
+    name: example-cluster
+    projectId: <PROJECT-ID>
+    kubernetesVersionMin: "1.29"
+    nodePools:
+      - name: pool-1
+        machineType: g2i.1
+        minimum: 1
+        maximum: 3
+        availabilityZones:
+          - eu01-1
+        osName: flatcar
+        cri: containerd

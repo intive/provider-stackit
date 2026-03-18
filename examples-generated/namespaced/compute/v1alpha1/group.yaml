@@ -1,0 +1,37 @@
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Group
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/group
+  labels:
+    testing.upbound.io/example-name: affinity-group
+  name: affinity-group
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example-key-pair
+    policy: soft-affinity
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+---
+
+apiVersion: compute.stackit.m.crossplane.io/v1alpha1
+kind: Server
+metadata:
+  annotations:
+    meta.upbound.io/example-id: compute/v1alpha1/group
+  labels:
+    testing.upbound.io/example-name: example-server
+  name: example-server
+  namespace: crossplane-system
+spec:
+  forProvider:
+    affinityGroup: ${stackit_affinity_group.affinity-group.affinity_group_id}
+    availabilityZone: eu01-1
+    bootVolume:
+      size: 64
+      sourceId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+      sourceType: image
+    machineType: g2i.1
+    name: example-server
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

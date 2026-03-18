@@ -1,0 +1,12 @@
+apiVersion: git.stackit.crossplane.io/v1alpha1
+kind: Git
+metadata:
+  annotations:
+    meta.upbound.io/example-id: git/v1alpha1/git
+  labels:
+    testing.upbound.io/example-name: example-git
+  name: example-git
+spec:
+  forProvider:
+    name: example-git
+    projectId: <PROJECT-ID>

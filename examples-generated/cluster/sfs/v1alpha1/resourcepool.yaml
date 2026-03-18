@@ -1,0 +1,19 @@
+apiVersion: sfs.stackit.crossplane.io/v1alpha1
+kind: ResourcePool
+metadata:
+  annotations:
+    meta.upbound.io/example-id: sfs/v1alpha1/resourcepool
+  labels:
+    testing.upbound.io/example-name: resourcepool
+  name: resourcepool
+spec:
+  forProvider:
+    availabilityZone: eu01-m
+    ipAcl:
+    - 192.168.42.1/32
+    - 192.168.42.2/32
+    name: some-resourcepool
+    performanceClass: Standard
+    projectId: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    sizeGigabytes: 512
+    snapshotsAreVisible: true

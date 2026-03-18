@@ -4,11 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: rabbitmq/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-rabbitmq
+  name: example-rabbitmq
 spec:
   forProvider:
-    name: example-instance
+    name: example-rabbitmq
     parameters:
       consumerTimeout: 18000000
       enableMonitoring: false
@@ -18,7 +18,5 @@ spec:
       - rabbitmq_tracing
       sgwAcl: 193.148.160.0/19,45.129.40.0/21,45.135.244.0/22
     planName: stackit-rabbitmq-1.2.10-replica
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    projectId: <PROJECT-ID>
     version: "3.13"
-  providerConfigRef:
-    name: provider-stackit-config

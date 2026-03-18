@@ -4,11 +4,9 @@ metadata:
   annotations:
     meta.upbound.io/example-id: secretsmanager/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-secretsmanager
+  name: example-secretsmanager
 spec:
   forProvider:
-    name: example-instance
-    projectId: 12345678-abcd-1234-abcd-123456789abc
-  providerConfigRef:
-    name: provider-stackit-config
+    name: example-secretsmanager
+    projectId: <PROJECT-ID>

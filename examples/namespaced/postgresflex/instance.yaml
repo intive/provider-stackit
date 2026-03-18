@@ -16,11 +16,9 @@ spec:
       cpu: 2
       ram: 4
     name: hello-crossplane
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    projectId: <PROJECT-ID>
     replicas: 1
     storage:
       class: premium-perf2-stackit
       size: 5
     version: "17"
-  providerConfigRef:
-    name: provider-stackit-config

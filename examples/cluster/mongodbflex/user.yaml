@@ -1,0 +1,18 @@
+apiVersion: mongodbflex.stackit.crossplane.io/v1alpha1
+kind: User
+metadata:
+  annotations:
+    meta.upbound.io/example-id: mongodbflex/v1alpha1/user
+  labels:
+    testing.upbound.io/example-name: example-mongodbflex-user
+  name: example-mongodbflex-user
+spec:
+  forProvider:
+    projectId: <PROJECT-ID>
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example-mongodbflex
+    username: example-user
+    roles:
+      - readWrite
+    database: example-db

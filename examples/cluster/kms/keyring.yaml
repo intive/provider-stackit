@@ -1,0 +1,12 @@
+apiVersion: kms.stackit.crossplane.io/v1alpha1
+kind: Keyring
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/keyring
+  labels:
+    testing.upbound.io/example-name: example-keyring
+  name: example-keyring
+spec:
+  forProvider:
+    displayName: example-keyring
+    projectId: <PROJECT-ID>

@@ -1,0 +1,12 @@
+apiVersion: network.stackit.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/network
+  labels:
+    testing.upbound.io/example-name: example-network
+  name: example-network
+spec:
+  forProvider:
+    name: example-network
+    projectId: <PROJECT-ID>

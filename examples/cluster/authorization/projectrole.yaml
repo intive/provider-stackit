@@ -1,0 +1,13 @@
+apiVersion: authorization.stackit.crossplane.io/v1alpha1
+kind: ProjectRoleAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/projectroleassignment
+  labels:
+    testing.upbound.io/example-name: example-project-role
+  name: example-project-role
+spec:
+  forProvider:
+    resourceId: <PROJECT-ID>
+    role: reader
+    subject: <SA-EMAIL>

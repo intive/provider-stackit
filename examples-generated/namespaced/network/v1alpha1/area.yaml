@@ -1,0 +1,15 @@
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: Area
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/area
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    labels:
+      key: value
+    name: example-network-area
+    organizationId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

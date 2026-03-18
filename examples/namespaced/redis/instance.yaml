@@ -16,7 +16,5 @@ spec:
       syslog:
       - logs4.your-syslog-endpoint.com:54321
     planName: stackit-redis-1.4.10-single
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    projectId: <PROJECT-ID>
     version: "7"
-  providerConfigRef:
-    name: provider-stackit-config

@@ -1,0 +1,17 @@
+apiVersion: network.stackit.m.crossplane.io/v1alpha1
+kind: IP
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/ip
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    labels:
+      key: value
+    networkInterfaceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

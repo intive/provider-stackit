@@ -1,0 +1,19 @@
+apiVersion: kms.stackit.m.crossplane.io/v1alpha1
+kind: WrappingKey
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kms/v1alpha1/wrappingkey
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    algorithm: rsa_2048_oaep_sha256
+    displayName: example-name
+    keyringIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    protection: software
+    purpose: wrap_symmetric_key

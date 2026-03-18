@@ -1,0 +1,31 @@
+apiVersion: authorization.stackit.m.crossplane.io/v1alpha1
+kind: ProjectRoleAssignment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/projectroleassignment
+  labels:
+    testing.upbound.io/example-name: pra
+  name: pra
+  namespace: crossplane-system
+spec:
+  forProvider:
+    resourceId: ${stackit_resourcemanager_project.example.folder_id}
+    role: reader
+    subject: foo.bar@stackit.cloud
+
+---
+
+apiVersion: resourcemanager.stackit.m.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  annotations:
+    meta.upbound.io/example-id: authorization/v1alpha1/projectroleassignment
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: example_project
+    ownerEmail: foo.bar@stackit.cloud
+    parentContainerId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

@@ -4,23 +4,21 @@ metadata:
   annotations:
     meta.upbound.io/example-id: postgresflex/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: hello-crossplane
-  name: hello-crossplane
+    testing.upbound.io/example-name: example-postgresflex
+  name: example-postgresflex
 spec:
   forProvider:
     acl:
     - 193.148.160.0/19
     - 45.129.40.0/21
-    backupSchedule: 00 00 * * *
+    backupSchedule: 0 0 * * *
     flavor:
       cpu: 2
       ram: 4
-    name: hello-crossplane
-    projectId: 12345678-abcd-1234-abcd-123456789abc
+    name: example-postgresflex
+    projectId: <PROJECT-ID>
     replicas: 1
     storage:
       class: premium-perf2-stackit
       size: 5
     version: "17"
-  providerConfigRef:
-    name: provider-stackit-config
