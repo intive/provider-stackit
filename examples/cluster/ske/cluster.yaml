@@ -18,8 +18,5 @@ spec:
         maximum: 3
         availabilityZones:
           - eu01-1
-        os:
-          name: flatcar
-          version: "3815.2.0"
-        cri:
-          name: containerd
+        osName: flatcar
+        cri: containerd

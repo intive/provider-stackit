@@ -11,7 +11,7 @@ spec:
     acl:
     - 193.148.160.0/19
     - 45.129.40.0/21
-    backupSchedule: 00 00 * * *
+    backupSchedule: 0 0 * * *
     flavor:
       cpu: 2
       ram: 4

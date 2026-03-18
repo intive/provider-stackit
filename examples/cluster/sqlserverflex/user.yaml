@@ -14,4 +14,4 @@ spec:
         testing.upbound.io/example-name: example-sqlserverflex
     username: example-user
     roles:
-      - ##read
+      - "##STACKIT_LoginManager##"

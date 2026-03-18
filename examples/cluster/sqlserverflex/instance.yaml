@@ -11,8 +11,8 @@ spec:
     name: example-sqlserverflex
     projectId: 04ce9fde-6d4b-417d-8b31-f25850aefde6
     flavor:
-      cpu: 2
-      ram: 4
+      cpu: 4
+      ram: 16
     storage:
       class: premium-perf2-stackit
       size: 10

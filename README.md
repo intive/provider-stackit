@@ -33,11 +33,11 @@ To configure the provider using a [service account key](https://registry.terrafo
 | cdn | CustomDomain | beta | requires `enable_beta_resources` (fix #4) |
 | cdn | Distribution | beta | requires `enable_beta_resources` (fix #4) |
 | compute | AffinityGroup | ✅ | |
-| compute | Image | not tested | |
+| compute | Image | blocked | requires uploading a local qcow2 image file (`localFilePath`), not testable in CI |
 | compute | KeyPair | ✅ | |
-| compute | Server | ✅ | requires networkInterfacesSelector |
+| compute | Server | ✅ | |
 | compute | Volume | ✅ | |
-| compute | NetworkInterfaceAttach | ✅ | moved from network group; requires networkInterfaceIdSelector + serverIdSelector |
+| compute | NetworkInterfaceAttach | ✅ | |
 | compute | VolumeAttach | ✅ | |
 | dns | RecordSet | ✅ | |
 | dns | Zone | ✅ | |
@@ -46,16 +46,16 @@ To configure the provider using a [service account key](https://registry.terrafo
 | kms | Key | ✅ | |
 | kms | Keyring | ✅ | |
 | kms | WrappingKey | ✅ | |
-| loadbalancer | Loadbalancer | not tested | |
-| logme | Credential | not tested | |
-| logme | Instance | blocked | SDK wait handler 404 issue (fix #3) |
+| loadbalancer | Loadbalancer | ✅ | |
+| logme | Credential | ✅ | |
+| logme | Instance | ✅ | |
 | logs | AccessToken | ✅ | |
 | logs | Instance | ✅ | |
-| mariadb | Credential | not tested | |
-| mariadb | Instance | blocked | SDK wait handler 404 issue (fix #3) |
+| mariadb | Credential | ✅ | |
+| mariadb | Instance | ✅ | |
 | modelserving | Token | beta | requires `enable_beta_resources` (fix #4) |
-| mongodbflex | Instance | blocked | SDK wait handler 404 issue (fix #3) |
-| mongodbflex | User | blocked | depends on instance |
+| mongodbflex | Instance | ✅ | |
+| mongodbflex | User | ✅ | |
 | network | Area | blocked | SA lacks org-level network area permissions (403 Forbidden) |
 | network | AreaRegion | blocked | depends on Area |
 | network | AreaRoute | blocked | depends on Area |
@@ -67,15 +67,15 @@ To configure the provider using a [service account key](https://registry.terrafo
 | observability | AlertGroup | ✅ | |
 | observability | Credential | ✅ | |
 | observability | Instance | ✅ | |
-| opensearch | Credential | not tested | |
-| opensearch | Instance | blocked | SDK wait handler 404 issue (fix #3) |
-| postgresflex | Database | blocked | depends on instance |
-| postgresflex | Instance | blocked | SDK wait handler 404 issue (fix #3) |
-| postgresflex | User | blocked | depends on instance |
-| rabbitmq | Credential | not tested | |
-| rabbitmq | Instance | blocked | SDK wait handler 404 issue (fix #3) |
-| redis | Credential | not tested | |
-| redis | Instance | blocked | SDK wait handler 404 issue (fix #3) |
+| opensearch | Credential | ✅ | |
+| opensearch | Instance | ✅ | |
+| postgresflex | Database | blocked | deletion blocked: API returns 500 for database operations while instance is deleting (fix #6) |
+| postgresflex | Instance | ✅ | |
+| postgresflex | User | blocked | deletion blocked: API returns 500 for user operations while instance is deleting (fix #6) |
+| rabbitmq | Credential | ✅ | |
+| rabbitmq | Instance | ✅ | |
+| redis | Credential | ✅ | |
+| redis | Instance | ✅ | |
 | resourcemanager | Folder | blocked | service account lacks org-level folder creation permissions |
 | resourcemanager | Project | blocked | service account lacks org-level project creation permissions |
 | scf | Organization | beta | requires `enable_beta_resources` (fix #4) |
@@ -84,10 +84,10 @@ To configure the provider using a [service account key](https://registry.terrafo
 | serviceaccount | Account | ✅ | |
 | serviceaccount | AccountKey | ✅ | |
 | sfs | ResourcePool | beta | requires `enable_beta_resources` (fix #4) |
-| ske | Cluster | not tested | |
-| ske | Kubeconfig | not tested | |
-| sqlserverflex | Instance | blocked | SDK wait handler 404 issue (fix #3) |
-| sqlserverflex | User | blocked | depends on instance |
+| ske | Cluster | blocked | SKE service not enabled on test project (403 Forbidden) |
+| ske | Kubeconfig | blocked | depends on Cluster |
+| sqlserverflex | Instance | ✅ | |
+| sqlserverflex | User | ✅ | |
 
 ### Status Legend
 
