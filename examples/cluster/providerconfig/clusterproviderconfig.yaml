@@ -1,8 +1,7 @@
 apiVersion: stackit.m.crossplane.io/v1beta1
-kind: ProviderConfig
+kind: ClusterProviderConfig
 metadata:
   name: default
-  namespace: crossplane-system
 spec:
   credentials:
     source: Secret

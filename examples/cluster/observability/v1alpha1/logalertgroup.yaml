@@ -1,0 +1,34 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Logalertgroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: observability/v1alpha1/logalertgroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceIdRef:
+      name: example
+    interval: 60m
+    name: example-log-alert-group
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rules:
+    - alert: example-log-alert-name
+      annotations:
+        description: example description
+        summary: example summary
+      expression: sum(rate({namespace="example", pod="logger"} |= "Simulated error
+        message" [1m])) > 0
+      for: 60s
+      labels:
+        severity: critical
+    - alert: example-log-alert-name-2
+      annotations:
+        description: example description
+        summary: example summary
+      expression: sum(rate({namespace="example", pod="logger"} |= "Another error message"
+        [1m])) > 0
+      for: 60s
+      labels:
+        severity: critical

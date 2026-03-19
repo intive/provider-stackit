@@ -28,7 +28,7 @@ To configure the provider using a [service account key](https://registry.terrafo
 apiVersion: stackit.crossplane.io/v1beta1
 kind: ProviderConfig
 metadata:
-  name: provider-stackit-config
+  name: default
 spec:
   credentials:
     source: Secret

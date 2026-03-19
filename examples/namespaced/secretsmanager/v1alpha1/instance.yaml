@@ -1,0 +1,16 @@
+apiVersion: secretsmanager.stackit.m.crossplane.io/v1alpha1
+kind: Instance
+metadata:
+  annotations:
+    meta.upbound.io/example-id: secretsmanager/v1alpha1/instance
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    acls:
+    - XXX.XXX.XXX.X/XX
+    - XX.XXX.XX.X/XX
+    name: example-instance
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
