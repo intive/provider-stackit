@@ -42,8 +42,6 @@ on:
         type: string
         default: "crossplane-contrib"
     secrets:
-      GITHUB_TOKEN:
-        required: true
       # Additional credentials are required if inputs.mirror is set, defaulting to the common target of xpkg.upbound.io.
       # To support an arbitrary number of additional registries, the job inputs should be refactored to accept a single string input in JSON format that can be parsed in a job step.
       # This approach works around GitHub Actions' 10-input limit: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions
