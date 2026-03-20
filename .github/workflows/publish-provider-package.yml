@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   publish-provider-package:
-    uses: ./.github/workflows/publish.yml
+    uses: crossplane-contrib/provider-workflows/.github/workflows/publish-provider.yml@main
     with:
       repository: provider-stackit
       version: ${{ github.ref_name }}
@@ -19,6 +19,7 @@ jobs:
       cleanup-disk: true
       registry_org: intive
     secrets:
+      GHCR_PAT: ${{ secrets.GITHUB_TOKEN }}
       XPKG_MIRROR_TOKEN: ${{ secrets.XPKG_MIRROR_TOKEN }}
       XPKG_MIRROR_ACCESS_ID: ${{ secrets.XPKG_MIRROR_ACCESS_ID }}
 
