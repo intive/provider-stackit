@@ -101,7 +101,7 @@ type ListenersInitParameters struct {
 	// Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Attributes List) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
+	// (Attributes List, Deprecated) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
 	ServerNameIndicators []ServerNameIndicatorsInitParameters `json:"serverNameIndicators,omitempty" tf:"server_name_indicators,omitempty"`
 
 	// (Attributes) Options that are specific to the TCP protocol. (see below for nested schema)
@@ -128,7 +128,7 @@ type ListenersObservation struct {
 	// Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
 	Protocol *string `json:"protocol,omitempty" tf:"protocol,omitempty"`
 
-	// (Attributes List) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
+	// (Attributes List, Deprecated) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
 	ServerNameIndicators []ServerNameIndicatorsObservation `json:"serverNameIndicators,omitempty" tf:"server_name_indicators,omitempty"`
 
 	// (Attributes) Options that are specific to the TCP protocol. (see below for nested schema)
@@ -158,7 +158,7 @@ type ListenersParameters struct {
 	// +kubebuilder:validation:Optional
 	Protocol *string `json:"protocol" tf:"protocol,omitempty"`
 
-	// (Attributes List) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
+	// (Attributes List, Deprecated) A list of domain names to match in order to pass TLS traffic to the target pool in the current listener (see below for nested schema)
 	// +kubebuilder:validation:Optional
 	ServerNameIndicators []ServerNameIndicatorsParameters `json:"serverNameIndicators,omitempty" tf:"server_name_indicators,omitempty"`
 
@@ -263,6 +263,10 @@ type LoadbalancerObservation struct {
 
 	// (Attributes List) List of all target pools which will be used in the Load Balancer. Limited to 20. (see below for nested schema)
 	TargetPools []TargetPoolsObservation `json:"targetPools,omitempty" tf:"target_pools,omitempty"`
+
+	// (String) Load balancer resource version. This is needed to have concurrency safe updates.
+	// Load balancer resource version. This is needed to have concurrency safe updates.
+	Version *string `json:"version,omitempty" tf:"version,omitempty"`
 }
 
 type LoadbalancerParameters struct {
@@ -320,8 +324,8 @@ type LogsInitParameters struct {
 	// Credentials reference for logs. Not changeable after creation.
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for logs. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }
 
@@ -331,8 +335,8 @@ type LogsObservation struct {
 	// Credentials reference for logs. Not changeable after creation.
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for logs. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }
 
@@ -343,8 +347,8 @@ type LogsParameters struct {
 	// +kubebuilder:validation:Optional
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for logs. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
 	// +kubebuilder:validation:Optional
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }
@@ -355,8 +359,8 @@ type MetricsInitParameters struct {
 	// Credentials reference for metrics. Not changeable after creation.
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for metrics. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }
 
@@ -366,8 +370,8 @@ type MetricsObservation struct {
 	// Credentials reference for metrics. Not changeable after creation.
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for metrics. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }
 
@@ -378,8 +382,8 @@ type MetricsParameters struct {
 	// +kubebuilder:validation:Optional
 	CredentialsRef *string `json:"credentialsRef,omitempty" tf:"credentials_ref,omitempty"`
 
-	// (String) Credentials reference for logs. Not changeable after creation.
-	// Credentials reference for metrics. Not changeable after creation.
+	// (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+	// The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
 	// +kubebuilder:validation:Optional
 	PushURL *string `json:"pushUrl,omitempty" tf:"push_url,omitempty"`
 }

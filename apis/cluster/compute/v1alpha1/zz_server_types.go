@@ -13,6 +13,32 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/v2/apis/common/v1"
 )
 
+type AgentInitParameters struct {
+
+	// (String) Agent provisioning policy: ALWAYS, NEVER, or INHERIT. INHERIT follows the image default value.
+	// Agent provisioning policy: `ALWAYS`, `NEVER`, or `INHERIT`. `INHERIT` follows the image default value.
+	ProvisioningPolicy *string `json:"provisioningPolicy,omitempty" tf:"provisioning_policy,omitempty"`
+}
+
+type AgentObservation struct {
+
+	// (Boolean) Whether a STACKIT Server Agent is provisioned at the server
+	// Whether a STACKIT Server Agent is provisioned at the server
+	Provisioned *bool `json:"provisioned,omitempty" tf:"provisioned,omitempty"`
+
+	// (String) Agent provisioning policy: ALWAYS, NEVER, or INHERIT. INHERIT follows the image default value.
+	// Agent provisioning policy: `ALWAYS`, `NEVER`, or `INHERIT`. `INHERIT` follows the image default value.
+	ProvisioningPolicy *string `json:"provisioningPolicy,omitempty" tf:"provisioning_policy,omitempty"`
+}
+
+type AgentParameters struct {
+
+	// (String) Agent provisioning policy: ALWAYS, NEVER, or INHERIT. INHERIT follows the image default value.
+	// Agent provisioning policy: `ALWAYS`, `NEVER`, or `INHERIT`. `INHERIT` follows the image default value.
+	// +kubebuilder:validation:Optional
+	ProvisioningPolicy *string `json:"provisioningPolicy,omitempty" tf:"provisioning_policy,omitempty"`
+}
+
 type BootVolumeInitParameters struct {
 
 	// (Boolean) Delete the volume during the termination of the server. Only allowed when source_type is image.
@@ -97,6 +123,9 @@ type ServerInitParameters struct {
 	// The affinity group the server is assigned to.
 	AffinityGroup *string `json:"affinityGroup,omitempty" tf:"affinity_group,omitempty"`
 
+	// (Attributes) The STACKIT Server Agent configured for the server (see below for nested schema)
+	Agent *AgentInitParameters `json:"agent,omitempty" tf:"agent,omitempty"`
+
 	// (String) The availability zone of the server.
 	// The availability zone of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
@@ -172,6 +201,9 @@ type ServerObservation struct {
 	// The affinity group the server is assigned to.
 	AffinityGroup *string `json:"affinityGroup,omitempty" tf:"affinity_group,omitempty"`
 
+	// (Attributes) The STACKIT Server Agent configured for the server (see below for nested schema)
+	Agent *AgentObservation `json:"agent,omitempty" tf:"agent,omitempty"`
+
 	// (String) The availability zone of the server.
 	// The availability zone of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty" tf:"availability_zone,omitempty"`
@@ -246,6 +278,10 @@ type ServerParameters struct {
 	// The affinity group the server is assigned to.
 	// +kubebuilder:validation:Optional
 	AffinityGroup *string `json:"affinityGroup,omitempty" tf:"affinity_group,omitempty"`
+
+	// (Attributes) The STACKIT Server Agent configured for the server (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Agent *AgentParameters `json:"agent,omitempty" tf:"agent,omitempty"`
 
 	// (String) The availability zone of the server.
 	// The availability zone of the server.

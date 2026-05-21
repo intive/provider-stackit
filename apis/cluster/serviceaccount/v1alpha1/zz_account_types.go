@@ -40,6 +40,7 @@ type AccountObservation struct {
 	// STACKIT project ID to which the service account is associated.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
 
+	// (String) The internal UUID of the service account.
 	// The internal UUID of the service account.
 	ServiceAccountID *string `json:"serviceAccountId,omitempty" tf:"service_account_id,omitempty"`
 }

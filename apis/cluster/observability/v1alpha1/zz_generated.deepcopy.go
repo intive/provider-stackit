@@ -1200,6 +1200,21 @@ func (in *InstanceObservation) DeepCopyInto(out *InstanceObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.OtlpGRPCTracesURL != nil {
+		in, out := &in.OtlpGRPCTracesURL, &out.OtlpGRPCTracesURL
+		*out = new(string)
+		**out = **in
+	}
+	if in.OtlpHTTPLogsURL != nil {
+		in, out := &in.OtlpHTTPLogsURL, &out.OtlpHTTPLogsURL
+		*out = new(string)
+		**out = **in
+	}
+	if in.OtlpHTTPTracesURL != nil {
+		in, out := &in.OtlpHTTPTracesURL, &out.OtlpHTTPTracesURL
+		*out = new(string)
+		**out = **in
+	}
 	if in.OtlpTracesURL != nil {
 		in, out := &in.OtlpTracesURL, &out.OtlpTracesURL
 		*out = new(string)

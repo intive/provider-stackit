@@ -125,9 +125,15 @@ type ConfigInitParameters struct {
 	// (Attributes) Configuration for the Image Optimizer. This is a paid feature that automatically optimizes images to reduce their file size for faster delivery, leading to improved website performance and a better user experience. (see below for nested schema)
 	Optimizer *OptimizerInitParameters `json:"optimizer,omitempty" tf:"optimizer,omitempty"`
 
+	// (Attributes) A wrapper for a list of redirect rules that allows for redirect settings on a distribution (see below for nested schema)
+	Redirects *RedirectsInitParameters `json:"redirects,omitempty" tf:"redirects,omitempty"`
+
 	// (List of String) The configured regions where content will be hosted
 	// The configured regions where content will be hosted
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
+
+	// (Attributes) Configures the Web Application Firewall (WAF) for the distribution. If this block is undefined or removed from your configuration, the WAF mode will default to DISABLED and the type to FREE. All other WAF properties will retain their last known state in the API; if they were never defined, the API will apply its default settings. (see below for nested schema)
+	Waf *WafInitParameters `json:"waf,omitempty" tf:"waf,omitempty"`
 }
 
 type ConfigObservation struct {
@@ -142,9 +148,15 @@ type ConfigObservation struct {
 	// (Attributes) Configuration for the Image Optimizer. This is a paid feature that automatically optimizes images to reduce their file size for faster delivery, leading to improved website performance and a better user experience. (see below for nested schema)
 	Optimizer *OptimizerObservation `json:"optimizer,omitempty" tf:"optimizer,omitempty"`
 
+	// (Attributes) A wrapper for a list of redirect rules that allows for redirect settings on a distribution (see below for nested schema)
+	Redirects *RedirectsObservation `json:"redirects,omitempty" tf:"redirects,omitempty"`
+
 	// (List of String) The configured regions where content will be hosted
 	// The configured regions where content will be hosted
 	Regions []*string `json:"regions,omitempty" tf:"regions,omitempty"`
+
+	// (Attributes) Configures the Web Application Firewall (WAF) for the distribution. If this block is undefined or removed from your configuration, the WAF mode will default to DISABLED and the type to FREE. All other WAF properties will retain their last known state in the API; if they were never defined, the API will apply its default settings. (see below for nested schema)
+	Waf *WafObservation `json:"waf,omitempty" tf:"waf,omitempty"`
 }
 
 type ConfigParameters struct {
@@ -162,10 +174,18 @@ type ConfigParameters struct {
 	// +kubebuilder:validation:Optional
 	Optimizer *OptimizerParameters `json:"optimizer,omitempty" tf:"optimizer,omitempty"`
 
+	// (Attributes) A wrapper for a list of redirect rules that allows for redirect settings on a distribution (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Redirects *RedirectsParameters `json:"redirects,omitempty" tf:"redirects,omitempty"`
+
 	// (List of String) The configured regions where content will be hosted
 	// The configured regions where content will be hosted
 	// +kubebuilder:validation:Optional
 	Regions []*string `json:"regions" tf:"regions,omitempty"`
+
+	// (Attributes) Configures the Web Application Firewall (WAF) for the distribution. If this block is undefined or removed from your configuration, the WAF mode will default to DISABLED and the type to FREE. All other WAF properties will retain their last known state in the API; if they were never defined, the API will apply its default settings. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Waf *WafParameters `json:"waf,omitempty" tf:"waf,omitempty"`
 }
 
 type CredentialsInitParameters struct {
@@ -278,6 +298,41 @@ type DomainsObservation struct {
 type DomainsParameters struct {
 }
 
+type MatchersInitParameters struct {
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	ValueMatchCondition *string `json:"valueMatchCondition,omitempty" tf:"value_match_condition,omitempty"`
+
+	// (List of String) A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/" or "/img/*"
+	// A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/*" or "*/img/*"
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type MatchersObservation struct {
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	ValueMatchCondition *string `json:"valueMatchCondition,omitempty" tf:"value_match_condition,omitempty"`
+
+	// (List of String) A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/" or "/img/*"
+	// A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/*" or "*/img/*"
+	Values []*string `json:"values,omitempty" tf:"values,omitempty"`
+}
+
+type MatchersParameters struct {
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// +kubebuilder:validation:Optional
+	ValueMatchCondition *string `json:"valueMatchCondition,omitempty" tf:"value_match_condition,omitempty"`
+
+	// (List of String) A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/" or "/img/*"
+	// A list of glob patterns to match against the request path. At least one value is required. Examples: "/shop/*" or "*/img/*"
+	// +kubebuilder:validation:Optional
+	Values []*string `json:"values" tf:"values,omitempty"`
+}
+
 type OptimizerInitParameters struct {
 
 	// (Boolean)
@@ -295,6 +350,349 @@ type OptimizerParameters struct {
 	// (Boolean)
 	// +kubebuilder:validation:Optional
 	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+}
+
+type RedirectsInitParameters struct {
+
+	// (Attributes List) A list of redirect rules. The order of rules matters for evaluation (see below for nested schema)
+	Rules []RulesInitParameters `json:"rules,omitempty" tf:"rules,omitempty"`
+}
+
+type RedirectsObservation struct {
+
+	// (Attributes List) A list of redirect rules. The order of rules matters for evaluation (see below for nested schema)
+	Rules []RulesObservation `json:"rules,omitempty" tf:"rules,omitempty"`
+}
+
+type RedirectsParameters struct {
+
+	// (Attributes List) A list of redirect rules. The order of rules matters for evaluation (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Rules []RulesParameters `json:"rules" tf:"rules,omitempty"`
+}
+
+type RulesInitParameters struct {
+
+	// (String) An optional description for the redirect rule
+	// An optional description for the redirect rule
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Boolean)
+	// A toggle to enable or disable the redirect rule. Default to true
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Attributes List) A list of matchers that define when this rule should apply. At least one matcher is required (see below for nested schema)
+	Matchers []MatchersInitParameters `json:"matchers,omitempty" tf:"matchers,omitempty"`
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	RuleMatchCondition *string `json:"ruleMatchCondition,omitempty" tf:"rule_match_condition,omitempty"`
+
+	// (Number) The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	// The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	StatusCode *float64 `json:"statusCode,omitempty" tf:"status_code,omitempty"`
+
+	// (String) The target URL to redirect to. Must be a valid URI
+	// The target URL to redirect to. Must be a valid URI
+	TargetURL *string `json:"targetUrl,omitempty" tf:"target_url,omitempty"`
+}
+
+type RulesObservation struct {
+
+	// (String) An optional description for the redirect rule
+	// An optional description for the redirect rule
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Boolean)
+	// A toggle to enable or disable the redirect rule. Default to true
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Attributes List) A list of matchers that define when this rule should apply. At least one matcher is required (see below for nested schema)
+	Matchers []MatchersObservation `json:"matchers,omitempty" tf:"matchers,omitempty"`
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	RuleMatchCondition *string `json:"ruleMatchCondition,omitempty" tf:"rule_match_condition,omitempty"`
+
+	// (Number) The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	// The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	StatusCode *float64 `json:"statusCode,omitempty" tf:"status_code,omitempty"`
+
+	// (String) The target URL to redirect to. Must be a valid URI
+	// The target URL to redirect to. Must be a valid URI
+	TargetURL *string `json:"targetUrl,omitempty" tf:"target_url,omitempty"`
+}
+
+type RulesParameters struct {
+
+	// (String) An optional description for the redirect rule
+	// An optional description for the redirect rule
+	// +kubebuilder:validation:Optional
+	Description *string `json:"description,omitempty" tf:"description,omitempty"`
+
+	// (Boolean)
+	// A toggle to enable or disable the redirect rule. Default to true
+	// +kubebuilder:validation:Optional
+	Enabled *bool `json:"enabled,omitempty" tf:"enabled,omitempty"`
+
+	// (Attributes List) A list of matchers that define when this rule should apply. At least one matcher is required (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Matchers []MatchersParameters `json:"matchers" tf:"matchers,omitempty"`
+
+	// (String) Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// Defines how multiple matchers within this rule are combined (ALL, ANY, NONE). Defaults to ANY.
+	// +kubebuilder:validation:Optional
+	RuleMatchCondition *string `json:"ruleMatchCondition,omitempty" tf:"rule_match_condition,omitempty"`
+
+	// (Number) The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	// The HTTP status code for the redirect. Must be one of 301, 302, 303, 307, or 308.
+	// +kubebuilder:validation:Optional
+	StatusCode *float64 `json:"statusCode" tf:"status_code,omitempty"`
+
+	// (String) The target URL to redirect to. Must be a valid URI
+	// The target URL to redirect to. Must be a valid URI
+	// +kubebuilder:validation:Optional
+	TargetURL *string `json:"targetUrl" tf:"target_url,omitempty"`
+}
+
+type WafInitParameters struct {
+
+	// (Set of String) Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH.
+	// Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`, `CONNECT`, `OPTIONS`, `TRACE`, `PATCH`.
+	// +listType=set
+	AllowedHTTPMethods []*string `json:"allowedHttpMethods,omitempty" tf:"allowed_http_methods,omitempty"`
+
+	// (Set of String) Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: HTTP/1.0, HTTP/1.1, HTTP/2, HTTP/2.0.
+	// Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: `HTTP/1.0`, `HTTP/1.1`, `HTTP/2`, `HTTP/2.0`.
+	// +listType=set
+	AllowedHTTPVersions []*string `json:"allowedHttpVersions,omitempty" tf:"allowed_http_versions,omitempty"`
+
+	// Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: application/x-www-form-urlencoded, multipart/form-data, multipart/related, text/xml, application/xml, application/soap+xml, application/x-amf, application/json, application/octet-stream, application/csp-report, application/xss-auditor-report, text/plain.
+	// Restricts which Content-Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `application/x-www-form-urlencoded`, `multipart/form-data`, `multipart/related`, `text/xml`, `application/xml`, `application/soap+xml`, `application/x-amf`, `application/json`, `application/octet-stream`, `application/csp-report`, `application/xss-auditor-report`, `text/plain`.
+	// +listType=set
+	AllowedRequestContentTypes []*string `json:"allowedRequestContentTypes,omitempty" tf:"allowed_request_content_types,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleCollectionIds []*string `json:"disabledRuleCollectionIds,omitempty" tf:"disabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleGroupIds []*string `json:"disabledRuleGroupIds,omitempty" tf:"disabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleIds []*string `json:"disabledRuleIds,omitempty" tf:"disabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleCollectionIds []*string `json:"enabledRuleCollectionIds,omitempty" tf:"enabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleGroupIds []*string `json:"enabledRuleGroupIds,omitempty" tf:"enabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleIds []*string `json:"enabledRuleIds,omitempty" tf:"enabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleCollectionIds []*string `json:"logOnlyRuleCollectionIds,omitempty" tf:"log_only_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleGroupIds []*string `json:"logOnlyRuleGroupIds,omitempty" tf:"log_only_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleIds []*string `json:"logOnlyRuleIds,omitempty" tf:"log_only_rule_ids,omitempty"`
+
+	// (String) The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	// The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// (String) Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	// Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	ParanoiaLevel *string `json:"paranoiaLevel,omitempty" tf:"paranoia_level,omitempty"`
+
+	// (String) The configured backend type. Possible values are: http, bucket.
+	// The tier of the WAF. Valid values are 'FREE' or 'PREMIUM'. Defaults to 'FREE'.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WafObservation struct {
+
+	// (Set of String) Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH.
+	// Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`, `CONNECT`, `OPTIONS`, `TRACE`, `PATCH`.
+	// +listType=set
+	AllowedHTTPMethods []*string `json:"allowedHttpMethods,omitempty" tf:"allowed_http_methods,omitempty"`
+
+	// (Set of String) Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: HTTP/1.0, HTTP/1.1, HTTP/2, HTTP/2.0.
+	// Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: `HTTP/1.0`, `HTTP/1.1`, `HTTP/2`, `HTTP/2.0`.
+	// +listType=set
+	AllowedHTTPVersions []*string `json:"allowedHttpVersions,omitempty" tf:"allowed_http_versions,omitempty"`
+
+	// Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: application/x-www-form-urlencoded, multipart/form-data, multipart/related, text/xml, application/xml, application/soap+xml, application/x-amf, application/json, application/octet-stream, application/csp-report, application/xss-auditor-report, text/plain.
+	// Restricts which Content-Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `application/x-www-form-urlencoded`, `multipart/form-data`, `multipart/related`, `text/xml`, `application/xml`, `application/soap+xml`, `application/x-amf`, `application/json`, `application/octet-stream`, `application/csp-report`, `application/xss-auditor-report`, `text/plain`.
+	// +listType=set
+	AllowedRequestContentTypes []*string `json:"allowedRequestContentTypes,omitempty" tf:"allowed_request_content_types,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleCollectionIds []*string `json:"disabledRuleCollectionIds,omitempty" tf:"disabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleGroupIds []*string `json:"disabledRuleGroupIds,omitempty" tf:"disabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	DisabledRuleIds []*string `json:"disabledRuleIds,omitempty" tf:"disabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleCollectionIds []*string `json:"enabledRuleCollectionIds,omitempty" tf:"enabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleGroupIds []*string `json:"enabledRuleGroupIds,omitempty" tf:"enabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	EnabledRuleIds []*string `json:"enabledRuleIds,omitempty" tf:"enabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleCollectionIds []*string `json:"logOnlyRuleCollectionIds,omitempty" tf:"log_only_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleGroupIds []*string `json:"logOnlyRuleGroupIds,omitempty" tf:"log_only_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +listType=set
+	LogOnlyRuleIds []*string `json:"logOnlyRuleIds,omitempty" tf:"log_only_rule_ids,omitempty"`
+
+	// (String) The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	// The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// (String) Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	// Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	ParanoiaLevel *string `json:"paranoiaLevel,omitempty" tf:"paranoia_level,omitempty"`
+
+	// (String) The configured backend type. Possible values are: http, bucket.
+	// The tier of the WAF. Valid values are 'FREE' or 'PREMIUM'. Defaults to 'FREE'.
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type WafParameters struct {
+
+	// (Set of String) Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH.
+	// Restricts which HTTP methods the distribution accepts. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `GET`, `HEAD`, `POST`, `PUT`, `DELETE`, `CONNECT`, `OPTIONS`, `TRACE`, `PATCH`.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AllowedHTTPMethods []*string `json:"allowedHttpMethods,omitempty" tf:"allowed_http_methods,omitempty"`
+
+	// (Set of String) Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: HTTP/1.0, HTTP/1.1, HTTP/2, HTTP/2.0.
+	// Restricts which HTTP protocol versions are accepted. If provided, the set must contain at least one item. If omitted, the API applies the following defaults: `HTTP/1.0`, `HTTP/1.1`, `HTTP/2`, `HTTP/2.0`.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AllowedHTTPVersions []*string `json:"allowedHttpVersions,omitempty" tf:"allowed_http_versions,omitempty"`
+
+	// Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: application/x-www-form-urlencoded, multipart/form-data, multipart/related, text/xml, application/xml, application/soap+xml, application/x-amf, application/json, application/octet-stream, application/csp-report, application/xss-auditor-report, text/plain.
+	// Restricts which Content-Type headers are accepted in request bodies. If provided, the set must contain at least one item. Case you removed waf will retain the last known state and if omitted, the API applies the following defaults: `application/x-www-form-urlencoded`, `multipart/form-data`, `multipart/related`, `text/xml`, `application/xml`, `application/soap+xml`, `application/x-amf`, `application/json`, `application/octet-stream`, `application/csp-report`, `application/xss-auditor-report`, `text/plain`.
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	AllowedRequestContentTypes []*string `json:"allowedRequestContentTypes,omitempty" tf:"allowed_request_content_types,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DisabledRuleCollectionIds []*string `json:"disabledRuleCollectionIds,omitempty" tf:"disabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DisabledRuleGroupIds []*string `json:"disabledRuleGroupIds,omitempty" tf:"disabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly disabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly disabled Rule ID takes precedence over an enabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	DisabledRuleIds []*string `json:"disabledRuleIds,omitempty" tf:"disabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	EnabledRuleCollectionIds []*string `json:"enabledRuleCollectionIds,omitempty" tf:"enabled_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	EnabledRuleGroupIds []*string `json:"enabledRuleGroupIds,omitempty" tf:"enabled_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly enabled. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. For example, an explicitly enabled Rule ID takes precedence over a disabled Group ID. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	EnabledRuleIds []*string `json:"enabledRuleIds,omitempty" tf:"enabled_rule_ids,omitempty"`
+
+	// (Set of String) Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Collection IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. To view available rule collections, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	LogOnlyRuleCollectionIds []*string `json:"logOnlyRuleCollectionIds,omitempty" tf:"log_only_rule_collection_ids,omitempty"`
+
+	// (Set of String) Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF Rule Group IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Groups override Collections. To view available rule groups, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	LogOnlyRuleGroupIds []*string `json:"logOnlyRuleGroupIds,omitempty" tf:"log_only_rule_group_ids,omitempty"`
+
+	// (Set of String) Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// Set of WAF rule IDs explicitly marked as Log Only. Can be set to an empty set to clear previously set rules. Case you removed waf will retain the last known state. Precedence hierarchy: Specific Rules override Groups. To view available rules, please consult the API documentation: https://docs.api.eu01.stackit.cloud/documentation/cdn/version/v1#tag/WAF/operation/ListWafCollections
+	// +kubebuilder:validation:Optional
+	// +listType=set
+	LogOnlyRuleIds []*string `json:"logOnlyRuleIds,omitempty" tf:"log_only_rule_ids,omitempty"`
+
+	// (String) The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	// The operating mode of the WAF. 'ENABLED' actively blocks threats, 'LOG_ONLY' logs matches without blocking, and 'DISABLED' completely turns off inspection. Defaults to 'DISABLED'.
+	// +kubebuilder:validation:Optional
+	Mode *string `json:"mode,omitempty" tf:"mode,omitempty"`
+
+	// (String) Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	// Defines how aggressively the WAF should act on requests. Valid values are 'L1' to 'L4'. Case you removed waf will retain the last known state and if omitted, The API applies the following default 'L1'.
+	// +kubebuilder:validation:Optional
+	ParanoiaLevel *string `json:"paranoiaLevel,omitempty" tf:"paranoia_level,omitempty"`
+
+	// (String) The configured backend type. Possible values are: http, bucket.
+	// The tier of the WAF. Valid values are 'FREE' or 'PREMIUM'. Defaults to 'FREE'.
+	// +kubebuilder:validation:Optional
+	Type *string `json:"type,omitempty" tf:"type,omitempty"`
 }
 
 // DistributionSpec defines the desired state of Distribution

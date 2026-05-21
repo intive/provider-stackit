@@ -207,6 +207,16 @@ spec:
                     description: (Attributes) Network block as defined below. (see
                       below for nested schema)
                     properties:
+                      controlPlane:
+                        description: (Attributes) Control plane for the cluster. (see
+                          below for nested schema)
+                        properties:
+                          accessScope:
+                            description: |-
+                              (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+                              Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+                            type: string
+                        type: object
                       id:
                         description: |-
                           It is structured as "project_id,region,name".
@@ -477,6 +487,16 @@ spec:
                     description: (Attributes) Network block as defined below. (see
                       below for nested schema)
                     properties:
+                      controlPlane:
+                        description: (Attributes) Control plane for the cluster. (see
+                          below for nested schema)
+                        properties:
+                          accessScope:
+                            description: |-
+                              (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+                              Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+                            type: string
+                        type: object
                       id:
                         description: |-
                           It is structured as "project_id,region,name".
@@ -853,6 +873,16 @@ spec:
                     description: (Attributes) Network block as defined below. (see
                       below for nested schema)
                     properties:
+                      controlPlane:
+                        description: (Attributes) Control plane for the cluster. (see
+                          below for nested schema)
+                        properties:
+                          accessScope:
+                            description: |-
+                              (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+                              Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+                            type: string
+                        type: object
                       id:
                         description: |-
                           It is structured as "project_id,region,name".

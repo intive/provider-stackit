@@ -1290,6 +1290,15 @@ spec:
                       (String) The name of the Observability instance.
                       The name of the Observability instance.
                     type: string
+                  otlpGrpcTracesUrl:
+                    description: (String)
+                    type: string
+                  otlpHttpLogsUrl:
+                    description: (String)
+                    type: string
+                  otlpHttpTracesUrl:
+                    description: (String)
+                    type: string
                   otlpTracesUrl:
                     description: (String)
                     type: string

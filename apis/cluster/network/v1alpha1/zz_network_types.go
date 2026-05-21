@@ -23,8 +23,8 @@ type NetworkInitParameters struct {
 	// The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
 	IPv4Gateway *string `json:"ipv4Gateway,omitempty" tf:"ipv4_gateway,omitempty"`
 
-	// (List of String) The IPv4 nameservers of the network.
-	// The IPv4 nameservers of the network.
+	// (List of String) The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
+	// The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
 	IPv4Nameservers []*string `json:"ipv4Nameservers,omitempty" tf:"ipv4_nameservers,omitempty"`
 
 	// (String) The IPv4 prefix of the network (CIDR).
@@ -59,10 +59,6 @@ type NetworkInitParameters struct {
 	// (String) The name of the network.
 	// The name of the network.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
-	// The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
-	Nameservers []*string `json:"nameservers,omitempty" tf:"nameservers,omitempty"`
 
 	// (Boolean) If set to true, the network doesn't have a gateway.
 	// If set to `true`, the network doesn't have a gateway.
@@ -102,8 +98,8 @@ type NetworkObservation struct {
 	// The IPv4 gateway of a network. If not specified, the first IP of the network will be assigned as the gateway.
 	IPv4Gateway *string `json:"ipv4Gateway,omitempty" tf:"ipv4_gateway,omitempty"`
 
-	// (List of String) The IPv4 nameservers of the network.
-	// The IPv4 nameservers of the network.
+	// (List of String) The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
+	// The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
 	IPv4Nameservers []*string `json:"ipv4Nameservers,omitempty" tf:"ipv4_nameservers,omitempty"`
 
 	// (String) The IPv4 prefix of the network (CIDR).
@@ -147,10 +143,6 @@ type NetworkObservation struct {
 	// The name of the network.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
-	// (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
-	// The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
-	Nameservers []*string `json:"nameservers,omitempty" tf:"nameservers,omitempty"`
-
 	// (String) The network ID.
 	// The network ID.
 	NetworkID *string `json:"networkId,omitempty" tf:"network_id,omitempty"`
@@ -162,10 +154,6 @@ type NetworkObservation struct {
 	// (Boolean) If set to true, the network doesn't have a gateway.
 	// If set to `true`, the network doesn't have a gateway.
 	NoIPv6Gateway *bool `json:"noIpv6Gateway,omitempty" tf:"no_ipv6_gateway,omitempty"`
-
-	// (List of String, Deprecated) The prefixes of the network. This field is deprecated and will be removed in January 2026, use ipv4_prefixes to read the prefixes of the IPv4 networks.
-	// The prefixes of the network. This field is deprecated and will be removed in January 2026, use `ipv4_prefixes` to read the prefixes of the IPv4 networks.
-	Prefixes []*string `json:"prefixes,omitempty" tf:"prefixes,omitempty"`
 
 	// (String) STACKIT project ID to which the network is associated.
 	// STACKIT project ID to which the network is associated.
@@ -200,8 +188,8 @@ type NetworkParameters struct {
 	// +kubebuilder:validation:Optional
 	IPv4Gateway *string `json:"ipv4Gateway,omitempty" tf:"ipv4_gateway,omitempty"`
 
-	// (List of String) The IPv4 nameservers of the network.
-	// The IPv4 nameservers of the network.
+	// (List of String) The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
+	// The IPv4 nameservers of the network. If not specified on creation, it will be set with the default nameservers from the network area. If not specified on update, it will remain unchanged.
 	// +kubebuilder:validation:Optional
 	IPv4Nameservers []*string `json:"ipv4Nameservers,omitempty" tf:"ipv4_nameservers,omitempty"`
 
@@ -245,11 +233,6 @@ type NetworkParameters struct {
 	// The name of the network.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
-
-	// (List of String, Deprecated) The nameservers of the network. This field is deprecated and will be removed in January 2026, use ipv4_nameservers to configure the nameservers for IPv4.
-	// The nameservers of the network. This field is deprecated and will be removed in January 2026, use `ipv4_nameservers` to configure the nameservers for IPv4.
-	// +kubebuilder:validation:Optional
-	Nameservers []*string `json:"nameservers,omitempty" tf:"nameservers,omitempty"`
 
 	// (Boolean) If set to true, the network doesn't have a gateway.
 	// If set to `true`, the network doesn't have a gateway.
@@ -309,7 +292,7 @@ type NetworkStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Network is the Schema for the Networks API. Network resource schema. Must have a region specified in the provider configuration. ~> Behavior of not configured ipv4_nameservers will change from January 2026. When ipv4_nameservers is not set, it will be set to the network area's default_nameservers. To prevent any nameserver configuration, the ipv4_nameservers attribute should be explicitly set to an empty list []. In cases where ipv4_nameservers are defined within the resource, the existing behavior will remain unchanged.
+// Network is the Schema for the Networks API. Network resource schema. Must have a region specified in the provider configuration. ~> Behavior of not configured ipv4_nameservers has changed. When ipv4_nameservers is not set, it will be set to the network area's default_nameservers. To prevent any nameserver configuration, the ipv4_nameservers attribute should be explicitly set to an empty list []. In cases where ipv4_nameservers are defined within the resource, the existing behavior will remain unchanged.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

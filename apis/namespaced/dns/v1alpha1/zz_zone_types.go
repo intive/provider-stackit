@@ -71,6 +71,9 @@ type ZoneInitParameters struct {
 	// Retry time. E.g. 600
 	RetryTime *float64 `json:"retryTime,omitempty" tf:"retry_time,omitempty"`
 
+	// (Attributes) (see below for nested schema)
+	Timeouts *ZoneTimeoutsInitParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
 	// (String) Zone type. Defaults to primary. Possible values are: primary, secondary.
 	// Zone type. Defaults to `primary`. Possible values are: `primary`, `secondary`.
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
@@ -151,6 +154,9 @@ type ZoneObservation struct {
 	// (String) Zone state. E.g. CREATE_SUCCEEDED.
 	// Zone state. E.g. `CREATE_SUCCEEDED`.
 	State *string `json:"state,omitempty" tf:"state,omitempty"`
+
+	// (Attributes) (see below for nested schema)
+	Timeouts *ZoneTimeoutsObservation `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
 
 	// (String) Zone type. Defaults to primary. Possible values are: primary, secondary.
 	// Zone type. Defaults to `primary`. Possible values are: `primary`, `secondary`.
@@ -236,10 +242,75 @@ type ZoneParameters struct {
 	// +kubebuilder:validation:Optional
 	RetryTime *float64 `json:"retryTime,omitempty" tf:"retry_time,omitempty"`
 
+	// (Attributes) (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	Timeouts *ZoneTimeoutsParameters `json:"timeouts,omitempty" tf:"timeouts,omitempty"`
+
 	// (String) Zone type. Defaults to primary. Possible values are: primary, secondary.
 	// Zone type. Defaults to `primary`. Possible values are: `primary`, `secondary`.
 	// +kubebuilder:validation:Optional
 	Type *string `json:"type,omitempty" tf:"type,omitempty"`
+}
+
+type ZoneTimeoutsInitParameters struct {
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	Read *string `json:"read,omitempty" tf:"read,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type ZoneTimeoutsObservation struct {
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	Read *string `json:"read,omitempty" tf:"read,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
+}
+
+type ZoneTimeoutsParameters struct {
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// +kubebuilder:validation:Optional
+	Create *string `json:"create,omitempty" tf:"create,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Setting a timeout for a Delete operation is only applicable if changes are saved into state before the destroy operation occurs.
+	// +kubebuilder:validation:Optional
+	Delete *string `json:"delete,omitempty" tf:"delete,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours). Read operations occur during any refresh or planning operation when refresh is enabled.
+	// +kubebuilder:validation:Optional
+	Read *string `json:"read,omitempty" tf:"read,omitempty"`
+
+	// (String) A string that can be parsed as a duration consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// A string that can be [parsed as a duration](https://pkg.go.dev/time#ParseDuration) consisting of numbers and unit suffixes, such as "30s" or "2h45m". Valid time units are "s" (seconds), "m" (minutes), "h" (hours).
+	// +kubebuilder:validation:Optional
+	Update *string `json:"update,omitempty" tf:"update,omitempty"`
 }
 
 // ZoneSpec defines the desired state of Zone

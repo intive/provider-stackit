@@ -68,6 +68,11 @@ spec:
                       (String) The bucket name. It must be DNS conform.
                       The bucket name. It must be DNS conform.
                     type: string
+                  objectLock:
+                    description: |-
+                      level compliance lock.
+                      Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+                    type: boolean
                   projectId:
                     description: |-
                       (String) STACKIT Project ID to which the bucket is associated.
@@ -97,6 +102,11 @@ spec:
                       (String) The bucket name. It must be DNS conform.
                       The bucket name. It must be DNS conform.
                     type: string
+                  objectLock:
+                    description: |-
+                      level compliance lock.
+                      Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+                    type: boolean
                   projectId:
                     description: |-
                       (String) STACKIT Project ID to which the bucket is associated.
@@ -188,6 +198,11 @@ spec:
                       (String) The bucket name. It must be DNS conform.
                       The bucket name. It must be DNS conform.
                     type: string
+                  objectLock:
+                    description: |-
+                      level compliance lock.
+                      Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+                    type: boolean
                   projectId:
                     description: |-
                       (String) STACKIT Project ID to which the bucket is associated.

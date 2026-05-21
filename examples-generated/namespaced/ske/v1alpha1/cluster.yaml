@@ -16,6 +16,9 @@ spec:
       end: 02:00:00Z
       start: 01:00:00Z
     name: example
+    network:
+      controlPlane:
+        accessScope: PUBLIC
     nodePools:
     - availabilityZones:
       - eu01-3

@@ -48,6 +48,11 @@ func (in *BucketInitParameters) DeepCopyInto(out *BucketInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ObjectLock != nil {
+		in, out := &in.ObjectLock, &out.ObjectLock
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -115,6 +120,11 @@ func (in *BucketObservation) DeepCopyInto(out *BucketObservation) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.ObjectLock != nil {
+		in, out := &in.ObjectLock, &out.ObjectLock
+		*out = new(bool)
+		**out = **in
+	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
 		*out = new(string)
@@ -153,6 +163,11 @@ func (in *BucketParameters) DeepCopyInto(out *BucketParameters) {
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
+		**out = **in
+	}
+	if in.ObjectLock != nil {
+		in, out := &in.ObjectLock, &out.ObjectLock
+		*out = new(bool)
 		**out = **in
 	}
 	if in.ProjectID != nil {

@@ -204,7 +204,7 @@ type BackupScheduleStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// BackupSchedule is the Schema for the BackupSchedules API. Server backup schedule resource schema. Must have a region specified in the provider configuration. ~> This resource is in beta and may be subject to breaking changes in the future. Use with caution. See our guide https://registry.io/providers/stackitcloud/stackit/latest/docs/guides/opting_into_beta_resources for how to opt-in to use beta resources.
+// BackupSchedule is the Schema for the BackupSchedules API. Server backup schedule resource schema. Must have a region specified in the provider configuration.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

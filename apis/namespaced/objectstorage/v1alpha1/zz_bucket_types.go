@@ -20,6 +20,10 @@ type BucketInitParameters struct {
 	// The bucket name. It must be DNS conform.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
+	// level compliance lock.
+	// Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+	ObjectLock *bool `json:"objectLock,omitempty" tf:"object_lock,omitempty"`
+
 	// (String) STACKIT Project ID to which the bucket is associated.
 	// STACKIT Project ID to which the bucket is associated.
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
@@ -37,6 +41,10 @@ type BucketObservation struct {
 	// (String) The bucket name. It must be DNS conform.
 	// The bucket name. It must be DNS conform.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// level compliance lock.
+	// Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+	ObjectLock *bool `json:"objectLock,omitempty" tf:"object_lock,omitempty"`
 
 	// (String) STACKIT Project ID to which the bucket is associated.
 	// STACKIT Project ID to which the bucket is associated.
@@ -59,6 +67,11 @@ type BucketParameters struct {
 	// The bucket name. It must be DNS conform.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+
+	// level compliance lock.
+	// Enable Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock.
+	// +kubebuilder:validation:Optional
+	ObjectLock *bool `json:"objectLock,omitempty" tf:"object_lock,omitempty"`
 
 	// (String) STACKIT Project ID to which the bucket is associated.
 	// STACKIT Project ID to which the bucket is associated.

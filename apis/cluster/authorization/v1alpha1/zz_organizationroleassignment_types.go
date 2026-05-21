@@ -15,16 +15,16 @@ import (
 
 type OrganizationRoleAssignmentInitParameters struct {
 
-	// (String) organization Resource to assign the role to.
-	// organization Resource to assign the role to.
+	// (String) Organization Resource to assign the role to.
+	// Organization Resource to assign the role to.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
 	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/permissions`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// (String) Identifier of user, service account or client. Usually email address or name in case of clients
-	// Identifier of user, service account or client. Usually email address or name in case of clients
+	// (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+	// Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
@@ -33,23 +33,23 @@ type OrganizationRoleAssignmentObservation struct {
 	// It is structured as "resource_id,role,subject".
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
-	// (String) organization Resource to assign the role to.
-	// organization Resource to assign the role to.
+	// (String) Organization Resource to assign the role to.
+	// Organization Resource to assign the role to.
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
 	// cli: stackit curl https://authorization.api.stackit.cloud/v2/permissions
 	// Role to be assigned. Available roles can be queried using stackit-cli: `stackit curl https://authorization.api.stackit.cloud/v2/permissions`
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// (String) Identifier of user, service account or client. Usually email address or name in case of clients
-	// Identifier of user, service account or client. Usually email address or name in case of clients
+	// (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+	// Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }
 
 type OrganizationRoleAssignmentParameters struct {
 
-	// (String) organization Resource to assign the role to.
-	// organization Resource to assign the role to.
+	// (String) Organization Resource to assign the role to.
+	// Organization Resource to assign the role to.
 	// +kubebuilder:validation:Optional
 	ResourceID *string `json:"resourceId,omitempty" tf:"resource_id,omitempty"`
 
@@ -58,8 +58,8 @@ type OrganizationRoleAssignmentParameters struct {
 	// +kubebuilder:validation:Optional
 	Role *string `json:"role,omitempty" tf:"role,omitempty"`
 
-	// (String) Identifier of user, service account or client. Usually email address or name in case of clients
-	// Identifier of user, service account or client. Usually email address or name in case of clients
+	// (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+	// Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
 	// +kubebuilder:validation:Optional
 	Subject *string `json:"subject,omitempty" tf:"subject,omitempty"`
 }

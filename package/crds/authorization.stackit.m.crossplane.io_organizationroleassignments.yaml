@@ -64,8 +64,8 @@ spec:
                 properties:
                   resourceId:
                     description: |-
-                      (String) organization Resource to assign the role to.
-                      organization Resource to assign the role to.
+                      (String) Organization Resource to assign the role to.
+                      Organization Resource to assign the role to.
                     type: string
                   role:
                     description: |-
@@ -74,8 +74,8 @@ spec:
                     type: string
                   subject:
                     description: |-
-                      (String) Identifier of user, service account or client. Usually email address or name in case of clients
-                      Identifier of user, service account or client. Usually email address or name in case of clients
+                      (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+                      Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
                     type: string
                 type: object
               initProvider:
@@ -93,8 +93,8 @@ spec:
                 properties:
                   resourceId:
                     description: |-
-                      (String) organization Resource to assign the role to.
-                      organization Resource to assign the role to.
+                      (String) Organization Resource to assign the role to.
+                      Organization Resource to assign the role to.
                     type: string
                   role:
                     description: |-
@@ -103,8 +103,8 @@ spec:
                     type: string
                   subject:
                     description: |-
-                      (String) Identifier of user, service account or client. Usually email address or name in case of clients
-                      Identifier of user, service account or client. Usually email address or name in case of clients
+                      (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+                      Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
                     type: string
                 type: object
               managementPolicies:
@@ -189,8 +189,8 @@ spec:
                     type: string
                   resourceId:
                     description: |-
-                      (String) organization Resource to assign the role to.
-                      organization Resource to assign the role to.
+                      (String) Organization Resource to assign the role to.
+                      Organization Resource to assign the role to.
                     type: string
                   role:
                     description: |-
@@ -199,8 +199,8 @@ spec:
                     type: string
                   subject:
                     description: |-
-                      (String) Identifier of user, service account or client. Usually email address or name in case of clients
-                      Identifier of user, service account or client. Usually email address or name in case of clients
+                      (String) Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
+                      Identifier of user, service account or client. Usually email address or name in case of clients. All letters must be lowercased.
                     type: string
                 type: object
               conditions:

@@ -393,6 +393,15 @@ type InstanceObservation struct {
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
 	// (String)
+	OtlpGRPCTracesURL *string `json:"otlpGrpcTracesUrl,omitempty" tf:"otlp_grpc_traces_url,omitempty"`
+
+	// (String)
+	OtlpHTTPLogsURL *string `json:"otlpHttpLogsUrl,omitempty" tf:"otlp_http_logs_url,omitempty"`
+
+	// (String)
+	OtlpHTTPTracesURL *string `json:"otlpHttpTracesUrl,omitempty" tf:"otlp_http_traces_url,omitempty"`
+
+	// (String)
 	OtlpTracesURL *string `json:"otlpTracesUrl,omitempty" tf:"otlp_traces_url,omitempty"`
 
 	// (Map of String) Additional parameters.

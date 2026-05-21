@@ -101,9 +101,9 @@ spec:
                             Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
                           type: string
                         serverNameIndicators:
-                          description: (Attributes List) A list of domain names to
-                            match in order to pass TLS traffic to the target pool
-                            in the current listener (see below for nested schema)
+                          description: (Attributes List, Deprecated) A list of domain
+                            names to match in order to pass TLS traffic to the target
+                            pool in the current listener (see below for nested schema)
                           items:
                             properties:
                               name:
@@ -268,8 +268,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for logs. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
                                 type: string
                             type: object
                           metrics:
@@ -284,8 +284,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for metrics. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
                                 type: string
                             type: object
                         type: object
@@ -429,9 +429,9 @@ spec:
                             Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
                           type: string
                         serverNameIndicators:
-                          description: (Attributes List) A list of domain names to
-                            match in order to pass TLS traffic to the target pool
-                            in the current listener (see below for nested schema)
+                          description: (Attributes List, Deprecated) A list of domain
+                            names to match in order to pass TLS traffic to the target
+                            pool in the current listener (see below for nested schema)
                           items:
                             properties:
                               name:
@@ -596,8 +596,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for logs. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
                                 type: string
                             type: object
                           metrics:
@@ -612,8 +612,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for metrics. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
                                 type: string
                             type: object
                         type: object
@@ -859,9 +859,9 @@ spec:
                             Protocol is the highest network protocol we understand to load balance. Possible values are: `PROTOCOL_UNSPECIFIED`, `PROTOCOL_TCP`, `PROTOCOL_UDP`, `PROTOCOL_TCP_PROXY`, `PROTOCOL_TLS_PASSTHROUGH`.
                           type: string
                         serverNameIndicators:
-                          description: (Attributes List) A list of domain names to
-                            match in order to pass TLS traffic to the target pool
-                            in the current listener (see below for nested schema)
+                          description: (Attributes List, Deprecated) A list of domain
+                            names to match in order to pass TLS traffic to the target
+                            pool in the current listener (see below for nested schema)
                           items:
                             properties:
                               name:
@@ -950,8 +950,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for logs. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
                                 type: string
                             type: object
                           metrics:
@@ -966,8 +966,8 @@ spec:
                                 type: string
                               pushUrl:
                                 description: |-
-                                  (String) Credentials reference for logs. Not changeable after creation.
-                                  Credentials reference for metrics. Not changeable after creation.
+                                  (String) The ARGUS/Loki remote write Push URL to ship the logs to. Not changeable after creation.
+                                  The ARGUS/Prometheus remote write Push URL to ship the metrics to. Not changeable after creation.
                                 type: string
                             type: object
                         type: object
@@ -1078,6 +1078,11 @@ spec:
                           type: array
                       type: object
                     type: array
+                  version:
+                    description: |-
+                      (String) Load balancer resource version. This is needed to have concurrency safe updates.
+                      Load balancer resource version. This is needed to have concurrency safe updates.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.

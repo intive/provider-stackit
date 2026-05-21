@@ -44,6 +44,9 @@ type ResourcePoolInitParameters struct {
 	// Size of the resource pool (unit: gigabytes)
 	SizeGigabytes *float64 `json:"sizeGigabytes,omitempty" tf:"size_gigabytes,omitempty"`
 
+	// (Attributes) Name of the snapshot policy. (see below for nested schema)
+	SnapshotPolicy *SnapshotPolicyInitParameters `json:"snapshotPolicy,omitempty" tf:"snapshot_policy,omitempty"`
+
 	// (Boolean) If set to true, snapshots are visible and accessible to users. (default: false)
 	// If set to true, snapshots are visible and accessible to users. (default: false)
 	SnapshotsAreVisible *bool `json:"snapshotsAreVisible,omitempty" tf:"snapshots_are_visible,omitempty"`
@@ -85,6 +88,9 @@ type ResourcePoolObservation struct {
 	// (Number) Size of the resource pool (unit: gigabytes)
 	// Size of the resource pool (unit: gigabytes)
 	SizeGigabytes *float64 `json:"sizeGigabytes,omitempty" tf:"size_gigabytes,omitempty"`
+
+	// (Attributes) Name of the snapshot policy. (see below for nested schema)
+	SnapshotPolicy *SnapshotPolicyObservation `json:"snapshotPolicy,omitempty" tf:"snapshot_policy,omitempty"`
 
 	// (Boolean) If set to true, snapshots are visible and accessible to users. (default: false)
 	// If set to true, snapshots are visible and accessible to users. (default: false)
@@ -128,10 +134,40 @@ type ResourcePoolParameters struct {
 	// +kubebuilder:validation:Optional
 	SizeGigabytes *float64 `json:"sizeGigabytes,omitempty" tf:"size_gigabytes,omitempty"`
 
+	// (Attributes) Name of the snapshot policy. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	SnapshotPolicy *SnapshotPolicyParameters `json:"snapshotPolicy,omitempty" tf:"snapshot_policy,omitempty"`
+
 	// (Boolean) If set to true, snapshots are visible and accessible to users. (default: false)
 	// If set to true, snapshots are visible and accessible to users. (default: false)
 	// +kubebuilder:validation:Optional
 	SnapshotsAreVisible *bool `json:"snapshotsAreVisible,omitempty" tf:"snapshots_are_visible,omitempty"`
+}
+
+type SnapshotPolicyInitParameters struct {
+
+	// It is structured as "project_id,region,resource_pool_id".
+	// ID of the snapshot policy.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+}
+
+type SnapshotPolicyObservation struct {
+
+	// It is structured as "project_id,region,resource_pool_id".
+	// ID of the snapshot policy.
+	ID *string `json:"id,omitempty" tf:"id,omitempty"`
+
+	// (String) Name of the resource pool.
+	// Name of the snapshot policy.
+	Name *string `json:"name,omitempty" tf:"name,omitempty"`
+}
+
+type SnapshotPolicyParameters struct {
+
+	// It is structured as "project_id,region,resource_pool_id".
+	// ID of the snapshot policy.
+	// +kubebuilder:validation:Optional
+	ID *string `json:"id" tf:"id,omitempty"`
 }
 
 // ResourcePoolSpec defines the desired state of ResourcePool

@@ -2479,17 +2479,6 @@ func (in *NetworkInitParameters) DeepCopyInto(out *NetworkInitParameters) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Nameservers != nil {
-		in, out := &in.Nameservers, &out.Nameservers
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
-	}
 	if in.NoIPv4Gateway != nil {
 		in, out := &in.NoIPv4Gateway, &out.NoIPv4Gateway
 		*out = new(bool)
@@ -3060,17 +3049,6 @@ func (in *NetworkObservation) DeepCopyInto(out *NetworkObservation) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Nameservers != nil {
-		in, out := &in.Nameservers, &out.Nameservers
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
-	}
 	if in.NetworkID != nil {
 		in, out := &in.NetworkID, &out.NetworkID
 		*out = new(string)
@@ -3085,17 +3063,6 @@ func (in *NetworkObservation) DeepCopyInto(out *NetworkObservation) {
 		in, out := &in.NoIPv6Gateway, &out.NoIPv6Gateway
 		*out = new(bool)
 		**out = **in
-	}
-	if in.Prefixes != nil {
-		in, out := &in.Prefixes, &out.Prefixes
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
 	}
 	if in.ProjectID != nil {
 		in, out := &in.ProjectID, &out.ProjectID
@@ -3214,17 +3181,6 @@ func (in *NetworkParameters) DeepCopyInto(out *NetworkParameters) {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
 		**out = **in
-	}
-	if in.Nameservers != nil {
-		in, out := &in.Nameservers, &out.Nameservers
-		*out = make([]*string, len(*in))
-		for i := range *in {
-			if (*in)[i] != nil {
-				in, out := &(*in)[i], &(*out)[i]
-				*out = new(string)
-				**out = **in
-			}
-		}
 	}
 	if in.NoIPv4Gateway != nil {
 		in, out := &in.NoIPv4Gateway, &out.NoIPv4Gateway

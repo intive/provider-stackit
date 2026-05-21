@@ -9,7 +9,7 @@ metadata:
   namespace: crossplane-system
 spec:
   forProvider:
-    resourceId: ${stackit_resourcemanager_project.example.folder_id}
+    resourceId: ${stackit_resourcemanager_project.example.project_id}
     role: reader
     subject: foo.bar@stackit.cloud
 

@@ -209,6 +209,28 @@ type ClusterParameters struct {
 	Region *string `json:"region,omitempty" tf:"region,omitempty"`
 }
 
+type ControlPlaneInitParameters struct {
+
+	// (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+	// Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+	AccessScope *string `json:"accessScope,omitempty" tf:"access_scope,omitempty"`
+}
+
+type ControlPlaneObservation struct {
+
+	// (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+	// Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+	AccessScope *string `json:"accessScope,omitempty" tf:"access_scope,omitempty"`
+}
+
+type ControlPlaneParameters struct {
+
+	// (String) Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: PUBLIC, SNA. The field is immutable!
+	// Access scope of the control plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area.Possible values are: `PUBLIC`, `SNA`. The field is immutable!
+	// +kubebuilder:validation:Optional
+	AccessScope *string `json:"accessScope,omitempty" tf:"access_scope,omitempty"`
+}
+
 type DNSInitParameters struct {
 
 	// (Boolean) Is ACL enabled?
@@ -394,15 +416,18 @@ type MaintenanceParameters struct {
 	// (String) End time of hibernation in crontab syntax. E.g. 0 8 * * * for waking up the cluster at 8am.
 	// Time for maintenance window end. E.g. `01:23:45Z`, `05:00:00+02:00`.
 	// +kubebuilder:validation:Optional
-	End *string `json:"end" tf:"end,omitempty"`
+	End *string `json:"end,omitempty" tf:"end,omitempty"`
 
 	// (String) Start time of cluster hibernation in crontab syntax. E.g. 0 18 * * * for starting everyday at 6pm.
 	// Time for maintenance window start. E.g. `01:23:45Z`, `05:00:00+02:00`.
 	// +kubebuilder:validation:Optional
-	Start *string `json:"start" tf:"start,omitempty"`
+	Start *string `json:"start,omitempty" tf:"start,omitempty"`
 }
 
 type NetworkInitParameters struct {
+
+	// (Attributes) Control plane for the cluster. (see below for nested schema)
+	ControlPlane *ControlPlaneInitParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
 	// It is structured as "project_id,region,name".
 	// ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.
@@ -411,12 +436,19 @@ type NetworkInitParameters struct {
 
 type NetworkObservation struct {
 
+	// (Attributes) Control plane for the cluster. (see below for nested schema)
+	ControlPlane *ControlPlaneObservation `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
+
 	// It is structured as "project_id,region,name".
 	// ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 }
 
 type NetworkParameters struct {
+
+	// (Attributes) Control plane for the cluster. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	ControlPlane *ControlPlaneParameters `json:"controlPlane,omitempty" tf:"control_plane,omitempty"`
 
 	// It is structured as "project_id,region,name".
 	// ID of the STACKIT Network Area (SNA) network into which the cluster will be deployed.

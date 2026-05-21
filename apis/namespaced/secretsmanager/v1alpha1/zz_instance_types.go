@@ -21,6 +21,9 @@ type InstanceInitParameters struct {
 	// +listType=set
 	Acls []*string `json:"acls,omitempty" tf:"acls,omitempty"`
 
+	// KMS key for secret encryption and decryption. (see below for nested schema)
+	KMSKey *KMSKeyInitParameters `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
 	// (String) Instance name.
 	// Instance name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -44,6 +47,9 @@ type InstanceObservation struct {
 	// ID of the Secrets Manager instance.
 	InstanceID *string `json:"instanceId,omitempty" tf:"instance_id,omitempty"`
 
+	// KMS key for secret encryption and decryption. (see below for nested schema)
+	KMSKey *KMSKeyObservation `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
 	// (String) Instance name.
 	// Instance name.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -61,6 +67,10 @@ type InstanceParameters struct {
 	// +listType=set
 	Acls []*string `json:"acls,omitempty" tf:"acls,omitempty"`
 
+	// KMS key for secret encryption and decryption. (see below for nested schema)
+	// +kubebuilder:validation:Optional
+	KMSKey *KMSKeyParameters `json:"kmsKey,omitempty" tf:"kms_key,omitempty"`
+
 	// (String) Instance name.
 	// Instance name.
 	// +kubebuilder:validation:Optional
@@ -70,6 +80,67 @@ type InstanceParameters struct {
 	// STACKIT project ID to which the instance is associated.
 	// +kubebuilder:validation:Optional
 	ProjectID *string `json:"projectId,omitempty" tf:"project_id,omitempty"`
+}
+
+type KMSKeyInitParameters struct {
+
+	// KMS to use for the encryption.
+	// UUID of the key within the STACKIT-KMS to use for the encryption.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+
+	// KMS.
+	// UUID of the keyring where the key is located within the STACKTI-KMS.
+	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
+
+	// KMS to use for the encryption.
+	// Version of the key within the STACKIT-KMS to use for the encryption.
+	KeyVersion *float64 `json:"keyVersion,omitempty" tf:"key_version,omitempty"`
+
+	// Account linked to the Key within the STACKIT-KMS.
+	// Service-Account linked to the Key within the STACKIT-KMS.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type KMSKeyObservation struct {
+
+	// KMS to use for the encryption.
+	// UUID of the key within the STACKIT-KMS to use for the encryption.
+	KeyID *string `json:"keyId,omitempty" tf:"key_id,omitempty"`
+
+	// KMS.
+	// UUID of the keyring where the key is located within the STACKTI-KMS.
+	KeyRingID *string `json:"keyRingId,omitempty" tf:"key_ring_id,omitempty"`
+
+	// KMS to use for the encryption.
+	// Version of the key within the STACKIT-KMS to use for the encryption.
+	KeyVersion *float64 `json:"keyVersion,omitempty" tf:"key_version,omitempty"`
+
+	// Account linked to the Key within the STACKIT-KMS.
+	// Service-Account linked to the Key within the STACKIT-KMS.
+	ServiceAccountEmail *string `json:"serviceAccountEmail,omitempty" tf:"service_account_email,omitempty"`
+}
+
+type KMSKeyParameters struct {
+
+	// KMS to use for the encryption.
+	// UUID of the key within the STACKIT-KMS to use for the encryption.
+	// +kubebuilder:validation:Optional
+	KeyID *string `json:"keyId" tf:"key_id,omitempty"`
+
+	// KMS.
+	// UUID of the keyring where the key is located within the STACKTI-KMS.
+	// +kubebuilder:validation:Optional
+	KeyRingID *string `json:"keyRingId" tf:"key_ring_id,omitempty"`
+
+	// KMS to use for the encryption.
+	// Version of the key within the STACKIT-KMS to use for the encryption.
+	// +kubebuilder:validation:Optional
+	KeyVersion *float64 `json:"keyVersion" tf:"key_version,omitempty"`
+
+	// Account linked to the Key within the STACKIT-KMS.
+	// Service-Account linked to the Key within the STACKIT-KMS.
+	// +kubebuilder:validation:Optional
+	ServiceAccountEmail *string `json:"serviceAccountEmail" tf:"service_account_email,omitempty"`
 }
 
 // InstanceSpec defines the desired state of Instance

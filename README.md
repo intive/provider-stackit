@@ -28,12 +28,12 @@ To configure the provider using a [service account key](https://registry.terrafo
 
 | Service | Resource | Status | Notes |
 |---------|----------|--------|-------|
-| authorization | OrganizationRoleAssignment | blocked | requires `iam` experiment (fix #5) |
-| authorization | ProjectRoleAssignment | blocked | requires `iam` experiment (fix #5) |
-| cdn | CustomDomain | beta | requires `enable_beta_resources` (fix #4) |
-| cdn | Distribution | beta | requires `enable_beta_resources` (fix #4) |
+| authorization | OrganizationRoleAssignment | blocked | requires `iam` experiment |
+| authorization | ProjectRoleAssignment | blocked | requires `iam` experiment |
+| cdn | CustomDomain | beta | requires `enable_beta_resources` |
+| cdn | Distribution | beta | requires `enable_beta_resources` |
 | compute | AffinityGroup | ✅ | |
-| compute | Image | blocked | requires uploading a local qcow2 image file (`localFilePath`), not testable in CI |
+| compute | Image | blocked | requires uploading a local qcow2 image file (`localFilePath`) |
 | compute | KeyPair | ✅ | |
 | compute | Server | ✅ | |
 | compute | Volume | ✅ | |
@@ -41,8 +41,8 @@ To configure the provider using a [service account key](https://registry.terrafo
 | compute | VolumeAttach | ✅ | |
 | dns | RecordSet | ✅ | |
 | dns | Zone | ✅ | |
-| edgecloud | Instance | beta | requires `enable_beta_resources` (fix #4) |
-| git | Git | beta | requires `enable_beta_resources` (fix #4) |
+| edgecloud | Instance | beta | requires `enable_beta_resources` |
+| git | Git | beta | requires `enable_beta_resources` |
 | kms | Key | ✅ | |
 | kms | Keyring | ✅ | |
 | kms | WrappingKey | ✅ | |
@@ -53,10 +53,10 @@ To configure the provider using a [service account key](https://registry.terrafo
 | logs | Instance | ✅ | |
 | mariadb | Credential | ✅ | |
 | mariadb | Instance | ✅ | |
-| modelserving | Token | beta | requires `enable_beta_resources` (fix #4) |
+| modelserving | Token | beta | requires `enable_beta_resources` |
 | mongodbflex | Instance | ✅ | |
 | mongodbflex | User | ✅ | |
-| network | Area | blocked | SA lacks org-level network area permissions (403 Forbidden) |
+| network | Area | blocked | requires org-level network area permissions |
 | network | AreaRegion | blocked | depends on Area |
 | network | AreaRoute | blocked | depends on Area |
 | network | Network | ✅ | |
@@ -69,32 +69,26 @@ To configure the provider using a [service account key](https://registry.terrafo
 | observability | Instance | ✅ | |
 | opensearch | Credential | ✅ | |
 | opensearch | Instance | ✅ | |
-| postgresflex | Database | blocked | deletion blocked: API returns 500 for database operations while instance is deleting (fix #6) |
+| postgresflex | Database | blocked | deletion blocked: API returns 500 for database operations while instance is deleting |
 | postgresflex | Instance | ✅ | |
-| postgresflex | User | blocked | deletion blocked: API returns 500 for user operations while instance is deleting (fix #6) |
+| postgresflex | User | blocked | deletion blocked: API returns 500 for user operations while instance is deleting |
 | rabbitmq | Credential | ✅ | |
 | rabbitmq | Instance | ✅ | |
 | redis | Credential | ✅ | |
 | redis | Instance | ✅ | |
-| resourcemanager | Folder | blocked | service account lacks org-level folder creation permissions |
-| resourcemanager | Project | blocked | service account lacks org-level project creation permissions |
-| scf | Organization | beta | requires `enable_beta_resources` (fix #4) |
+| resourcemanager | Folder | blocked | requires org-level folder creation permissions |
+| resourcemanager | Project | blocked | requires org-level project creation permissions |
+| scf | Organization | beta | requires `enable_beta_resources` |
 | secretsmanager | Instance | ✅ | |
 | secretsmanager | User | ✅ | |
 | serviceaccount | Account | ✅ | |
 | serviceaccount | AccountKey | ✅ | |
-| sfs | ResourcePool | beta | requires `enable_beta_resources` (fix #4) |
-| ske | Cluster | blocked | SKE service not enabled on test project (403 Forbidden) |
+| sfs | ResourcePool | beta | requires `enable_beta_resources` |
+| ske | Cluster | blocked | requres SKE service enabled |
 | ske | Kubeconfig | blocked | depends on Cluster |
 | sqlserverflex | Instance | ✅ | |
 | sqlserverflex | User | ✅ | |
 
-### Status Legend
-
-- ✅ **Tested and working**
-- **not tested** — not yet covered by uptest
-- **blocked** — known upstream issue documented in [fixes.md](fixes.md)
-- **beta** — resource requires `enable_beta_resources` support (fix #4 in fixes.md)
 
 ---
 
