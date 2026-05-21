@@ -4,21 +4,18 @@ metadata:
   annotations:
     meta.upbound.io/example-id: sqlserverflex/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
-  namespace: crossplane-system
+    testing.upbound.io/example-name: example-sqlserverflex
+  name: example-sqlserverflex
 spec:
   forProvider:
-    acl:
-    - XXX.XXX.XXX.X/XX
-    - XX.XXX.XX.X/XX
-    backupSchedule: 00 00 * * *
+    name: example-sqlserverflex
+    projectId: <PROJECT-ID>
     flavor:
       cpu: 4
       ram: 16
-    name: example-instance
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     storage:
-      class: class
-      size: 5
-    version: 2022
+      class: premium-perf2-stackit
+      size: 10
+    version: "2022"
+    acl:
+      - 192.168.0.0/24

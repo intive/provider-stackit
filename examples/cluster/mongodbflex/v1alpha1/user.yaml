@@ -4,15 +4,15 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbflex/v1alpha1/user
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-mongodbflex-user
+  name: example-mongodbflex-user
 spec:
   forProvider:
-    database: database
+    projectId: <PROJECT-ID>
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        testing.upbound.io/example-name: example-mongodbflex
+    username: example-user
     roles:
-    - role
-    username: username
+      - readWrite
+    database: example-db

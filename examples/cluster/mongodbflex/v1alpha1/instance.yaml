@@ -4,25 +4,23 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mongodbflex/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-mongodbflex
+  name: example-mongodbflex
 spec:
   forProvider:
-    acl:
-    - XXX.XXX.XXX.X/XX
-    - XX.XXX.XX.X/XX
-    backupSchedule: 0 0 * * *
+    name: example-mongodbflex
+    projectId: <PROJECT-ID>
     flavor:
       cpu: 1
-      ram: 4
-    name: example-instance
-    options:
-      pointInTimeWindowHours: 30
-      snapshotRetentionDays: 3
-      type: Single
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    replicas: 1
+      ram: 2
     storage:
-      class: class
+      class: premium-perf2-mongodb
       size: 10
     version: "7.0"
+    replicas: 1
+    backupSchedule: "0 0 * * *"
+    acl:
+      - 192.0.2.0/24
+    options:
+      type: "Single"
+      pointInTimeWindowHours: 7

@@ -4,14 +4,11 @@ metadata:
   annotations:
     meta.upbound.io/example-id: mariadb/v1alpha1/instance
   labels:
-    testing.upbound.io/example-name: example
-  name: example
-  namespace: crossplane-system
+    testing.upbound.io/example-name: example-mariadb
+  name: example-mariadb
 spec:
   forProvider:
-    name: example-instance
-    parameters:
-      sgwAcl: 193.148.160.0/19,45.129.40.0/21,45.135.244.0/22
-    planName: stackit-mariadb-1.2.10-replica
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    version: "10.11"
+    name: example-mariadb
+    projectId: <PROJECT-ID>
+    planName: stackit-mariadb-1.4.10-single
+    version: "10.6"

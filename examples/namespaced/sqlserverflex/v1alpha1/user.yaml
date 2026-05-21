@@ -4,15 +4,14 @@ metadata:
   annotations:
     meta.upbound.io/example-id: sqlserverflex/v1alpha1/user
   labels:
-    testing.upbound.io/example-name: example
-  name: example
-  namespace: crossplane-system
+    testing.upbound.io/example-name: example-sqlserverflex-user
+  name: example-sqlserverflex-user
 spec:
   forProvider:
+    projectId: <PROJECT-ID>
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        testing.upbound.io/example-name: example-sqlserverflex
+    username: example-user
     roles:
-    - role
-    username: username
+      - "##STACKIT_LoginManager##"

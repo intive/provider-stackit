@@ -4,16 +4,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: observability/v1alpha1/logalertgroup
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-logalertgroup
+  name: example-logalertgroup
 spec:
   forProvider:
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: example-observability
     interval: 60m
     name: example-log-alert-group
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: <PROJECT-ID>
     rules:
     - alert: example-log-alert-name
       annotations:

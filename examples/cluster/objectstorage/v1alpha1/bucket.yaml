@@ -4,9 +4,9 @@ metadata:
   annotations:
     meta.upbound.io/example-id: objectstorage/v1alpha1/bucket
   labels:
-    testing.upbound.io/example-name: example
-  name: example
+    testing.upbound.io/example-name: example-bucket
+  name: example-bucket
 spec:
   forProvider:
-    name: example-bucket
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    name: 04ce9fde-example-bucket
+    projectId: <PROJECT-ID>

@@ -4,17 +4,16 @@ metadata:
   annotations:
     meta.upbound.io/example-id: observability/v1alpha1/scrapeconfig
   labels:
-    testing.upbound.io/example-name: example
-  name: example
-  namespace: crossplane-system
+    testing.upbound.io/example-name: example-scrapeconfig
+  name: example-scrapeconfig
 spec:
   forProvider:
     instanceIdSelector:
       matchLabels:
-        testing.upbound.io/example-name: example
+        testing.upbound.io/example-name: example-observability
     metricsPath: /my-metrics
     name: example-job
-    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    projectId: <PROJECT-ID>
     saml2:
       enableUrlParameters: true
     targets:
