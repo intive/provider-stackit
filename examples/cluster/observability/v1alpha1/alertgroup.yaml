@@ -1,0 +1,31 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Alertgroup
+metadata:
+  annotations:
+    meta.upbound.io/example-id: observability/v1alpha1/alertgroup
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    interval: 60s
+    name: example-alert-group
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    rules:
+    - alert: example-alert-name
+      annotations:
+        description: example description
+        summary: example summary
+      expression: kube_node_status_condition{condition="Ready", status="false"} >
+        0
+      for: 60s
+      labels:
+        severity: critical
+    - expression: kube_node_status_condition{condition="Ready", status="false"} >
+        0
+      labels:
+        severity: critical
+      record: example_record_name

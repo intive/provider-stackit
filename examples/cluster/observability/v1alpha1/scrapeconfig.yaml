@@ -1,0 +1,24 @@
+apiVersion: observability.stackit.crossplane.io/v1alpha1
+kind: Scrapeconfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: observability/v1alpha1/scrapeconfig
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    instanceIdSelector:
+      matchLabels:
+        testing.upbound.io/example-name: example
+    metricsPath: /my-metrics
+    name: example-job
+    projectId: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    saml2:
+      enableUrlParameters: true
+    targets:
+    - labels:
+        url1: dev
+      urls:
+      - url1
+      - urls2
